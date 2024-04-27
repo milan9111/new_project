@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC } from "react";
-import { Button, ConfigProvider, Input, Select } from "antd";
+import { Button, ConfigProvider, Input, Select, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styles from "./forms.module.scss";
 
@@ -9,7 +11,21 @@ type Inputs = {
   iceCreamType: { label: string; value: string };
 };
 
-const Forms: FC = () => {
+interface FormsProps {
+  showRows: JSX.Element[];
+  currentForm: number;
+  onPrevForm: () => void;
+  onNextForm: () => void;
+  loadingForm: boolean;
+}
+
+const Forms: FC<FormsProps> = ({
+  showRows,
+  currentForm,
+  onPrevForm,
+  onNextForm,
+  loadingForm,
+}) => {
   const { control, handleSubmit } = useForm<Inputs>({
     values: {
       example1: "test1",
@@ -20,12 +36,31 @@ const Forms: FC = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
-    <div className={styles.container}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.form}
-      >
-        <Controller
+    <Spin
+      indicator={<LoadingOutlined style={{ fontSize: 32 }} spin />}
+      spinning={loadingForm}
+    >
+      <div className={styles.container}>
+        <div className={styles.changeCurrentFormBox}>
+          <Button
+            type="primary"
+            onClick={onPrevForm}
+            disabled={currentForm === 0}
+          >
+            Prev
+          </Button>
+          <p>Choose a form</p>
+          <Button
+            type="primary"
+            onClick={onNextForm}
+            disabled={currentForm === 2}
+          >
+            Next
+          </Button>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {showRows}
+          {/* <Controller
           name="example1"
           control={control}
           render={({ field }) => <Input {...field} />}
@@ -48,14 +83,19 @@ const Forms: FC = () => {
               ]}
             />
           )}
-        />
-        <ConfigProvider wave={{ disabled: true }}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
-        </ConfigProvider>
-      </form>
-    </div>
+        /> */}
+          {showRows.length ? (
+            <div className={styles.buttonBox}>
+              <ConfigProvider wave={{ disabled: true }}>
+                <Button type="primary" htmlType="submit">
+                  Save
+                </Button>
+              </ConfigProvider>
+            </div>
+          ) : null}
+        </form>
+      </div>
+    </Spin>
   );
 };
 

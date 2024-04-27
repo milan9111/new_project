@@ -3,9 +3,44 @@
     margin: 0 auto;
 }
 
+.changeCurrentFormBox {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    p {
+        margin: 0px;
+        font-weight: 600;
+    }
+}
+
+.row {
+    padding: 20px;
+    border: 1px solid silver;
+    border-radius: 10px;
+    transition: 0.5s;
+
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+
+    &:hover {
+        background: #c0c0c03c;
+    }
+}
+
 .form {
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.buttonBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
