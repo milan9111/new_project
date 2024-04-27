@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC } from "react";
-import { Button, ConfigProvider, Input, Select, Spin } from "antd";
+import { Button, ConfigProvider, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./forms.module.scss";
 
 type Inputs = {
@@ -26,7 +26,7 @@ const Forms: FC<FormsProps> = ({
   onNextForm,
   loadingForm,
 }) => {
-  const { control, handleSubmit } = useForm<Inputs>({
+  const { handleSubmit } = useForm<Inputs>({
     values: {
       example1: "test1",
       example2: "test2",
