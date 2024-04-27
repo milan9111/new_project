@@ -4,7 +4,7 @@ import Forms from "./Forms";
 
 const FormsContainer: FC = () => {
 
-  console.log(fakeStore);
+  console.log(fakeStore[1]);
 
   return <Forms />;
 };

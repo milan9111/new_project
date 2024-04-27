@@ -1,3 +1,11 @@
-.title {
-    color: red;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.form {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
