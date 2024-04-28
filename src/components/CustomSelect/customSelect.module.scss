@@ -1,0 +1,18 @@
+.selectBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  
+    label {
+      font-size: 16px;
+  
+      &:hover {
+        cursor: pointer;
+      }
+    }
+}
+
+.select {
+    width: 200px;
+}

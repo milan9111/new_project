@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState, useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import fakeStore from "../../store/fakeStore.json";
-import { IScreenData } from "../../types/interfaces/IScreenData";
+import { IScreenData, IScreenField } from "../../types/interfaces/IScreenData";
+import { generateUniqueId } from "../../helpers/generateUniqueID";
+import CustomTex from "../../components/CustomText/CustomText";
+import CustomInput from "../../components/CustomInput/CustomInput";
+import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
 
@@ -13,6 +19,9 @@ const FormsContainer: FC = () => {
     number[]
   >([]);
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
+
+  const { handleSubmit, control, reset } = useForm<any>();
+  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   useEffect(() => {
     setSelectedScreen(fakeStore[currentForm]);
@@ -28,6 +37,7 @@ const FormsContainer: FC = () => {
 
   const onPrevForm = () => {
     setLoadingForm(true);
+    reset();
     setTimeout(() => {
       setCurrentForm((prev) => prev - 1);
       setLoadingForm(false);
@@ -36,10 +46,36 @@ const FormsContainer: FC = () => {
 
   const onNextForm = () => {
     setLoadingForm(true);
+    reset();
     setTimeout(() => {
       setCurrentForm((prev) => prev + 1);
       setLoadingForm(false);
     }, 500);
+  };
+
+  const getRelevantNode = (item: IScreenField) => {
+    const hasAttributeName = Object.hasOwnProperty.call(item, "AttributeName");
+    const hasAttribute = Object.hasOwnProperty.call(item, "Attribute");
+
+    if (!hasAttributeName) {
+      return <CustomTex text={item.Name} />;
+    }
+
+    if (!hasAttribute) {
+      return (
+        <CustomInput item={item} control={control} />
+      );
+    }
+
+    if (!Object.hasOwnProperty.call(item.Attribute, "Lookup")) {
+      return (
+        <CustomInput item={item} control={control} />
+      );
+    }
+
+    return (
+      <CustomSelect item={item} control={control} />
+    );
   };
 
   const renderingInternalNodes = (item: number) => {
@@ -49,10 +85,10 @@ const FormsContainer: FC = () => {
       );
     let createdNodes: JSX.Element[] = [];
     if (filteredScreenFields.length) {
-      createdNodes = filteredScreenFields.map((item) => {
+      createdNodes = filteredScreenFields.map((el) => {
         return (
-          <div className={styles.node}>
-            {item.Name} {item.AttributeName ? `[ ${item.AttributeName} ]` : ""}
+          <div key={generateUniqueId()} className={styles.node}>
+            {getRelevantNode(el)}
           </div>
         );
       });
@@ -62,7 +98,7 @@ const FormsContainer: FC = () => {
 
   const showRows = numberOfRowsWithoutRepeats.map((item) => {
     return (
-      <div key={item} className={styles.row}>
+      <div key={generateUniqueId()} className={styles.row}>
         {renderingInternalNodes(item)}
       </div>
     );
@@ -75,6 +111,8 @@ const FormsContainer: FC = () => {
       onPrevForm={onPrevForm}
       onNextForm={onNextForm}
       loadingForm={loadingForm}
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
     />
   );
 };
