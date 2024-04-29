@@ -20,7 +20,7 @@ const FormsContainer: FC = () => {
   >([]);
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
 
-  const { handleSubmit, control, reset } = useForm<any>();
+  const { handleSubmit, control, reset, formState: { errors } } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   useEffect(() => {
@@ -63,18 +63,18 @@ const FormsContainer: FC = () => {
 
     if (!hasAttribute) {
       return (
-        <CustomInput item={item} control={control} />
+        <CustomInput item={item} control={control} errors={errors} />
       );
     }
 
     if (!Object.hasOwnProperty.call(item.Attribute, "Lookup")) {
       return (
-        <CustomInput item={item} control={control} />
+        <CustomInput item={item} control={control} errors={errors} />
       );
     }
 
     return (
-      <CustomSelect item={item} control={control} />
+      <CustomSelect item={item} control={control} errors={errors}/>
     );
   };
 
