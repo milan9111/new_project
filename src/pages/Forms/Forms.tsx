@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { Button, ConfigProvider, Spin } from "antd";
+import { Button, ConfigProvider, Select, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
+import { ISelectScreens } from "../../types/interfaces/IScreenData";
 import styles from "./forms.module.scss";
 
 interface FormsProps {
   showRows: JSX.Element[];
-  currentForm: number;
+  currentScreenIndex: number;
+  maxScreenIndex: number;
   onPrevForm: () => void;
   onNextForm: () => void;
+  screensNamesForInput: ISelectScreens[];
+  handleChangeForm:
+    | ((value: number, option: ISelectScreens | ISelectScreens[]) => void)
+    | undefined;
   loadingForm: boolean;
   handleSubmit: UseFormHandleSubmit<any, undefined>;
   onSubmit: SubmitHandler<any>;
@@ -17,9 +23,12 @@ interface FormsProps {
 
 const Forms: FC<FormsProps> = ({
   showRows,
-  currentForm,
+  currentScreenIndex,
+  maxScreenIndex,
   onPrevForm,
   onNextForm,
+  screensNamesForInput,
+  handleChangeForm,
   loadingForm,
   handleSubmit,
   onSubmit,
@@ -35,7 +44,7 @@ const Forms: FC<FormsProps> = ({
             <Button
               type="primary"
               onClick={onPrevForm}
-              disabled={currentForm === 0}
+              disabled={currentScreenIndex === 0}
             >
               Prev
             </Button>
@@ -43,10 +52,16 @@ const Forms: FC<FormsProps> = ({
             <Button
               type="primary"
               onClick={onNextForm}
-              disabled={currentForm === 2}
+              disabled={currentScreenIndex === maxScreenIndex}
             >
               Next
             </Button>
+            <Select
+              style={{ width: 120 }}
+              onChange={handleChangeForm}
+              value={currentScreenIndex}
+              options={screensNamesForInput}
+            />
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             {showRows}

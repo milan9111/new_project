@@ -30,12 +30,13 @@ interface IFields {
   ScreenField: IScreenField[];
 }
 
-interface IScreen {
+export interface IScreen {
   Name: string;
   FileName: string;
   Fields: IFields;
 }
 
-export interface IScreenData {
-  Screen: IScreen;
+export interface ISelectScreens {
+  label: string, 
+  value: number
 }

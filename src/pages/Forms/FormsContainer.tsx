@@ -1,8 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import fakeStore from "../../store/fakeStore.json";
-import { IScreenData, IScreenField } from "../../types/interfaces/IScreenData";
+import { getScreens, getScreen } from "../../api";
+import {
+  IScreen,
+  IScreenField,
+  ISelectScreens,
+} from "../../types/interfaces/IScreenData";
 import { generateUniqueId } from "../../helpers/generateUniqueID";
 import CustomTex from "../../components/CustomText/CustomText";
 import CustomInput from "../../components/CustomInput/CustomInput";
@@ -11,46 +16,97 @@ import styles from "./forms.module.scss";
 import Forms from "./Forms";
 
 const FormsContainer: FC = () => {
-  const [currentForm, setCurrentForm] = useState<number>(0);
-  const [selectedScreen, setSelectedScreen] = useState<IScreenData>(
-    fakeStore[currentForm]
-  );
+  // **** will use toolkit after fix NPM i react-redux *** //
+  const [screensNames, setScreensNames] = useState<string[]>([]);
+  const [screensNamesForInput, setScreensNamesForInput] = useState<
+    ISelectScreens[]
+  >([]);
+  const [currentScreenIndex, setCurrentScreenIndex] = useState<number>(0);
+  const [maxScreenIndex, setMaxScreenIndex] = useState<number>(0);
+  const [selectedScreen, setSelectedScreen] = useState<IScreen | null>(null);
   const [numberOfRowsWithoutRepeats, setNumberOfRowsWithoutRepeats] = useState<
     number[]
   >([]);
   const [loadingForm, setLoadingForm] = useState<boolean>(false);
 
-  const { handleSubmit, control, reset, formState: { errors } } = useForm<any>();
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   useEffect(() => {
-    setSelectedScreen(fakeStore[currentForm]);
-  }, [currentForm]);
+    setScreens();
+  }, []);
 
   useEffect(() => {
-    const tempNumberOfRowsWithRepeats: number[] = [];
-    selectedScreen.Screen.Fields.ScreenField.forEach((item) => {
-      tempNumberOfRowsWithRepeats.push(item.RowPosition);
-    });
-    setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)]);
-  }, [selectedScreen.Screen.Fields.ScreenField]);
+    if (screensNames.length) {
+      const tempScreensNamesForInput = screensNames.map((item, index) => ({
+        label: item,
+        value: index,
+      }));
+      setScreensNamesForInput(tempScreensNamesForInput);
+    }
+  }, [screensNames]);
 
-  const onPrevForm = () => {
+  useEffect(() => {
+    if (selectedScreen) {
+      const tempNumberOfRowsWithRepeats: number[] = [];
+      selectedScreen.Fields.ScreenField.forEach((item) => {
+        tempNumberOfRowsWithRepeats.push(item.RowPosition);
+      });
+      setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)]);
+    }
+  }, [selectedScreen]);
+
+  const setScreens = async () => {
     setLoadingForm(true);
-    reset();
-    setTimeout(() => {
-      setCurrentForm((prev) => prev - 1);
-      setLoadingForm(false);
-    }, 500);
+
+    const screens = await getScreens();
+    setScreensNames(screens);
+    setMaxScreenIndex(screens.length - 1);
+
+    const screen = await getScreen(screens[currentScreenIndex]);
+    setSelectedScreen(screen);
+
+    setLoadingForm(false);
   };
 
-  const onNextForm = () => {
+  const onPrevForm = async () => {
     setLoadingForm(true);
     reset();
-    setTimeout(() => {
-      setCurrentForm((prev) => prev + 1);
-      setLoadingForm(false);
-    }, 500);
+
+    const newScreenIndex = currentScreenIndex - 1;
+    setCurrentScreenIndex(newScreenIndex);
+    const screen = await getScreen(screensNames[newScreenIndex]);
+    setSelectedScreen(screen);
+
+    setLoadingForm(false);
+  };
+
+  const onNextForm = async () => {
+    setLoadingForm(true);
+    reset();
+
+    const newScreenIndex = currentScreenIndex + 1;
+    setCurrentScreenIndex(newScreenIndex);
+    const screen = await getScreen(screensNames[newScreenIndex]);
+    setSelectedScreen(screen);
+
+    setLoadingForm(false);
+  };
+
+  const handleChangeForm = async (value: number) => {
+    setLoadingForm(true);
+    reset();
+
+    setCurrentScreenIndex(value);
+    const screen = await getScreen(screensNames[value]);
+    setSelectedScreen(screen);
+
+    setLoadingForm(false);
   };
 
   const getRelevantNode = (item: IScreenField) => {
@@ -62,38 +118,35 @@ const FormsContainer: FC = () => {
     }
 
     if (!hasAttribute) {
-      return (
-        <CustomInput item={item} control={control} errors={errors} />
-      );
+      return <CustomInput item={item} control={control} errors={errors} />;
     }
 
     if (!Object.hasOwnProperty.call(item.Attribute, "Lookup")) {
-      return (
-        <CustomInput item={item} control={control} errors={errors} />
-      );
+      return <CustomInput item={item} control={control} errors={errors} />;
     }
 
-    return (
-      <CustomSelect item={item} control={control} errors={errors}/>
-    );
+    return <CustomSelect item={item} control={control} errors={errors} />;
   };
 
   const renderingInternalNodes = (item: number) => {
-    const filteredScreenFields =
-      selectedScreen.Screen.Fields.ScreenField.filter(
+    if (selectedScreen) {
+      const filteredScreenFields = selectedScreen.Fields.ScreenField.filter(
         (el) => el.RowPosition === item
       );
-    let createdNodes: JSX.Element[] = [];
-    if (filteredScreenFields.length) {
-      createdNodes = filteredScreenFields.map((el) => {
-        return (
-          <div key={generateUniqueId()} className={styles.node}>
-            {getRelevantNode(el)}
-          </div>
-        );
-      });
+      let createdNodes: JSX.Element[] = [];
+      if (filteredScreenFields.length) {
+        createdNodes = filteredScreenFields.map((el) => {
+          return (
+            <div key={generateUniqueId()} className={styles.node}>
+              {getRelevantNode(el)}
+            </div>
+          );
+        });
+      }
+      return createdNodes;
+    } else {
+      return [];
     }
-    return createdNodes;
   };
 
   const showRows = numberOfRowsWithoutRepeats.map((item) => {
@@ -107,9 +160,12 @@ const FormsContainer: FC = () => {
   return (
     <Forms
       showRows={showRows}
-      currentForm={currentForm}
+      currentScreenIndex={currentScreenIndex}
+      maxScreenIndex={maxScreenIndex}
       onPrevForm={onPrevForm}
       onNextForm={onNextForm}
+      screensNamesForInput={screensNamesForInput}
+      handleChangeForm={handleChangeForm}
       loadingForm={loadingForm}
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
