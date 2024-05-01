@@ -9,7 +9,7 @@ import {
   ISelectScreens,
 } from "../../types/interfaces/IScreenData";
 import { generateUniqueId } from "../../helpers/generateUniqueID";
-import CustomTex from "../../components/CustomText/CustomText";
+import CustomText from "../../components/CustomText/CustomText";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
@@ -111,21 +111,28 @@ const FormsContainer: FC = () => {
 
   const getRelevantNode = (item: IScreenField) => {
     const hasAttributeName = Object.hasOwnProperty.call(item, "AttributeName");
-    const hasAttribute = Object.hasOwnProperty.call(item, "Attribute");
 
     if (!hasAttributeName) {
-      return <CustomTex text={item.Name} />;
+      // if there isn't AttributeName
+      return <CustomText text={item.Name} />;
     }
 
-    if (!hasAttribute) {
-      return <CustomInput item={item} control={control} errors={errors} />;
-    }
+    const attribute = item.Attribute;
 
-    if (!Object.hasOwnProperty.call(item.Attribute, "Lookup")) {
-      return <CustomInput item={item} control={control} errors={errors} />;
-    }
+    if (attribute) {
+      if (Object.hasOwnProperty.call(attribute, "Lookup")) {
+        // if there is Lookup
+        return <CustomSelect item={item} control={control} errors={errors} />;
+      }
 
-    return <CustomSelect item={item} control={control} errors={errors} />;
+      if (Object.hasOwnProperty.call(attribute, "Include")) {
+        // if there is Include
+        return <CustomSelect item={item} control={control} errors={errors} />;
+      }
+    }
+    
+    // if there is Attribute but there arent Lookup and Include
+    return <CustomInput item={item} control={control} errors={errors} />;
   };
 
   const renderingInternalNodes = (item: number) => {

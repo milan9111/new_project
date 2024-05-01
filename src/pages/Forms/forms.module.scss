@@ -1,5 +1,6 @@
 .container {
     max-width: 1200px;
+    height: 100vh;
     margin: 0 auto;
 }
 
@@ -9,6 +10,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    flex-direction: row;
     gap: 15px;
 
     p {

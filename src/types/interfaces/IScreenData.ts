@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+interface IInclude {
+  string: string[];
+}
+
 interface IAttribute {
-  Name: string;
+  Name: string | null;
   TableField: string;
   Comment: string;
   AutoNext: boolean;
@@ -12,9 +16,10 @@ interface IAttribute {
   Right: boolean;
   ZeroFill: boolean;
   DownShift: boolean;
-  DefaultValue?: any;
+  DefaultValue?: string;
   NoUpdate: boolean;
   Lookup?: string;
+  Include?: IInclude;
 }
 
 export interface IScreenField {

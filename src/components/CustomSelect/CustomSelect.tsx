@@ -14,7 +14,9 @@ interface CustomSelectProps {
 const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.selectBox}>
-      <label htmlFor={item.AttributeName}>{item.Name || ""}</label>
+      <label htmlFor={item.AttributeName}>
+        {item.Name ? item.Name.replace(/\./g, "") : ""}
+      </label>
       <Controller
         name={item.AttributeName as string}
         control={control}
@@ -28,6 +30,7 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
                 id={item.AttributeName}
                 className={styles.select}
                 placeholder={item.AttributeName}
+                defaultValue={item.Attribute?.DefaultValue || ""}
                 {...field}
                 suffixIcon={
                   item.Attribute?.Required && (
@@ -35,10 +38,18 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
                   )
                 }
                 status={errors.AttributeName ? "error" : ""}
-                options={[
-                  { label: "Option1", value: "option1" },
-                  { label: "Option2", value: "option2" },
-                ]}
+                options={
+                  item.Attribute?.Include &&
+                  Array.isArray(item.Attribute.Include.string)
+                    ? item.Attribute.Include.string.map((el) => ({
+                        label: el,
+                        value: el,
+                      }))
+                    : [
+                        { label: "Option1", value: "option1" },
+                        { label: "Option2", value: "option2" },
+                      ]
+                }
               />
             </div>
           </Tooltip>

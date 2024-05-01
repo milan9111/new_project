@@ -14,7 +14,9 @@ interface CustomInputProps {
 const CustomInput: FC<CustomInputProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.inputBox}>
-      <label htmlFor={item.AttributeName}>{item.Name || ""}</label>
+      <label htmlFor={item.AttributeName}>
+        {item.Name ? item.Name.replace(/\./g, "") : ""}
+      </label>
       <Controller
         name={item.AttributeName as string}
         control={control}
@@ -28,6 +30,7 @@ const CustomInput: FC<CustomInputProps> = ({ item, control, errors }) => {
                 id={item.AttributeName}
                 className={styles.input}
                 placeholder={item.AttributeName}
+                defaultValue={item.Attribute?.DefaultValue || ""}
                 suffix={
                   item.Attribute?.Required && (
                     <span className={styles.required}>*</span>
