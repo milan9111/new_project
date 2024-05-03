@@ -2,11 +2,11 @@
 import { FC } from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Input, Tooltip } from "antd";
-import { IScreenField } from "../../types/interfaces/IScreenData";
+import { IField } from "../../types/interfaces/IScreenData";
 import styles from "./customInput.module.scss";
 
 interface CustomInputProps {
-  item: IScreenField;
+  item: IField;
   control: any;
   errors: FieldErrors<any>;
 }
@@ -14,29 +14,29 @@ interface CustomInputProps {
 const CustomInput: FC<CustomInputProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.inputBox}>
-      <label htmlFor={item.AttributeName}>
-        {item.Name ? item.Name.replace(/\./g, "") : ""}
+      <label htmlFor={item.attributeName || ""}>
+        {item.name ? item.name.replace(/\./g, "") : ""}
       </label>
       <Controller
-        name={item.AttributeName as string}
+        name={item.attributeName as string}
         control={control}
         rules={{
-          required: item.Attribute?.Required || false,
+          required: item.attribute?.required || false,
         }}
         render={({ field }) => (
-          <Tooltip title={item.Attribute?.Comment || ""} color="geekblue">
+          <Tooltip title={item.attribute?.comment || ""} color="geekblue">
             <div>
               <Input
-                id={item.AttributeName}
+                id={item.attributeName || ""}
                 className={styles.input}
-                placeholder={item.AttributeName}
-                defaultValue={item.Attribute?.DefaultValue || ""}
+                placeholder={item.attributeName || ""}
+                defaultValue={item.attribute?.defaultValue || ""}
                 suffix={
-                  item.Attribute?.Required && (
+                  item.attribute?.required && (
                     <span className={styles.required}>*</span>
                   )
                 }
-                status={errors[item.AttributeName as string] ? "error" : ""}
+                status={errors[item.attributeName as string] ? "error" : ""}
                 {...field}
               />
             </div>

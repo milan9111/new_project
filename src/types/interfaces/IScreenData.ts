@@ -1,44 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ScreenFieldType } from "../enums/EScreenFieldType";
 
-interface IInclude {
-  string: string[];
+interface IInclude { 
+  label: string; 
+  value: string; 
 }
 
 interface IAttribute {
-  Name: string | null;
-  TableField: string;
-  Comment: string;
-  AutoNext: boolean;
-  Upshift: boolean;
-  NoEntry: boolean;
-  Required: boolean;
-  QueryClear: boolean;
-  Right: boolean;
-  ZeroFill: boolean;
-  DownShift: boolean;
-  DefaultValue?: string;
-  NoUpdate: boolean;
-  Lookup?: string;
-  Include?: IInclude;
+  name: string;
+  comment: string;
+  upshift: boolean;
+  required: boolean;
+  right: boolean;
+  zeroFill: boolean;
+  downShift: boolean;
+  defaultValue: string | null;
+  format: string | null;
+  picture: string | null;
+  include: IInclude[];
 }
 
-export interface IScreenField {
-  Name: string;
-  RowPosition: number;
-  ColPosition: number;
-  Length: number;
-  AttributeName?: string;
-  Attribute?: IAttribute;
-}
-
-interface IFields {
-  ScreenField: IScreenField[];
+export interface IField {
+  name: string;
+  rowPosition: number;
+  colPosition: number;
+  length: number;
+  attributeName: string | null;
+  attribute: IAttribute | null;
+  type: ScreenFieldType;
 }
 
 export interface IScreen {
-  Name: string;
-  FileName: string;
-  Fields: IFields;
+  name: string;
+  fileName: string;
+  fields: IField[];
 }
 
 export interface ISelectScreens {

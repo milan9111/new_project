@@ -21,10 +21,10 @@ export const getScreens = async (): Promise<string[] | []> => {
 };
 
 export const getScreen = async (
-  cohorts: string
+  admit: string
 ): Promise<IScreen | null> => {
   try {
-    const { data } = await instance.get(`/api/screens/${cohorts}`);
+    const { data } = await instance.get(`/api/screens/v1/${admit}`);
 
     const { Screen }: { Screen: IScreen } = data;
 

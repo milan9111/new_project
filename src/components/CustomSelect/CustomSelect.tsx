@@ -2,11 +2,11 @@
 import { FC } from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Select, Tooltip } from "antd";
-import { IScreenField } from "../../types/interfaces/IScreenData";
+import { IField } from "../../types/interfaces/IScreenData";
 import styles from "./customSelect.module.scss";
 
 interface CustomSelectProps {
-  item: IScreenField;
+  item: IField;
   control: any;
   errors: FieldErrors<any>;
 }
@@ -14,36 +14,36 @@ interface CustomSelectProps {
 const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.selectBox}>
-      <label htmlFor={item.AttributeName}>
-        {item.Name ? item.Name.replace(/\./g, "") : ""}
+      <label htmlFor={item.attributeName || ""}>
+        {item.name ? item.name.replace(/\./g, "") : ""}
       </label>
       <Controller
-        name={item.AttributeName as string}
+        name={item.attributeName as string}
         control={control}
         rules={{
-          required: item.Attribute?.Required || false,
+          required: item.attribute?.required || false,
         }}
         render={({ field }) => (
-          <Tooltip title={item.Attribute?.Comment || ""} color="geekblue">
+          <Tooltip title={item.attribute?.comment || ""} color="geekblue">
             <div>
               <Select
-                id={item.AttributeName}
+                id={item.attributeName || ""}
                 className={styles.select}
-                placeholder={item.AttributeName}
-                defaultValue={item.Attribute?.DefaultValue || ""}
+                placeholder={item.attributeName}
+                defaultValue={item.attribute?.defaultValue || ""}
                 {...field}
                 suffixIcon={
-                  item.Attribute?.Required && (
+                  item.attribute?.required && (
                     <span className={styles.required}>*</span>
                   )
                 }
                 status={errors.AttributeName ? "error" : ""}
                 options={
-                  item.Attribute?.Include &&
-                  Array.isArray(item.Attribute.Include.string)
-                    ? item.Attribute.Include.string.map((el) => ({
-                        label: el,
-                        value: el,
+                  item.attribute?.include &&
+                  Array.isArray(item.attribute.include)
+                    ? item.attribute.include.map(({ label, value }) => ({
+                        label,
+                        value,
                       }))
                     : [
                         { label: "Option1", value: "option1" },

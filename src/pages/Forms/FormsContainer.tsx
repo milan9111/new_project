@@ -4,8 +4,8 @@ import { FC, useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { getScreens, getScreen } from "../../api";
 import {
+  IField,
   IScreen,
-  IScreenField,
   ISelectScreens,
 } from "../../types/interfaces/IScreenData";
 import { generateUniqueId } from "../../helpers/generateUniqueID";
@@ -54,8 +54,8 @@ const FormsContainer: FC = () => {
   useEffect(() => {
     if (selectedScreen) {
       const tempNumberOfRowsWithRepeats: number[] = [];
-      selectedScreen.Fields.ScreenField.forEach((item) => {
-        tempNumberOfRowsWithRepeats.push(item.RowPosition);
+      selectedScreen.fields.forEach((item) => {
+        tempNumberOfRowsWithRepeats.push(item.rowPosition);
       });
       setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)]);
     }
@@ -109,36 +109,30 @@ const FormsContainer: FC = () => {
     setLoadingForm(false);
   };
 
-  const getRelevantNode = (item: IScreenField) => {
-    const hasAttributeName = Object.hasOwnProperty.call(item, "AttributeName");
+  const getRelevantNode = (item: IField) => {
+    const hasAttributeName = item.attributeName;
 
     if (!hasAttributeName) {
-      // if there isn't AttributeName
-      return <CustomText text={item.Name} />;
+      return <CustomText text={item.name} />;
     }
 
-    const attribute = item.Attribute;
+    const attribute = item.attribute;
 
     if (attribute) {
-      if (Object.hasOwnProperty.call(attribute, "Lookup")) {
-        // if there is Lookup
+      if (attribute.include.length) {
         return <CustomSelect item={item} control={control} errors={errors} />;
-      }
-
-      if (Object.hasOwnProperty.call(attribute, "Include")) {
-        // if there is Include
-        return <CustomSelect item={item} control={control} errors={errors} />;
+      } else {
+        return <CustomInput item={item} control={control} errors={errors} />;
       }
     }
     
-    // if there is Attribute but there arent Lookup and Include
     return <CustomInput item={item} control={control} errors={errors} />;
   };
 
   const renderingInternalNodes = (item: number) => {
     if (selectedScreen) {
-      const filteredScreenFields = selectedScreen.Fields.ScreenField.filter(
-        (el) => el.RowPosition === item
+      const filteredScreenFields = selectedScreen.fields.filter(
+        (el) => el.rowPosition === item
       );
       let createdNodes: JSX.Element[] = [];
       if (filteredScreenFields.length) {
