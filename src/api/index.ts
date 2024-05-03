@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { notification } from "antd";
 import { IScreen } from "../types/interfaces/IScreenData";
 
 const instance = axios.create({
@@ -14,24 +15,28 @@ export const getScreens = async (): Promise<string[] | []> => {
     return screens;
   } catch (err) {
     const error = err as AxiosError<Error>;
-    console.log(error.response?.data.message);
+    notification.error({
+      message: "Error",
+      description: error.message,
+    });
 
     return [];
   }
 };
 
-export const getScreen = async (
-  admit: string
-): Promise<IScreen | null> => {
+export const getScreen = async (admit: string): Promise<IScreen | null> => {
   try {
-    const { data } = await instance.get(`/api/screens/v1/${admit}`);
+    const { data }: { data: IScreen } = await instance.get(
+      `/api/screens/v1/${admit}`
+    );
 
-    const { Screen }: { Screen: IScreen } = data;
-
-    return Screen;
+    return data;
   } catch (err) {
     const error = err as AxiosError<Error>;
-    console.log(error.response?.data.message);
+    notification.error({
+      message: "Error",
+      description: error.message,
+    });
 
     return null;
   }
