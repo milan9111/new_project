@@ -37,7 +37,9 @@ const FormsContainer: FC = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm<any>({
+    mode: 'onBlur'
+  });
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   useEffect(() => {
@@ -169,6 +171,7 @@ const FormsContainer: FC = () => {
   };
 
   const showRows = numberOfRowsWithoutRepeats.map((item) => {
+    console.log(111);
     return (
       <div key={generateUniqueId()} className={styles.row}>
         {renderingInternalNodes(item)}
