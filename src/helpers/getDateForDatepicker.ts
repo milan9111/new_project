@@ -9,9 +9,9 @@ export const getDateForDatepicker = (
 
     case null:
     case undefined:
-      return value;
+      return null;
 
     default:
-      return value;
+      return dayjs(value as string);
   }
 };
