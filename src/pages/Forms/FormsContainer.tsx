@@ -71,7 +71,7 @@ const FormsContainer: FC = () => {
             );
           } else {
             tempDefaultValuesScreen[item.attributeName] =
-              item.attribute?.defaultValue;
+              item.attribute?.defaultValue || "";
           }
         }
       });

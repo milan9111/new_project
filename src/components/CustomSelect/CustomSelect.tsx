@@ -50,6 +50,11 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
                       ]
                 }
               />
+              {errors[item.attributeName as string]?.type === "required" && (
+                <div className={styles.errorMessage}>
+                  This field is required
+                </div>
+              )}
             </div>
           </Tooltip>
         )}
