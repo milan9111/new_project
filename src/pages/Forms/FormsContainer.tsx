@@ -75,7 +75,6 @@ const FormsContainer: FC = () => {
           }
         }
       });
-      console.log(tempDefaultValuesScreen);
       reset(tempDefaultValuesScreen);
     }
   }, [selectedScreen]);
