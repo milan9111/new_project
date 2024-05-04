@@ -2,7 +2,6 @@
 import { FC } from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Input, Tooltip, DatePicker } from "antd";
-import dayjs from "dayjs";
 import { IField } from "../../types/interfaces/IScreenData";
 import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
 import styles from "./customField.module.scss";
@@ -34,11 +33,6 @@ const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
                   id={item.attributeName || ""}
                   className={styles.input}
                   placeholder={item.attributeName || ""}
-                  // defaultValue={
-                  //   item.attribute?.defaultValue
-                  //     ? dayjs(item.attribute?.defaultValue)
-                  //     : null
-                  // }
                   format="MM/DD/YYYY"
                   suffixIcon={
                     item.attribute?.required && (
@@ -53,7 +47,6 @@ const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
                   id={item.attributeName || ""}
                   className={styles.input}
                   placeholder={item.attributeName || ""}
-                  // defaultValue={item.attribute?.defaultValue || ""}
                   suffix={
                     item.attribute?.required && (
                       <span className={styles.required}>*</span>

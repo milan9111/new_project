@@ -18,7 +18,7 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
         {item.name ? item.name.replace(/\./g, "") : ""}
       </label>
       <Controller
-        name={item.attributeName as string}
+        name={item.attributeName || ""}
         control={control}
         rules={{
           required: item.attribute?.required || false,
@@ -27,11 +27,10 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
           <Tooltip title={item.attribute?.comment || ""} color="geekblue">
             <div>
               <Select
+                {...field}
                 id={item.attributeName || ""}
                 className={styles.select}
                 placeholder={item.attributeName}
-                defaultValue={item.attribute?.defaultValue || ""}
-                {...field}
                 suffixIcon={
                   item.attribute?.required && (
                     <span className={styles.required}>*</span>

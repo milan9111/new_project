@@ -9,7 +9,9 @@ import {
   IScreen,
   ISelectScreens,
 } from "../../types/interfaces/IScreenData";
+import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
 import { generateUniqueId } from "../../helpers/generateUniqueID";
+import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import CustomText from "../../components/CustomText/CustomText";
 import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
@@ -63,12 +65,16 @@ const FormsContainer: FC = () => {
       const tempDefaultValuesScreen: IDefaultValuesScreen = {};
       selectedScreen.fields.forEach((item) => {
         if (item.attributeName) {
-          console.log(item);
-          tempDefaultValuesScreen[item.attributeName] =
-            item.attribute?.defaultValue;
+          if (item.type === EScreenFieldType.Date) {
+            tempDefaultValuesScreen[item.attributeName] = getDateForDatepicker(
+              item.attribute?.defaultValue
+            );
+          } else {
+            tempDefaultValuesScreen[item.attributeName] =
+              item.attribute?.defaultValue;
+          }
         }
       });
-      console.log(tempDefaultValuesScreen);
       reset(tempDefaultValuesScreen);
     }
   }, [selectedScreen]);

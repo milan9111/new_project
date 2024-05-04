@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { EScreenFieldType } from "../enums/EScreenFieldType";
 
 interface IInclude {
@@ -13,7 +14,7 @@ interface IAttribute {
   right: boolean;
   zeroFill: boolean;
   downShift: boolean;
-  defaultValue: string | number | boolean | null;
+  defaultValue: string | number | boolean | null | Dayjs;
   format: string | null;
   picture: string | null;
   include: IInclude[];
@@ -41,5 +42,5 @@ export interface ISelectScreens {
 }
 
 export interface IDefaultValuesScreen {
-  [key: string]: string | boolean | number | null | undefined;
+  [key: string]: string | boolean | number | null | undefined | Dayjs;
 }
