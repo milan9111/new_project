@@ -1,8 +1,8 @@
-import { ScreenFieldType } from "../enums/EScreenFieldType";
+import { EScreenFieldType } from "../enums/EScreenFieldType";
 
-interface IInclude { 
-  label: string; 
-  value: string; 
+interface IInclude {
+  label: string;
+  value: string;
 }
 
 interface IAttribute {
@@ -13,7 +13,7 @@ interface IAttribute {
   right: boolean;
   zeroFill: boolean;
   downShift: boolean;
-  defaultValue: string | null;
+  defaultValue: string | number | boolean | null;
   format: string | null;
   picture: string | null;
   include: IInclude[];
@@ -26,7 +26,7 @@ export interface IField {
   length: number;
   attributeName: string | null;
   attribute: IAttribute | null;
-  type: ScreenFieldType;
+  type: EScreenFieldType;
 }
 
 export interface IScreen {
@@ -36,6 +36,10 @@ export interface IScreen {
 }
 
 export interface ISelectScreens {
-  label: string, 
-  value: number
+  label: string;
+  value: number;
+}
+
+export interface IDefaultValuesScreen {
+  [key: string]: string | boolean | number | null | undefined;
 }

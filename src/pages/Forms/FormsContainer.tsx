@@ -4,13 +4,14 @@ import { FC, useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { getScreens, getScreen } from "../../api";
 import {
+  IDefaultValuesScreen,
   IField,
   IScreen,
   ISelectScreens,
 } from "../../types/interfaces/IScreenData";
 import { generateUniqueId } from "../../helpers/generateUniqueID";
 import CustomText from "../../components/CustomText/CustomText";
-import CustomInput from "../../components/CustomInput/CustomInput";
+import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
@@ -58,6 +59,17 @@ const FormsContainer: FC = () => {
         tempNumberOfRowsWithRepeats.push(item.rowPosition);
       });
       setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)]);
+
+      const tempDefaultValuesScreen: IDefaultValuesScreen = {};
+      selectedScreen.fields.forEach((item) => {
+        if (item.attributeName) {
+          console.log(item);
+          tempDefaultValuesScreen[item.attributeName] =
+            item.attribute?.defaultValue;
+        }
+      });
+      console.log(tempDefaultValuesScreen);
+      reset(tempDefaultValuesScreen);
     }
   }, [selectedScreen]);
 
@@ -122,11 +134,11 @@ const FormsContainer: FC = () => {
       if (attribute.include.length) {
         return <CustomSelect item={item} control={control} errors={errors} />;
       } else {
-        return <CustomInput item={item} control={control} errors={errors} />;
+        return <CustomField item={item} control={control} errors={errors} />;
       }
     }
-    
-    return <CustomInput item={item} control={control} errors={errors} />;
+
+    return <CustomField item={item} control={control} errors={errors} />;
   };
 
   const renderingInternalNodes = (item: number) => {

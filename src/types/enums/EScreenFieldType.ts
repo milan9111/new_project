@@ -1,4 +1,4 @@
-export enum ScreenFieldType {
+export enum EScreenFieldType {
   String,
   Char,
   Number,
