@@ -10,7 +10,6 @@ import {
   ISelectScreens,
 } from "../../types/interfaces/IScreenData";
 import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
-import { generateUniqueId } from "../../helpers/generateUniqueID";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import CustomText from "../../components/CustomText/CustomText";
 import CustomField from "../../components/CustomField/CustomField";
@@ -38,7 +37,7 @@ const FormsContainer: FC = () => {
     reset,
     formState: { errors },
   } = useForm<any>({
-    mode: 'onBlur'
+    mode: "onBlur",
   });
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
@@ -158,7 +157,7 @@ const FormsContainer: FC = () => {
       if (filteredScreenFields.length) {
         createdNodes = filteredScreenFields.map((el) => {
           return (
-            <div key={generateUniqueId()} className={styles.node}>
+            <div key={el.attributeName} className={styles.node}>
               {getRelevantNode(el)}
             </div>
           );
@@ -171,9 +170,8 @@ const FormsContainer: FC = () => {
   };
 
   const showRows = numberOfRowsWithoutRepeats.map((item) => {
-    console.log(111);
     return (
-      <div key={generateUniqueId()} className={styles.row}>
+      <div key={item} className={styles.row}>
         {renderingInternalNodes(item)}
       </div>
     );
