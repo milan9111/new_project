@@ -1,36 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { getScreens, getScreen } from "../../api";
 import {
   IDefaultValuesScreen,
   IField,
-  IScreen,
-  ISelectScreens,
 } from "../../types/interfaces/IScreenData";
 import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
+import { getScreen, getScreens } from "../../store/actions/formsActions";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import useAbortableEffect from "../../hooks/useAbortableEffect";
 import CustomText from "../../components/CustomText/CustomText";
 import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
+import {
+  setCurrentScreenIndex,
+  setNumberOfRowsWithoutRepeats,
+} from "../../store/reducers/FormsSlice";
 
 const FormsContainer: FC = () => {
-  // **** will use toolkit after fix NPM i react-redux *** //
-  const [screensNames, setScreensNames] = useState<string[]>([]);
-  const [screensNamesForInput, setScreensNamesForInput] = useState<
-    ISelectScreens[]
-  >([]);
-  const [currentScreenIndex, setCurrentScreenIndex] = useState<number>(0);
-  const [maxScreenIndex, setMaxScreenIndex] = useState<number>(0);
-  const [selectedScreen, setSelectedScreen] = useState<IScreen | null>(null);
-  const [numberOfRowsWithoutRepeats, setNumberOfRowsWithoutRepeats] = useState<
-    number[]
-  >([]);
-  const [loadingForm, setLoadingForm] = useState<boolean>(false);
-
+  const {
+    screensNames,
+    screensNamesForInput,
+    selectedScreen,
+    maxScreenIndex,
+    currentScreenIndex,
+    numberOfRowsWithoutRepeats,
+    loadingForm,
+  } = useAppSelector((state) => state.forms);
+  const dispatch = useAppDispatch();
+  
   const {
     handleSubmit,
     control,
@@ -41,19 +43,17 @@ const FormsContainer: FC = () => {
   });
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
-  useEffect(() => {
-    setScreens();
-  }, []);
+  useAbortableEffect(
+    async (abortController: AbortController) => {
+      const screens = await dispatch(getScreens(abortController));
 
-  useEffect(() => {
-    if (screensNames.length) {
-      const tempScreensNamesForInput = screensNames.map((item, index) => ({
-        label: item,
-        value: index,
-      }));
-      setScreensNamesForInput(tempScreensNamesForInput);
-    }
-  }, [screensNames]);
+      if (screens.length) {
+        dispatch(getScreen(screens[currentScreenIndex], abortController));
+      }
+    },
+    [],
+    []
+  );
 
   useEffect(() => {
     if (selectedScreen) {
@@ -61,7 +61,9 @@ const FormsContainer: FC = () => {
       selectedScreen.fields.forEach((item) => {
         tempNumberOfRowsWithRepeats.push(item.rowPosition);
       });
-      setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)]);
+      dispatch(
+        setNumberOfRowsWithoutRepeats([...new Set(tempNumberOfRowsWithRepeats)])
+      );
 
       const tempDefaultValuesScreen: IDefaultValuesScreen = {};
       selectedScreen.fields.forEach((item) => {
@@ -80,52 +82,33 @@ const FormsContainer: FC = () => {
     }
   }, [selectedScreen]);
 
-  const setScreens = async () => {
-    setLoadingForm(true);
-
-    const screens = await getScreens();
-    setScreensNames(screens);
-    setMaxScreenIndex(screens.length - 1);
-
-    const screen = await getScreen(screens[currentScreenIndex]);
-    setSelectedScreen(screen);
-
-    setLoadingForm(false);
-  };
-
-  const onPrevForm = async () => {
-    setLoadingForm(true);
+  const onPrevForm = () => {
     reset();
 
     const newScreenIndex = currentScreenIndex - 1;
-    setCurrentScreenIndex(newScreenIndex);
-    const screen = await getScreen(screensNames[newScreenIndex]);
-    setSelectedScreen(screen);
+    dispatch(setCurrentScreenIndex(newScreenIndex));
 
-    setLoadingForm(false);
+    const abortController = new AbortController();
+    dispatch(getScreen(screensNames[newScreenIndex], abortController));
   };
 
-  const onNextForm = async () => {
-    setLoadingForm(true);
+  const onNextForm = () => {
     reset();
 
     const newScreenIndex = currentScreenIndex + 1;
-    setCurrentScreenIndex(newScreenIndex);
-    const screen = await getScreen(screensNames[newScreenIndex]);
-    setSelectedScreen(screen);
+    dispatch(setCurrentScreenIndex(newScreenIndex));
 
-    setLoadingForm(false);
+    const abortController = new AbortController();
+    dispatch(getScreen(screensNames[newScreenIndex], abortController));
   };
 
   const handleChangeForm = async (value: number) => {
-    setLoadingForm(true);
     reset();
 
-    setCurrentScreenIndex(value);
-    const screen = await getScreen(screensNames[value]);
-    setSelectedScreen(screen);
+    dispatch(setCurrentScreenIndex(value));
 
-    setLoadingForm(false);
+    const abortController = new AbortController();
+    dispatch(getScreen(screensNames[value], abortController));
   };
 
   const getRelevantNode = (item: IField) => {

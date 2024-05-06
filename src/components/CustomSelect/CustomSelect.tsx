@@ -15,7 +15,7 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.selectBox}>
       <label htmlFor={item.attributeName || ""}>
-        {item.name ? item.name.replace(/\./g, "") : ""}
+        {item.name ? item.name : ""}
       </label>
       <Controller
         name={item.attributeName || ""}

@@ -59,8 +59,9 @@ const Forms: FC<FormsProps> = ({
             <Select
               style={{ width: 120 }}
               onChange={handleChangeForm}
-              value={currentScreenIndex}
+              value={screensNamesForInput.length ? currentScreenIndex : null}
               options={screensNamesForInput}
+              placeholder={!screensNamesForInput.length && "Loading..."}
             />
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

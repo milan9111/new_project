@@ -17,7 +17,7 @@ const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.inputBox}>
       <label htmlFor={item.attributeName || ""}>
-        {item.name ? item.name.replace(/\./g, "") : ""}
+        {item.name ? item.name : ""}
       </label>
       <Controller
         name={item.attributeName || ""}
@@ -49,6 +49,9 @@ const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
                   id={item.attributeName || ""}
                   className={styles.input}
                   placeholder={item.attributeName || ""}
+                  maxLength={
+                    item.type === EScreenFieldType.Char ? 1 : undefined
+                  }
                   suffix={
                     item.attribute?.required && (
                       <span className={styles.required}>*</span>
