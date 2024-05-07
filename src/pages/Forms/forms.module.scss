@@ -20,16 +20,16 @@
 }
 
 .row {
-    padding: 20px;
-    border: 1px solid silver;
+    padding: 8px 20px;
+    border: 1px solid #c0c0c084;
     border-radius: 10px;
     transition: 0.5s;
 
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
 
     &:hover {
         background: #c0c0c03c;
@@ -53,7 +53,7 @@
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
 }
 
 .buttonBox {

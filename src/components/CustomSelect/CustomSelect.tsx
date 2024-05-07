@@ -16,6 +16,7 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
     <div className={styles.selectBox}>
       <label htmlFor={item.attributeName || ""}>
         {item.name ? item.name : ""}
+        {item.attribute?.required && <span className={styles.required}>*</span>}
       </label>
       <Controller
         name={item.attributeName || ""}
@@ -30,10 +31,16 @@ const CustomSelect: FC<CustomSelectProps> = ({ item, control, errors }) => {
                 {...field}
                 id={item.attributeName || ""}
                 className={styles.select}
-                placeholder={item.attributeName}
-                suffixIcon={
-                  item.attribute?.required && (
-                    <span className={styles.required}>*</span>
+                showSearch
+                placeholder={
+                  item.attribute?.picture || item.attributeName || ""
+                }
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  ) ||
+                  (option?.value.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
                   )
                 }
                 status={errors.AttributeName ? "error" : ""}
