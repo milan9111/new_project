@@ -121,7 +121,7 @@ const FormsContainer: FC = () => {
     const attribute = item.attribute;
 
     if (attribute) {
-      if (attribute.include.length) {
+      if (attribute.include?.length || false) {
         return <CustomSelect item={item} control={control} errors={errors} />;
       } else {
         return <CustomField item={item} control={control} errors={errors} />;

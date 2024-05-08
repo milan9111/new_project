@@ -58,10 +58,16 @@ const Forms: FC<FormsProps> = ({
             </Button>
             <Select
               style={{ width: 120 }}
+              showSearch
               onChange={handleChangeForm}
               value={screensNamesForInput.length ? currentScreenIndex : null}
               options={screensNamesForInput}
               placeholder={!screensNamesForInput.length && "Loading..."}
+              filterOption={(input, option) =>
+                (option?.label.toLowerCase() ?? "").includes(
+                  input.toLowerCase()
+                )
+              }
             />
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
