@@ -8,6 +8,10 @@ import {
 } from "../../types/interfaces/IScreenData";
 import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
 import { getScreen, getScreens } from "../../store/actions/formsActions";
+import {
+  setCurrentScreenIndex,
+  setNumberOfRowsWithoutRepeats,
+} from "../../store/reducers/FormsSlice";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
@@ -16,10 +20,6 @@ import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
-import {
-  setCurrentScreenIndex,
-  setNumberOfRowsWithoutRepeats,
-} from "../../store/reducers/FormsSlice";
 
 const FormsContainer: FC = () => {
   const {
@@ -32,7 +32,7 @@ const FormsContainer: FC = () => {
     loadingForm,
   } = useAppSelector((state) => state.forms);
   const dispatch = useAppDispatch();
-  
+
   const {
     handleSubmit,
     control,
@@ -83,6 +83,7 @@ const FormsContainer: FC = () => {
   }, [selectedScreen]);
 
   const onPrevForm = () => {
+    dispatch(setNumberOfRowsWithoutRepeats([]));
     reset();
 
     const newScreenIndex = currentScreenIndex - 1;
@@ -93,6 +94,7 @@ const FormsContainer: FC = () => {
   };
 
   const onNextForm = () => {
+    dispatch(setNumberOfRowsWithoutRepeats([]));
     reset();
 
     const newScreenIndex = currentScreenIndex + 1;
@@ -103,6 +105,7 @@ const FormsContainer: FC = () => {
   };
 
   const handleChangeForm = async (value: number) => {
+    dispatch(setNumberOfRowsWithoutRepeats([]));
     reset();
 
     dispatch(setCurrentScreenIndex(value));
@@ -127,7 +130,6 @@ const FormsContainer: FC = () => {
         return <CustomField item={item} control={control} errors={errors} />;
       }
     }
-
     return <CustomField item={item} control={control} errors={errors} />;
   };
 
