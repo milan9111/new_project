@@ -1,0 +1,15 @@
+import { FC } from "react";
+import { Menu as MenuAntd } from "antd";
+import { MenuItem } from "../../types/interfaces/MenuItem";
+
+interface MenuProps {
+  items: MenuItem[];
+}
+
+const Menu: FC<MenuProps> = ({ items }) => {
+  return (
+      <MenuAntd mode="inline" theme="dark" items={items} />
+  );
+};
+
+export default Menu;

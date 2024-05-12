@@ -15,6 +15,7 @@ import {
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
+import LayoutContainer from "../../components/Layout/LayoutContainer";
 import CustomText from "../../components/CustomText/CustomText";
 import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
@@ -163,18 +164,20 @@ const FormsContainer: FC = () => {
   });
 
   return (
-    <Forms
-      showRows={showRows}
-      currentScreenIndex={currentScreenIndex}
-      maxScreenIndex={maxScreenIndex}
-      onPrevForm={onPrevForm}
-      onNextForm={onNextForm}
-      screensNamesForInput={screensNamesForInput}
-      handleChangeForm={handleChangeForm}
-      loadingForm={loadingForm}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-    />
+    <LayoutContainer>
+      <Forms
+        showRows={showRows}
+        currentScreenIndex={currentScreenIndex}
+        maxScreenIndex={maxScreenIndex}
+        onPrevForm={onPrevForm}
+        onNextForm={onNextForm}
+        screensNamesForInput={screensNamesForInput}
+        handleChangeForm={handleChangeForm}
+        loadingForm={loadingForm}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+      />
+    </LayoutContainer>
   );
 };
 
