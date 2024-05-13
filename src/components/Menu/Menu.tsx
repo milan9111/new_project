@@ -12,7 +12,6 @@ const Menu: FC<MenuProps> = ({ items }) => {
       mode="inline"
       theme="dark"
       inlineIndent={10}
-      subMenuCloseDelay={0}
       items={items}
     />
   );

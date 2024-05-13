@@ -4,7 +4,7 @@ import { AppDispatch } from "../store";
 import { requestToApi } from "../../helpers/requestToApi";
 import { setLoadingMenu, setMenu } from "../reducers/MenuSlice";
 import { MenuItem } from "../../types/interfaces/MenuItem";
-import { addRandomKeys } from "../../helpers/addRandomKeys";
+//import { addRandomKeys } from "../../helpers/addRandomKeys";
 
 export const getMenu =
   (abortController: AbortController) =>
@@ -18,7 +18,7 @@ export const getMenu =
       });
 
       if (status === 200) {
-        dispatch(setMenu(addRandomKeys(data)));
+        dispatch(setMenu(data));
         dispatch(setLoadingMenu(false));
         return data;
       }
