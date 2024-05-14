@@ -39,13 +39,13 @@ const Menu: FC<MenuProps> = ({
           }
         />
       ) : null}
-      {items.length ? (
-        <MenuAntd mode="inline" theme="dark" inlineIndent={10} items={items} />
-      ) : (
+      {!items.length && !loadingMenu ? (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description={<div className={styles.notFound}>Not found</div>}
         />
+      ) : (
+        <MenuAntd mode="inline" theme="dark" inlineIndent={10} items={items} />
       )}
     </div>
   );
