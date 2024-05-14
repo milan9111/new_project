@@ -34,7 +34,7 @@ const MenuContainer: FC = () => {
 
   return (
     <Menu
-      items={filteredMenu.length ? filteredMenu : menu}
+      items={searchValue.length ? filteredMenu : menu}
       loadingMenu={loadingMenu}
       searchValue={searchValue}
       onSearch={onSearch}

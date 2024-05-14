@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Input, Menu as MenuAntd, Spin } from "antd";
+import { Input, Menu as MenuAntd, Spin, Empty } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
 import { MenuItem } from "../../types/interfaces/MenuItem";
 import styles from "./menu.module.scss";
@@ -39,7 +39,14 @@ const Menu: FC<MenuProps> = ({
           }
         />
       ) : null}
-      <MenuAntd mode="inline" theme="dark" inlineIndent={10} items={items} />
+      {items.length ? (
+        <MenuAntd mode="inline" theme="dark" inlineIndent={10} items={items} />
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={<div className={styles.notFound}>Not found</div>}
+        />
+      )}
     </div>
   );
 };
