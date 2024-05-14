@@ -4,7 +4,6 @@ import { AppDispatch } from "../store";
 import { requestToApi } from "../../helpers/requestToApi";
 import { setLoadingMenu, setMenu } from "../reducers/MenuSlice";
 import { MenuItem } from "../../types/interfaces/MenuItem";
-//import { addRandomKeys } from "../../helpers/addRandomKeys";
 
 export const getMenu =
   (abortController: AbortController) =>
@@ -18,7 +17,7 @@ export const getMenu =
       });
 
       if (status === 200) {
-        dispatch(setMenu(data));
+        dispatch(setMenu(data)); // we can use changeMenuLastChild func
         dispatch(setLoadingMenu(false));
         return data;
       }
