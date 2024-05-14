@@ -39,9 +39,10 @@ const Menu: FC<MenuProps> = ({
           }
         />
       ) : null}
-      {!items.length && !loadingMenu ? (
+      {!items.length && !loadingMenu && !searchLoading ? (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
+          imageStyle={{ opacity: 0.3 }}
           description={<div className={styles.notFound}>Not found</div>}
         />
       ) : (
