@@ -21,6 +21,7 @@ import CustomField from "../../components/CustomField/CustomField";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
+import useHotKeys from "../../hooks/useHotKeys";
 
 const FormsContainer: FC = () => {
   const {
@@ -114,6 +115,11 @@ const FormsContainer: FC = () => {
     const abortController = new AbortController();
     dispatch(getScreen(screensNames[value], abortController));
   };
+
+  useHotKeys({
+    onButtonNext: currentScreenIndex !== maxScreenIndex ? onNextForm : () => {},
+    onButtonPrev: currentScreenIndex !== 0 ? onPrevForm : () => {},
+  });
 
   const getRelevantNode = (item: IField) => {
     const hasAttributeName = item.attributeName;
