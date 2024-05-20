@@ -28,6 +28,7 @@ export interface IField {
   attributeName: string | null;
   attribute: IAttribute | null;
   type: EScreenFieldType;
+  key: boolean;
 }
 
 export interface IScreen {

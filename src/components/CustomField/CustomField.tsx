@@ -15,9 +15,35 @@ interface CustomFieldProps {
   item: IField;
   control: any;
   errors: FieldErrors<any>;
+  onSearchByAttributeName: (attributeName: string | null, e: string) => void;
 }
 
-const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
+const CustomField: FC<CustomFieldProps> = ({
+  item,
+  control,
+  errors,
+  onSearchByAttributeName,
+}) => {
+  const { Search } = Input;
+
+  const inputHandler = (
+    type: EScreenFieldType,
+    onChange: (...event: any[]) => void,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    switch (type) {
+      case EScreenFieldType.Char:
+        onChange(allowOnlyChar(e.target.value));
+        break;
+      case EScreenFieldType.Number:
+        onChange(allowOnlyNumber(e.target.value));
+        break;
+      default:
+        onChange(e.target.value);
+        break;
+    }
+  };
+
   return (
     <>
       <div className={styles.inputBox}>
@@ -47,23 +73,28 @@ const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
                     format="MM/DD/YYYY"
                     status={errors[item.attributeName as string] ? "error" : ""}
                   />
+                ) : item.key ? (
+                  <Search
+                    id={item.attributeName || ""}
+                    className={styles.input}
+                    onSearch={(e) => {
+                      onSearchByAttributeName(item.attributeName, e);
+                    }}
+                    onChange={(e) => inputHandler(item.type, onChange, e)}
+                    value={value}
+                    placeholder={
+                      item.attribute?.picture || item.attributeName || ""
+                    }
+                    maxLength={
+                      item.type === EScreenFieldType.Char ? 1 : undefined
+                    }
+                    status={errors[item.attributeName as string] ? "error" : ""}
+                  />
                 ) : (
                   <Input
                     id={item.attributeName || ""}
                     className={styles.input}
-                    onChange={(e) => {
-                      switch (item.type) {
-                        case EScreenFieldType.Char:
-                          onChange(allowOnlyChar(e.target.value));
-                          break;
-                        case EScreenFieldType.Number:
-                          onChange(allowOnlyNumber(e.target.value));
-                          break;
-                        default:
-                          onChange(e.target.value);
-                          break;
-                      }
-                    }}
+                    onChange={(e) => inputHandler(item.type, onChange, e)}
                     value={value}
                     placeholder={
                       item.attribute?.picture || item.attributeName || ""

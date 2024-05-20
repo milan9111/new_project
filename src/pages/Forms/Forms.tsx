@@ -18,6 +18,7 @@ interface FormsProps {
     | undefined;
   loadingForm: boolean;
   handleSubmit: UseFormHandleSubmit<any, undefined>;
+  onResetForm: () => void;
   onSubmit: SubmitHandler<any>;
 }
 
@@ -31,6 +32,7 @@ const Forms: FC<FormsProps> = ({
   handleChangeForm,
   loadingForm,
   handleSubmit,
+  onResetForm,
   onSubmit,
 }) => {
   return (
@@ -74,6 +76,9 @@ const Forms: FC<FormsProps> = ({
             {showRows}
             {showRows.length ? (
               <div className={styles.buttonBox}>
+                <Button type="primary" danger onClick={() => onResetForm()}>
+                  Reset
+                </Button>
                 <Button type="primary" htmlType="submit">
                   Save
                 </Button>

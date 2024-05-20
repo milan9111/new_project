@@ -7,10 +7,16 @@ import {
   IField,
 } from "../../types/interfaces/IScreenData";
 import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
-import { getScreen, getScreens } from "../../store/actions/formsActions";
+import {
+  getFieldsByAttributeName,
+  getScreen,
+  getScreens,
+} from "../../store/actions/formsActions";
 import {
   setCurrentScreenIndex,
+  setLoadingForm,
   setNumberOfRowsWithoutRepeats,
+  setSelectedScreen,
 } from "../../store/reducers/FormsSlice";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
@@ -121,6 +127,32 @@ const FormsContainer: FC = () => {
     onButtonPrev: currentScreenIndex !== 0 ? onPrevForm : () => {},
   });
 
+  const onSearchByAttributeName = async (
+    attributeName: string | null,
+    e: string
+  ) => {
+    if (e.length > 0) {
+      const fields = await dispatch(
+        getFieldsByAttributeName(
+          attributeName,
+          e,
+          screensNames[currentScreenIndex]
+        )
+      );
+
+      if (fields.length > 0 && selectedScreen) {
+        dispatch(setSelectedScreen({ ...selectedScreen, fields }));
+        dispatch(setLoadingForm(false));
+      }
+    }
+  };
+
+  const onResetForm = () => {
+    const abortController = new AbortController();
+
+    dispatch(getScreen(screensNames[currentScreenIndex], abortController));
+  };
+
   const getRelevantNode = (item: IField) => {
     const hasAttributeName = item.attributeName;
 
@@ -134,10 +166,24 @@ const FormsContainer: FC = () => {
       if (attribute.include?.length || false) {
         return <CustomSelect item={item} control={control} errors={errors} />;
       } else {
-        return <CustomField item={item} control={control} errors={errors} />;
+        return (
+          <CustomField
+            item={item}
+            control={control}
+            errors={errors}
+            onSearchByAttributeName={onSearchByAttributeName}
+          />
+        );
       }
     }
-    return <CustomField item={item} control={control} errors={errors} />;
+    return (
+      <CustomField
+        item={item}
+        control={control}
+        errors={errors}
+        onSearchByAttributeName={onSearchByAttributeName}
+      />
+    );
   };
 
   const renderingInternalNodes = (item: number) => {
@@ -181,6 +227,7 @@ const FormsContainer: FC = () => {
         handleChangeForm={handleChangeForm}
         loadingForm={loadingForm}
         handleSubmit={handleSubmit}
+        onResetForm={onResetForm}
         onSubmit={onSubmit}
       />
     </LayoutContainer>

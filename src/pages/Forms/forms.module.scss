@@ -1,57 +1,58 @@
 .changeCurrentFormBox {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 15px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 15px;
 
-    p {
-        margin: 0px;
-        font-weight: 600;
-    }
+  p {
+    margin: 0px;
+    font-weight: 600;
+  }
 }
 
 .row {
-    padding: 8px 10px;
-    border: 1px solid #c0c0c084;
-    border-radius: 10px;
-    transition: 0.5s;
+  padding: 8px 10px;
+  border: 1px solid #c0c0c084;
+  border-radius: 10px;
+  transition: 0.5s;
 
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 10px;
 
-    &:hover {
-        background: #c0c0c03c;
-    }
+  &:hover {
+    background: #c0c0c03c;
+  }
 }
 
 .row:has(p) {
-    border: none;
-    justify-content: center;
+  border: none;
+  justify-content: center;
 
-    &:hover {
-        background: transparent;
-    }
+  &:hover {
+    background: transparent;
+  }
 }
 
 .node {
-    width: fit-content;
+  width: fit-content;
 }
 
 .form {
-    padding: 20px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .buttonBox {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
 }
