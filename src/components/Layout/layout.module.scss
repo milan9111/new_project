@@ -1,6 +1,11 @@
 .layout {
   min-height: 100vh;
 }
+.contentBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .content {
   padding: 24px;
   background: white;
