@@ -141,7 +141,14 @@ const FormsContainer: FC = () => {
       );
 
       if (fields.length > 0 && selectedScreen) {
-        dispatch(setSelectedScreen({ ...selectedScreen, fields }));
+        const updatedFields: IField[] = selectedScreen.fields.map((item) => {
+          return (
+            fields.find((el) => el.attributeName === item.attributeName) || item
+          );
+        });
+        dispatch(
+          setSelectedScreen({ ...selectedScreen, fields: updatedFields })
+        );
         dispatch(setLoadingForm(false));
       }
     }
