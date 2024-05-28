@@ -1,0 +1,52 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.form {
+  width: 300px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  border: 1px solid #c0c0c084;
+  border-radius: 10px;
+  transition: 0.5s;
+
+  &:hover {
+    background: #c0c0c03c;
+  }
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    font-size: 14px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.required {
+  color: #ff0000;
+}
+
+.error {
+  font-size: 13px;
+  color: #ff0000;
+}

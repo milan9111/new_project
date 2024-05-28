@@ -2,17 +2,20 @@ import { FC } from "react";
 import { Button, MenuProps } from "antd";
 import Header from "./Header";
 import { useAppSelector } from "../../hooks/redux";
+import useSignOut from "../../hooks/useSignOut";
 
 const HeaderContainer: FC = () => {
   const { currentScreenIndex, screensNamesForInput } = useAppSelector(
     (state) => state.forms
   );
+  const { data } = useAppSelector((state) => state.signIn);
+  const signOut = useSignOut();
 
   const items: MenuProps["items"] = [
     {
       label: (
-        <Button type="text" danger>
-          Logout
+        <Button type="text" danger onClick={() => signOut(true)}>
+          Sign out
         </Button>
       ),
       key: "0",
@@ -23,6 +26,7 @@ const HeaderContainer: FC = () => {
     <Header
       items={items}
       formName={screensNamesForInput[currentScreenIndex]?.label || ""}
+      userName={data.name}
     />
   );
 };

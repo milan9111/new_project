@@ -1,10 +1,8 @@
 import { FC } from "react";
-import FormsContainer from "./pages/Forms/FormsContainer";
+import Navigator from "./navigation/Navigator";
 
 const App: FC = () => {
-  return (
-    <FormsContainer />
-  );
+  return <Navigator />;
 };
 
 export default App;
