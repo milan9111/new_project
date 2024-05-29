@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Input, Menu as MenuAntd, Spin, Empty } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -10,6 +11,9 @@ interface MenuProps {
   searchValue: string;
   onSearch: (value: string) => void;
   searchLoading: boolean;
+  onSelectMenuItem: (e: any) => void;
+  defaultOpenKeys: string[];
+  defaultSelectedKeys: string[];
 }
 
 const Menu: FC<MenuProps> = ({
@@ -18,6 +22,9 @@ const Menu: FC<MenuProps> = ({
   searchValue,
   onSearch,
   searchLoading,
+  onSelectMenuItem,
+  defaultOpenKeys,
+  defaultSelectedKeys,
 }) => {
   return (
     <div className={styles.container}>
@@ -46,7 +53,17 @@ const Menu: FC<MenuProps> = ({
           description={<div className={styles.notFound}>Not found</div>}
         />
       ) : (
-        <MenuAntd mode="inline" theme="dark" inlineIndent={10} items={items} />
+        <MenuAntd
+          mode="inline"
+          theme="dark"
+          inlineIndent={10}
+          items={items}
+          onSelect={(e) => onSelectMenuItem(e)}
+          openKeys={defaultOpenKeys.length ? defaultOpenKeys : undefined}
+          selectedKeys={
+            defaultSelectedKeys.length ? defaultSelectedKeys : undefined
+          }
+        />
       )}
     </div>
   );

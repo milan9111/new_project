@@ -1,23 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import Menu from "./Menu";
+import { useNavigate } from "react-router-dom";
+import { EPageRoute } from "../../types/enums/EPageRoute";
+import { getMenu } from "../../store/actions/menuActions";
 import {
+  setDefaultOpenKeys,
+  setDefaultSelectedKeys,
   setFilteredMenu,
   setSearchLoading,
   setSearchValue,
 } from "../../store/reducers/MenuSlice";
 import { debouncing } from "../../helpers/debouncing";
+import { toURL } from "../../helpers/preparePath";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { getMenu } from "../../store/actions/menuActions";
+import Menu from "./Menu";
 
 const MenuContainer: FC = () => {
-  const { menu, loadingMenu, searchValue, searchLoading, filteredMenu } =
-    useAppSelector((state) => state.menu);
+  const {
+    menu,
+    loadingMenu,
+    searchValue,
+    searchLoading,
+    filteredMenu,
+    defaultOpenKeys,
+    defaultSelectedKeys,
+  } = useAppSelector((state) => state.menu);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useAbortableEffect(
     async (abortController: AbortController) => {
-      dispatch(getMenu(abortController));
+      !menu.length && dispatch(getMenu(abortController));
     },
     [],
     []
@@ -32,6 +46,14 @@ const MenuContainer: FC = () => {
     }, 500);
   };
 
+  const onSelectMenuItem = (e: any) => {
+    dispatch(setDefaultOpenKeys(e.keyPath));
+    dispatch(setDefaultSelectedKeys(e.selectedKeys));
+    navigate(
+      EPageRoute.SETTING_PARAMS_ROUTE.replace(":path", toURL(e.item.props.path))
+    );
+  };
+
   return (
     <Menu
       items={searchValue.length ? filteredMenu : menu}
@@ -39,6 +61,9 @@ const MenuContainer: FC = () => {
       searchValue={searchValue}
       onSearch={onSearch}
       searchLoading={searchLoading}
+      onSelectMenuItem={onSelectMenuItem}
+      defaultOpenKeys={defaultOpenKeys}
+      defaultSelectedKeys={defaultSelectedKeys}
     />
   );
 };

@@ -18,6 +18,10 @@ import {
   setNumberOfRowsWithoutRepeats,
   setSelectedScreen,
 } from "../../store/reducers/FormsSlice";
+import {
+  setDefaultOpenKeys,
+  setDefaultSelectedKeys,
+} from "../../store/reducers/MenuSlice";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
@@ -58,6 +62,8 @@ const FormsContainer: FC = () => {
       if (screens.length) {
         dispatch(getScreen(screens[currentScreenIndex], abortController));
       }
+      dispatch(setDefaultOpenKeys([]));
+      dispatch(setDefaultSelectedKeys([]));
     },
     [],
     []

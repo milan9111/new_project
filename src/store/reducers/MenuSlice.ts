@@ -9,6 +9,8 @@ export interface IMenuSlice {
   loadingMenu: boolean;
   searchValue: string;
   searchLoading: boolean;
+  defaultOpenKeys: string[];
+  defaultSelectedKeys: string[];
 }
 
 const initialState: IMenuSlice = {
@@ -17,6 +19,8 @@ const initialState: IMenuSlice = {
   loadingMenu: false,
   searchValue: "",
   searchLoading: false,
+  defaultOpenKeys: [],
+  defaultSelectedKeys: [],
 };
 
 export const MenuSlice = createSlice({
@@ -39,6 +43,18 @@ export const MenuSlice = createSlice({
     setSearchLoading(state: IMenuSlice, action: PayloadAction<boolean>): void {
       state.searchLoading = action.payload;
     },
+    setDefaultOpenKeys(
+      state: IMenuSlice,
+      action: PayloadAction<string[]>
+    ): void {
+      state.defaultOpenKeys = action.payload;
+    },
+    setDefaultSelectedKeys(
+      state: IMenuSlice,
+      action: PayloadAction<string[]>
+    ): void {
+      state.defaultSelectedKeys = action.payload;
+    },
   },
 });
 
@@ -48,5 +64,7 @@ export const {
   setLoadingMenu,
   setSearchValue,
   setSearchLoading,
+  setDefaultOpenKeys,
+  setDefaultSelectedKeys,
 } = MenuSlice.actions;
 export default MenuSlice.reducer;

@@ -2,6 +2,7 @@ interface MenuItem {
   key: string;
   label: string;
   children: MenuItem[];
+  path: string;
 }
 
 export const searchMenuByLabel = (
