@@ -16,6 +16,7 @@ const SettingParamsContainer: FC = () => {
   const { key } = useParams();
 
   useAbortableEffect(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (abortController: AbortController) => {
       if (defaultOpenKeys.length && defaultSelectedKeys.length) {
         dispatch(setDefaultSelectedKeys([key as string]));
