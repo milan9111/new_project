@@ -12,6 +12,7 @@ interface MenuProps {
   onSearch: (value: string) => void;
   searchLoading: boolean;
   onSelectMenuItem: (e: any) => void;
+  onChangeMenuItem: (e: string[]) => void;
   defaultOpenKeys: string[];
   defaultSelectedKeys: string[];
 }
@@ -23,6 +24,7 @@ const Menu: FC<MenuProps> = ({
   onSearch,
   searchLoading,
   onSelectMenuItem,
+  onChangeMenuItem,
   defaultOpenKeys,
   defaultSelectedKeys,
 }) => {
@@ -59,6 +61,7 @@ const Menu: FC<MenuProps> = ({
           inlineIndent={10}
           items={items}
           onSelect={(e) => onSelectMenuItem(e)}
+          onOpenChange={(e) => onChangeMenuItem(e)}
           openKeys={defaultOpenKeys.length ? defaultOpenKeys : undefined}
           selectedKeys={
             defaultSelectedKeys.length ? defaultSelectedKeys : undefined
