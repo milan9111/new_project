@@ -14,8 +14,6 @@ const HelpModalContainer: FC = () => {
     dispatch(setIsHelpModalOpen(false));
   };
 
-  console.log(settingParamsItem);
-
   const showRows = settingParamsItem?.help?.length
     ? settingParamsItem.help.map((item) => (
         <p className={styles.row}>{item}</p>
