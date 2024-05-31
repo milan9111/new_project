@@ -6,15 +6,15 @@ import styles from "./header.module.scss";
 
 interface HeaderProps {
   items: MenuProps["items"];
-  formName: string;
+  title: string;
   userName: string;
 }
 
-const Header: FC<HeaderProps> = ({ items, formName, userName }) => {
+const Header: FC<HeaderProps> = ({ items, title, userName }) => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <p className={styles.formName}>{formName}</p>
+        <p className={styles.title}>{title}</p>
         <div className={styles.userBox}>
           <Avatar>{getInitials(userName)}</Avatar>
           <p className={styles.userName}>{userName}</p>

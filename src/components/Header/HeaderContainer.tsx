@@ -9,6 +9,7 @@ const HeaderContainer: FC = () => {
     (state) => state.forms
   );
   const { data } = useAppSelector((state) => state.signIn);
+  const { settingParamsItem } = useAppSelector((state) => state.settingParams);
   const signOut = useSignOut();
 
   const items: MenuProps["items"] = [
@@ -25,7 +26,11 @@ const HeaderContainer: FC = () => {
   return (
     <Header
       items={items}
-      formName={screensNamesForInput[currentScreenIndex]?.label || ""}
+      title={
+        screensNamesForInput[currentScreenIndex]?.label ||
+        settingParamsItem?.shortDescription.default ||
+        ""
+      }
       userName={data.name}
     />
   );

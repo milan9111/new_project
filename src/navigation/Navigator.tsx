@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { EPageRoute } from "../types/enums/EPageRoute";
 import SignInContainer from "../pages/SignIn/SignInContainer";
 import FormsContainer from "../pages/Forms/FormsContainer";
-import SettingParamsContainer from "../pages/SettingParams/SettingParamsPage";
+import SettingParamsContainer from "../pages/SettingParams/SettingParamsContainer";
 import NotFoundContainer from "../pages/NotFound/NotFoundContainer";
 import { ProtectedRoute } from "./ProtectedRoute";
 

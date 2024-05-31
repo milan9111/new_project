@@ -3,7 +3,7 @@ import { IScreen, ISelectScreens } from "../../types/interfaces/IScreenData";
 
 export interface IFormsSlice {
   screensNames: string[];
-  screensNamesForInput:  ISelectScreens[];
+  screensNamesForInput: ISelectScreens[];
   loadingForm: boolean;
   currentScreenIndex: number;
   maxScreenIndex: number;
@@ -27,7 +27,7 @@ export const FormsSlice = createSlice({
   reducers: {
     setScreensNames(state: IFormsSlice, action: PayloadAction<string[]>): void {
       state.screensNames = action.payload;
-      
+
       if (action.payload.length) {
         state.maxScreenIndex = action.payload.length - 1;
         state.screensNamesForInput = action.payload.map((item, index) => ({
@@ -35,6 +35,12 @@ export const FormsSlice = createSlice({
           value: index,
         }));
       }
+    },
+    setScreensNamesForInput(
+      state: IFormsSlice,
+      action: PayloadAction<ISelectScreens[]>
+    ): void {
+      state.screensNamesForInput = action.payload;
     },
     setLoadingForm(state: IFormsSlice, action: PayloadAction<boolean>): void {
       state.loadingForm = action.payload;
@@ -65,6 +71,7 @@ export const FormsSlice = createSlice({
 
 export const {
   setScreensNames,
+  setScreensNamesForInput,
   setLoadingForm,
   setCurrentScreenIndex,
   setMaxScreenIndex,

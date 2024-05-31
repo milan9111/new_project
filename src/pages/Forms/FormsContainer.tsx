@@ -16,6 +16,7 @@ import {
   setCurrentScreenIndex,
   setLoadingForm,
   setNumberOfRowsWithoutRepeats,
+  setScreensNamesForInput,
   setSelectedScreen,
 } from "../../store/reducers/FormsSlice";
 import {
@@ -55,6 +56,10 @@ const FormsContainer: FC = () => {
   });
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
+  const handleCleanup = () => {
+    dispatch(setScreensNamesForInput([]));
+  }
+
   useAbortableEffect(
     async (abortController: AbortController) => {
       const screens = await dispatch(getScreens(abortController));
@@ -66,7 +71,7 @@ const FormsContainer: FC = () => {
       dispatch(setDefaultSelectedKeys([]));
     },
     [],
-    []
+    [handleCleanup]
   );
 
   useEffect(() => {
