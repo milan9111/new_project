@@ -1,12 +1,56 @@
 .settingParams {
-    width: 100%;
-    min-height: 80vh;
+  width: 100%;
+  min-height: 80vh;
 }
 
 .menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.formBox {
+  padding: 15px 20px;
+  border: 1px solid #c0c0c084;
+  border-radius: 10px;
+  transition: 0.5s;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &:hover {
+    background: #c0c0c03c;
+  }
+}
+
+.row {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
     gap: 15px;
+}
+
+.emptyRow {
+    width: 100%;
+}
+
+.titleRow {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.label {
+    font-size: 16px;
+    width: 150px;
+    text-align: end;
+
+    &:hover {
+      cursor: pointer;
+    }
 }

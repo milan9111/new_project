@@ -2,13 +2,13 @@
 import { FC } from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Input, Tooltip, DatePicker } from "antd";
-import { IField } from "../../types/interfaces/IScreenData";
-import { EScreenFieldType } from "../../types/enums/EScreenFieldType";
-import { getAdditionalRules } from "../../helpers/getAdditionalRules";
+import { IField } from "../../../types/interfaces/IScreenData";
+import { EScreenFieldType } from "../../../types/enums/EScreenFieldType";
+import { getAdditionalRules } from "../../../helpers/getAdditionalRules";
 import {
   allowOnlyChar,
   allowOnlyNumber,
-} from "../../helpers/inputRestrictions";
+} from "../../../helpers/inputRestrictions";
 import styles from "./customField.module.scss";
 
 interface CustomFieldProps {

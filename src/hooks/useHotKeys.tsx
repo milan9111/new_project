@@ -4,15 +4,22 @@ type UseHotKeysProps = {
   onButtonNext?: () => void;
   onButtonPrev?: () => void;
   onHelpModal?: () => void;
+  onFormsPage?: () => void;
 };
 
 const useHotKeys = ({
   onButtonNext = () => {},
   onButtonPrev = () => {},
   onHelpModal = () => {},
+  onFormsPage = () => {},
 }: UseHotKeysProps): void => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onFormsPage();
+        return;
+      }
+
       if (!event.altKey) return;
 
       switch (event.key.toLowerCase()) {
@@ -38,7 +45,7 @@ const useHotKeys = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onButtonNext, onButtonPrev, onHelpModal]);
+  }, [onButtonNext, onButtonPrev, onHelpModal, onFormsPage]);
 };
 
 export default useHotKeys;

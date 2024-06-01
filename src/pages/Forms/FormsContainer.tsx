@@ -26,13 +26,13 @@ import {
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
+import useHotKeys from "../../hooks/useHotKeys";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
-import CustomText from "../../components/CustomText/CustomText";
-import CustomField from "../../components/CustomField/CustomField";
-import CustomSelect from "../../components/CustomSelect/CustomSelect";
+import CustomText from "../../components/FormCustomComponents/CustomText/CustomText";
+import CustomField from "../../components/FormCustomComponents/CustomField/CustomField";
+import CustomSelect from "../../components/FormCustomComponents/CustomSelect/CustomSelect";
 import styles from "./forms.module.scss";
 import Forms from "./Forms";
-import useHotKeys from "../../hooks/useHotKeys";
 
 const FormsContainer: FC = () => {
   const {
@@ -58,7 +58,7 @@ const FormsContainer: FC = () => {
 
   const handleCleanup = () => {
     dispatch(setScreensNamesForInput([]));
-  }
+  };
 
   useAbortableEffect(
     async (abortController: AbortController) => {

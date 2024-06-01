@@ -15,8 +15,10 @@ const HelpModalContainer: FC = () => {
   };
 
   const showRows = settingParamsItem?.help?.length
-    ? settingParamsItem.help.map((item) => (
-        <p className={styles.row}>{item}</p>
+    ? settingParamsItem.help.map((item, index) => (
+        <p key={index} className={styles.row}>
+          {item}
+        </p>
       ))
     : [];
 

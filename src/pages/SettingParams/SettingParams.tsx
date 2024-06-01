@@ -9,12 +9,16 @@ interface SettingParamsProps {
   loadingSettingParamsItem: boolean;
   settingParamsItem: ISettingParamsItem | null;
   onOpenHelpModal: () => void;
+  goToFormsPage: () => void;
+  renderForm: JSX.Element[];
 }
 
 const SettingParams: FC<SettingParamsProps> = ({
   loadingSettingParamsItem,
   settingParamsItem,
   onOpenHelpModal,
+  goToFormsPage,
+  renderForm,
 }) => {
   return (
     <ConfigProvider wave={{ disabled: true }}>
@@ -23,15 +27,30 @@ const SettingParams: FC<SettingParamsProps> = ({
         spinning={loadingSettingParamsItem}
       >
         <section className={styles.settingParams}>
-          <div className={styles.container}>
-            <div className={styles.menu}>
-              <Button>Finish (F9)</Button>
-              <Button>Cancel (ESC)</Button>
-              {settingParamsItem?.help?.length ? (
-                <Button onClick={() => onOpenHelpModal()}>Help (Alt+W)</Button>
-              ) : null}
+          {settingParamsItem ? (
+            <div className={styles.container}>
+              <div className={styles.menu}>
+                <Button>Finish (F9)</Button>
+                <Button onClick={() => goToFormsPage()}>Cancel (ESC)</Button>
+                {settingParamsItem?.help?.length ? (
+                  <Button onClick={() => onOpenHelpModal()}>
+                    Help (Alt+W)
+                  </Button>
+                ) : null}
+              </div>
+              <div
+                className={styles.formBox}
+                style={{
+                  marginTop: `${settingParamsItem?.sizeOpt.y * 2}rem`,
+                  marginLeft: `${settingParamsItem?.sizeOpt.x}rem`,
+                  maxWidth: `${settingParamsItem?.sizeOpt.width * 2}rem`,
+                  minHeight: `${settingParamsItem?.sizeOpt.height * 2}rem`,
+                }}
+              >
+                {renderForm}
+              </div>
             </div>
-          </div>
+          ) : null}
           <HelpModalContainer />
         </section>
       </Spin>

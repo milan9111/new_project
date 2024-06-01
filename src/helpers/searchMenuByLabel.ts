@@ -1,7 +1,7 @@
 interface MenuItem {
   key: string;
   label: string;
-  children: MenuItem[];
+  children: MenuItem[] | null;
   path: string;
 }
 
@@ -15,12 +15,14 @@ export const searchMenuByLabel = (
   menu.forEach((item) => {
     const match = item.label.toLowerCase().includes(lowerCaseLabel);
     const childrenMatches =
-      item.children.length > 0 ? searchMenuByLabel(item.children, label) : [];
+      item.children && item.children.length > 0
+        ? searchMenuByLabel(item.children, label)
+        : [];
 
     if (match || childrenMatches.length > 0) {
       result.push({
         ...item,
-        children: childrenMatches.length > 0 ? childrenMatches : [],
+        children: childrenMatches.length > 0 ? childrenMatches : null,
       });
     }
   });

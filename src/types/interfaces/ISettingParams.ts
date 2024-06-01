@@ -12,7 +12,7 @@ interface IExecBin {
   default: string;
 }
 
-interface IField {
+export interface IField {
   fieldType: number;
   upShift?: boolean | null;
   required?: boolean | null;

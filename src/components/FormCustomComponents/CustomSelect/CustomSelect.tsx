@@ -2,7 +2,7 @@
 import { FC } from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Select, Tooltip } from "antd";
-import { IField } from "../../types/interfaces/IScreenData";
+import { IField } from "../../../types/interfaces/IScreenData";
 import styles from "./customSelect.module.scss";
 
 interface CustomSelectProps {
