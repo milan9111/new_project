@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Button, ConfigProvider, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
 import HelpModalContainer from "../../components/HelpModal/HelpModalContainer";
@@ -11,6 +13,10 @@ interface SettingParamsProps {
   onOpenHelpModal: () => void;
   goToFormsPage: () => void;
   renderForm: JSX.Element[];
+  handleSubmit: UseFormHandleSubmit<any, undefined>;
+  onSubmit: SubmitHandler<any>;
+  formSubmit: React.MutableRefObject<HTMLButtonElement | null>;
+  onFinishSetting: () => void;
 }
 
 const SettingParams: FC<SettingParamsProps> = ({
@@ -19,6 +25,10 @@ const SettingParams: FC<SettingParamsProps> = ({
   onOpenHelpModal,
   goToFormsPage,
   renderForm,
+  handleSubmit,
+  onSubmit,
+  formSubmit,
+  onFinishSetting,
 }) => {
   return (
     <ConfigProvider wave={{ disabled: true }}>
@@ -30,7 +40,7 @@ const SettingParams: FC<SettingParamsProps> = ({
           {settingParamsItem ? (
             <div className={styles.container}>
               <div className={styles.menu}>
-                <Button>Finish (F9)</Button>
+                <Button onClick={() => onFinishSetting()}>Finish (F9)</Button>
                 <Button onClick={() => goToFormsPage()}>Cancel (ESC)</Button>
                 {settingParamsItem?.help?.length ? (
                   <Button onClick={() => onOpenHelpModal()}>
@@ -38,17 +48,21 @@ const SettingParams: FC<SettingParamsProps> = ({
                   </Button>
                 ) : null}
               </div>
-              <div
+              <form
+                onSubmit={handleSubmit(onSubmit)}
                 className={styles.formBox}
                 style={{
                   marginTop: `${settingParamsItem?.sizeOpt.y * 2}rem`,
-                  marginLeft: `${settingParamsItem?.sizeOpt.x}rem`,
-                  maxWidth: `${settingParamsItem?.sizeOpt.width * 2}rem`,
+                  maxWidth: `${settingParamsItem?.sizeOpt.width}rem`,
                   minHeight: `${settingParamsItem?.sizeOpt.height * 2}rem`,
                 }}
               >
                 {renderForm}
-              </div>
+                <button ref={formSubmit} className={styles.formSubmit}></button>
+              </form>
+              <p className={styles.execBin}>
+                ExecBin: {settingParamsItem.execBin.default}
+              </p>
             </div>
           ) : null}
           <HelpModalContainer />

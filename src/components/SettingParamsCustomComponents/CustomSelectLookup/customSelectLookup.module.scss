@@ -1,3 +1,15 @@
+.selectBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .select {
-    width: 200px;
+  width: 200px;
+}
+
+.errorMessage {
+  text-align: end;
+  color: #ff0000;
+  font-size: 12px;
 }

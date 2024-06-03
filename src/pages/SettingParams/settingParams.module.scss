@@ -12,6 +12,7 @@
 }
 
 .formBox {
+  margin: 0 auto;
   padding: 15px 20px;
   border: 1px solid #c0c0c084;
   border-radius: 10px;
@@ -53,4 +54,14 @@
     &:hover {
       cursor: pointer;
     }
+}
+
+.formSubmit {
+  display: none;
+}
+
+.execBin {
+  text-align: center;
+  margin-top: 15px;
+  color: #002140;
 }

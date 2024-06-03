@@ -1,17 +1,48 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Select, Tooltip } from "antd";
+import { Controller, FieldErrors } from "react-hook-form";
 import { IField } from "../../../types/interfaces/ISettingParams";
 import styles from "./customSelectInclude.module.scss";
 
 interface CustomSelectIncludeProps {
   item: IField;
+  control: any;
+  errors: FieldErrors<any>;
 }
 
-const CustomSelectInclude: FC<CustomSelectIncludeProps> = ({ item }) => {
+const CustomSelectInclude: FC<CustomSelectIncludeProps> = ({
+  item,
+  control,
+  errors,
+}) => {
   return (
-    <Tooltip title={item.comments || ""} color="geekblue">
-      <Select id={item.name} className={styles.select} />
-    </Tooltip>
+    <div className={styles.selectBox}>
+      <Controller
+        name={item.name || ""}
+        control={control}
+        rules={{
+          required: item.required || false,
+        }}
+        render={({ field: { onChange, value } }) => (
+          <Tooltip title={item.comments || ""} color="geekblue">
+            <div>
+              <Select
+                id={item.name}
+                className={styles.select}
+                onChange={(e) => onChange(e)}
+                value={value}
+                status={errors[item.name] ? "error" : ""}
+                options={item.include.map((el) => ({ value: el, label: el }))}
+              />
+            </div>
+          </Tooltip>
+        )}
+      />
+      {errors[item.name]?.type === "required" && (
+        <div className={styles.errorMessage}>This field is required</div>
+      )}
+    </div>
   );
 };
 

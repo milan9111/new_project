@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { IField } from "../../types/interfaces/ISettingParams";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  IDefaultValuesSettingParams,
+  IField,
+} from "../../types/interfaces/ISettingParams";
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 import { EPageRoute } from "../../types/enums/EPageRoute";
 import { getDataByPath } from "../../store/actions/settingParamsActions";
@@ -12,6 +16,7 @@ import {
 import { setDefaultSelectedKeys } from "../../store/reducers/MenuSlice";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
 import { getPath } from "../../helpers/getPath";
+import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import useHotKeys from "../../hooks/useHotKeys";
@@ -31,6 +36,17 @@ const SettingParamsContainer: FC = () => {
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
+  const formSubmit = useRef<HTMLButtonElement | null>(null);
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<any>({
+    mode: "onBlur",
+  });
+  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   const handleCleanup = () => {
     dispatch(setSettingParamsItem(null));
@@ -51,6 +67,29 @@ const SettingParamsContainer: FC = () => {
     [handleCleanup]
   );
 
+  useEffect(() => {
+    if (settingParamsItem) {
+      const defaultValuesSettingParams: IDefaultValuesSettingParams = {};
+
+      settingParamsItem.form.rows.forEach((item) => {
+        item.fields.forEach((el) => {
+          if (el.fieldType !== ESettingParamsFieldType.Text) {
+            if (el.dataType === "date") {
+              defaultValuesSettingParams[el.name] = getDateForDatepicker(
+                el.default
+              );
+            } else {
+              defaultValuesSettingParams[el.name] = el.default;
+            }
+          }
+        });
+      });
+
+      reset(defaultValuesSettingParams);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settingParamsItem]);
+
   const onOpenHelpModal = () => {
     dispatch(setIsHelpModalOpen(true));
   };
@@ -59,9 +98,16 @@ const SettingParamsContainer: FC = () => {
     navigate(EPageRoute.FORMS_PAGE_ROUTE);
   };
 
+  const onFinishSetting = () => {
+    if (formSubmit.current) {
+      formSubmit.current.click();
+    }
+  };
+
   useHotKeys({
     onHelpModal: settingParamsItem?.help?.length ? onOpenHelpModal : () => {},
-    onFormsPage: settingParamsItem?.help?.length ? goToFormsPage : () => {},
+    onFormsPage: goToFormsPage,
+    onFinish: onFinishSetting,
   });
 
   console.log(settingParamsItem);
@@ -89,13 +135,34 @@ const SettingParamsContainer: FC = () => {
           }
         }
         if (item.fieldType === ESettingParamsFieldType.Input) {
-          return <CustomField key={index} item={item} />;
+          return (
+            <CustomField
+              key={index}
+              item={item}
+              control={control}
+              errors={errors}
+            />
+          );
         }
         if (item.fieldType === ESettingParamsFieldType.SelectInclude) {
-          return <CustomSelectInclude key={index} item={item} />;
+          return (
+            <CustomSelectInclude
+              key={index}
+              item={item}
+              control={control}
+              errors={errors}
+            />
+          );
         }
         if (item.fieldType === ESettingParamsFieldType.SelectLookup) {
-          return <CustomSelectLookup key={index} item={item} />;
+          return (
+            <CustomSelectLookup
+              key={index}
+              item={item}
+              control={control}
+              errors={errors}
+            />
+          );
         }
       });
       return createdRow;
@@ -122,6 +189,10 @@ const SettingParamsContainer: FC = () => {
         onOpenHelpModal={onOpenHelpModal}
         goToFormsPage={goToFormsPage}
         renderForm={renderForm}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        formSubmit={formSubmit}
+        onFinishSetting={onFinishSetting}
       />
     </LayoutContainer>
   );

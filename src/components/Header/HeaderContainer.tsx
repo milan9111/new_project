@@ -28,7 +28,7 @@ const HeaderContainer: FC = () => {
       items={items}
       title={
         screensNamesForInput[currentScreenIndex]?.label ||
-        settingParamsItem?.shortDescription.default ||
+        `${settingParamsItem?.shortDescription.default || "..."} - Parameters` ||
         ""
       }
       userName={data.name}

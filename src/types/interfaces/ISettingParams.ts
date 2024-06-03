@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { Dayjs } from "dayjs";
+
 interface ISizeOpt {
   x: number;
   y: number;
@@ -72,4 +74,8 @@ export interface ISettingParamsItem {
   scheduleProcess: IScheduleProcess;
   output: IOutput;
   warn?: any | null;
+}
+
+export interface IDefaultValuesSettingParams {
+  [key: string]: string | boolean | number | null | undefined | Dayjs;
 }

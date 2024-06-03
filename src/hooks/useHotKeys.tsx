@@ -5,6 +5,7 @@ type UseHotKeysProps = {
   onButtonPrev?: () => void;
   onHelpModal?: () => void;
   onFormsPage?: () => void;
+  onFinish?: () => void;
 };
 
 const useHotKeys = ({
@@ -12,11 +13,18 @@ const useHotKeys = ({
   onButtonPrev = () => {},
   onHelpModal = () => {},
   onFormsPage = () => {},
+  onFinish = () => {},
 }: UseHotKeysProps): void => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      console.log(event.key);
       if (event.key === "Escape") {
         onFormsPage();
+        return;
+      }
+
+      if (event.key === "F9") {
+        onFinish();
         return;
       }
 
@@ -45,7 +53,7 @@ const useHotKeys = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onButtonNext, onButtonPrev, onHelpModal, onFormsPage]);
+  }, [onButtonNext, onButtonPrev, onHelpModal, onFormsPage, onFinish]);
 };
 
 export default useHotKeys;
