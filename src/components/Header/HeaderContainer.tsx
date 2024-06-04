@@ -12,6 +12,20 @@ const HeaderContainer: FC = () => {
   const { settingParamsItem } = useAppSelector((state) => state.settingParams);
   const signOut = useSignOut();
 
+  const getTitle = (
+    formTitle: string | undefined,
+    settingParamsTitle: string | undefined
+  ): string => {
+    if (formTitle) {
+      return formTitle;
+    }
+    if (settingParamsTitle) {
+      return `${settingParamsTitle} - Parameters`;
+    }
+
+    return "";
+  };
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -26,11 +40,10 @@ const HeaderContainer: FC = () => {
   return (
     <Header
       items={items}
-      title={
-        screensNamesForInput[currentScreenIndex]?.label ||
-        `${settingParamsItem?.shortDescription.default || "..."} - Parameters` ||
-        ""
-      }
+      title={getTitle(
+        screensNamesForInput[currentScreenIndex]?.label,
+        settingParamsItem?.shortDescription.default
+      )}
       userName={data.name}
     />
   );
