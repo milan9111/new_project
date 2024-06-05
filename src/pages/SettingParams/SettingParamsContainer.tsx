@@ -10,11 +10,14 @@ import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldTy
 import { EPageRoute } from "../../types/enums/EPageRoute";
 import { getDataByPath } from "../../store/actions/settingParamsActions";
 import {
+  setCurrentSelectLookups,
   setIsHelpModalOpen,
+  setSelectedPath,
   setSettingParamsItem,
 } from "../../store/reducers/SettingParamsSlice";
 import { setDefaultSelectedKeys } from "../../store/reducers/MenuSlice";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
+import { getSelectOptionsByPath } from "../../api/getSelectOptionsByPath";
 import { getPath } from "../../helpers/getPath";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
@@ -30,9 +33,12 @@ const SettingParamsContainer: FC = () => {
   const { menu, defaultOpenKeys, defaultSelectedKeys } = useAppSelector(
     (state) => state.menu
   );
-  const { settingParamsItem, loadingSettingParamsItem } = useAppSelector(
-    (state) => state.settingParams
-  );
+  const {
+    settingParamsItem,
+    loadingSettingParamsItem,
+    selectedPath,
+    currentSelectLookups,
+  } = useAppSelector((state) => state.settingParams);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
@@ -60,6 +66,7 @@ const SettingParamsContainer: FC = () => {
 
       if (menu.length && key && key.length) {
         const path = getPath(menu as any, key as string);
+        dispatch(setSelectedPath(path));
         dispatch(getDataByPath(path, abortController));
       }
     },
@@ -89,6 +96,36 @@ const SettingParamsContainer: FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settingParamsItem]);
+
+  useAbortableEffect(
+    async () => {
+      if (currentSelectLookups) {
+        for (const value of Object.values(currentSelectLookups)) {
+          if (
+            (value.index === 0 && value.options.length === 0) ||
+            (currentSelectLookups[value.filters[value.filters.length - 1]]
+              ?.selectedValue &&
+              value.options.length === 0)
+          ) {
+            const result = await getSelectOptionsByPath(
+              selectedPath,
+              value.field
+            );
+            if (result) {
+              const tempCurrentSelectLookups = { ...currentSelectLookups };
+              tempCurrentSelectLookups[value.field] = {
+                ...tempCurrentSelectLookups[value.field],
+                options: result,
+              };
+              dispatch(setCurrentSelectLookups(tempCurrentSelectLookups));
+            }
+          }
+        }
+      }
+    },
+    [currentSelectLookups],
+    []
+  );
 
   const onOpenHelpModal = () => {
     dispatch(setIsHelpModalOpen(true));
@@ -159,6 +196,12 @@ const SettingParamsContainer: FC = () => {
             <CustomSelectLookup
               key={index}
               item={item}
+              options={
+                currentSelectLookups
+                  ? currentSelectLookups[item.name].options
+                  : []
+              }
+              currentSelectLookups={currentSelectLookups}
               control={control}
               errors={errors}
             />

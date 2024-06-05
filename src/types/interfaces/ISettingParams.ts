@@ -79,3 +79,13 @@ export interface ISettingParamsItem {
 export interface IDefaultValuesSettingParams {
   [key: string]: string | boolean | number | null | undefined | Dayjs;
 }
+
+export interface ICurrentSelectLookups {
+  [key: string]: {
+    index: number;
+    field: string;
+    filters: string[];
+    options: { value: string; label: string }[];
+    selectedValue: string;
+  };
+}

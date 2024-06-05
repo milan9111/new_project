@@ -1,17 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
+import {
+  ICurrentSelectLookups,
+  ISettingParamsItem,
+} from "../../types/interfaces/ISettingParams";
+import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 
 export interface ISettingParamsSlice {
   settingParamsItem: ISettingParamsItem | null;
   loadingSettingParamsItem: boolean;
   isHelpModalOpen: boolean;
+  selectedPath: string;
+  currentSelectLookups: ICurrentSelectLookups | null;
 }
 
 const initialState: ISettingParamsSlice = {
   settingParamsItem: null,
   loadingSettingParamsItem: false,
   isHelpModalOpen: false,
+  selectedPath: "",
+  currentSelectLookups: null,
 };
 
 export const SettingParamsSlice = createSlice({
@@ -23,6 +31,25 @@ export const SettingParamsSlice = createSlice({
       action: PayloadAction<ISettingParamsItem | null>
     ): void {
       state.settingParamsItem = action.payload;
+
+      if (action.payload) {
+        const tempCurrentSelectLookups: ICurrentSelectLookups = {};
+        let index = 0;
+        action.payload.form.rows.forEach((item) => {
+          item.fields.forEach((el) => {
+            if (el.fieldType === ESettingParamsFieldType.SelectLookup) {
+              tempCurrentSelectLookups[el.name] = {
+                index: index++, 
+                field: el.name,
+                filters: el.filters,
+                options: [],
+                selectedValue: "",
+              };
+            }
+          });
+        });
+        state.currentSelectLookups = tempCurrentSelectLookups;
+      }
     },
     setLoadingSettingParamsItem(
       state: ISettingParamsSlice,
@@ -36,6 +63,18 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.isHelpModalOpen = action.payload;
     },
+    setSelectedPath(
+      state: ISettingParamsSlice,
+      action: PayloadAction<string>
+    ): void {
+      state.selectedPath = action.payload;
+    },
+    setCurrentSelectLookups(
+      state: ISettingParamsSlice,
+      action: PayloadAction<ICurrentSelectLookups | null>
+    ): void {
+      state.currentSelectLookups = action.payload;
+    },
   },
 });
 
@@ -43,5 +82,7 @@ export const {
   setSettingParamsItem,
   setLoadingSettingParamsItem,
   setIsHelpModalOpen,
+  setSelectedPath,
+  setCurrentSelectLookups,
 } = SettingParamsSlice.actions;
 export default SettingParamsSlice.reducer;

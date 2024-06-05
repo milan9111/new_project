@@ -17,7 +17,6 @@ const useHotKeys = ({
 }: UseHotKeysProps): void => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log(event.key);
       if (event.key === "Escape") {
         onFormsPage();
         return;
