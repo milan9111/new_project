@@ -39,11 +39,12 @@ export const SettingParamsSlice = createSlice({
           item.fields.forEach((el) => {
             if (el.fieldType === ESettingParamsFieldType.SelectLookup) {
               tempCurrentSelectLookups[el.name] = {
-                index: index++, 
+                index: index++,
                 field: el.name,
                 filters: el.filters,
                 options: [],
                 selectedValue: "",
+                disabled: el.filters.length ? true : false,
               };
             }
           });

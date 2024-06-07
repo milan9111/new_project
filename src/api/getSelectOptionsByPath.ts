@@ -1,12 +1,13 @@
 import { AxiosError } from "axios";
 import { notification } from "antd";
 import { requestToApi } from "../helpers/requestToApi";
+import { IPayload } from "../types/interfaces/ISettingParams";
 
 export const getSelectOptionsByPath = async (
   path: string,
-  field: string
+  field: string,
+  payload: IPayload[],
 ): Promise<{ value: string; label: string }[] | undefined> => {
-  const payload: [] = [];
   const config =
     path && field
       ? {

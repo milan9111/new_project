@@ -87,5 +87,11 @@ export interface ICurrentSelectLookups {
     filters: string[];
     options: { value: string; label: string }[];
     selectedValue: string;
+    disabled: boolean;
   };
+}
+
+export interface IPayload {
+  fieldName: string;
+  value: string;
 }
