@@ -43,7 +43,7 @@ export const SettingParamsSlice = createSlice({
                 field: el.name,
                 filters: el.filters,
                 options: [],
-                selectedValue: "",
+                selectedValue: el.default || "",
                 disabled: el.filters.length ? true : false,
               };
             }

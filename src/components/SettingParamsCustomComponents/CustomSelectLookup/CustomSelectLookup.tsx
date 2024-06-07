@@ -75,6 +75,17 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
       selectedValue: e,
     };
 
+    for (const value of Object.values(tempCurrentSelectLookups)) {
+      if (value.filters.includes(field)) {
+        tempCurrentSelectLookups[value.field] = {
+          ...tempCurrentSelectLookups[value.field],
+          options: [],
+          selectedValue: "",
+          disabled: true,
+        };
+      }
+    }
+
     const activeFilters: string[] = [];
 
     for (const value of Object.values(tempCurrentSelectLookups)) {
