@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { Select, Tooltip } from "antd";
-import { Controller, FieldErrors } from "react-hook-form";
+import { Controller, FieldErrors, UseFormReset } from "react-hook-form";
 import {
   ICurrentSelectLookups,
   IField,
@@ -18,6 +18,8 @@ interface CustomSelectLookupProps {
   options: { value: string; label: string }[];
   currentSelectLookups: ICurrentSelectLookups | null;
   selectedPath: string;
+  defaultValues: Readonly<any> | undefined;
+  reset: UseFormReset<any>;
   errors: FieldErrors<any>;
 }
 
@@ -27,6 +29,8 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
   options,
   currentSelectLookups,
   selectedPath,
+  defaultValues,
+  reset,
   errors,
 }) => {
   const [loadingOptions, setLoadingOptions] = useState<boolean>(false);
@@ -69,12 +73,14 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
   };
 
   const onChangeCurrentSelectLooks = (e: any, field: string) => {
+    // add new value
     const tempCurrentSelectLookups = { ...currentSelectLookups };
     tempCurrentSelectLookups[field] = {
       ...tempCurrentSelectLookups[field],
       selectedValue: e,
     };
 
+    // cleaning depends on filters
     for (const value of Object.values(tempCurrentSelectLookups)) {
       if (value.filters.includes(field)) {
         tempCurrentSelectLookups[value.field] = {
@@ -86,8 +92,8 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
       }
     }
 
+    // disabled or not
     const activeFilters: string[] = [];
-
     for (const value of Object.values(tempCurrentSelectLookups)) {
       if (value.selectedValue) {
         activeFilters.push(value.field);
@@ -108,6 +114,14 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
       };
     }
 
+    // set to react-hook-form store
+    const newDefaultValues = { ...defaultValues };
+    for (const value of Object.values(tempCurrentSelectLookups)) {
+      newDefaultValues[value.field] = value.selectedValue;
+    }
+    reset(newDefaultValues);
+
+    // set to redux store
     dispatch(setCurrentSelectLookups(tempCurrentSelectLookups));
   };
 
@@ -131,14 +145,13 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
         rules={{
           required: item.required || false,
         }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { value } }) => (
           <Tooltip title={item.comments || ""} color="geekblue">
             <div>
               <Select
                 id={item.name}
                 className={styles.select}
                 onChange={(e) => {
-                  onChange(e);
                   onChangeCurrentSelectLooks(e, item.name);
                 }}
                 onFocus={() => {

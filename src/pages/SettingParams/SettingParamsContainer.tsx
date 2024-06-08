@@ -46,7 +46,7 @@ const SettingParamsContainer: FC = () => {
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useForm<any>({
     mode: "onBlur",
   });
@@ -89,7 +89,6 @@ const SettingParamsContainer: FC = () => {
           }
         });
       });
-
       reset(defaultValuesSettingParams);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,6 +172,8 @@ const SettingParamsContainer: FC = () => {
               }
               currentSelectLookups={currentSelectLookups}
               selectedPath={selectedPath}
+              defaultValues={defaultValues}
+              reset={reset}
               control={control}
               errors={errors}
             />
