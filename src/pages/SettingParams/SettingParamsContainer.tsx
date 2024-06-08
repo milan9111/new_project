@@ -94,7 +94,7 @@ const SettingParamsContainer: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settingParamsItem]);
 
-  console.log(currentSelectLookups);
+  //console.log(currentSelectLookups);
 
   const onOpenHelpModal = () => {
     dispatch(setIsHelpModalOpen(true));
@@ -116,7 +116,7 @@ const SettingParamsContainer: FC = () => {
     onFinish: onFinishSetting,
   });
 
-  //console.log(settingParamsItem);
+  console.log(settingParamsItem);
 
   const renderRow = (fields: IField[]) => {
     if (fields.length) {

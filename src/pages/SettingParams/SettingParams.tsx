@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Button, ConfigProvider, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
@@ -61,8 +61,20 @@ const SettingParams: FC<SettingParamsProps> = ({
                 <button ref={formSubmit} className={styles.formSubmit}></button>
               </form>
               <p className={styles.execBin}>
-                ExecBin: {settingParamsItem.execBin.default}
+                ExecBin: {settingParamsItem.execBin?.default || ""}
               </p>
+              {settingParamsItem.warn ? (
+                <div className={styles.warnBox}>
+                  <div className={styles.warnIcon}>
+                    <InfoCircleOutlined
+                      style={{ fontSize: 24, color: "#ffffff" }}
+                    />
+                  </div>
+                  <p className={styles.warnText}>
+                    {settingParamsItem.warn.default}
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : null}
           <HelpModalContainer />

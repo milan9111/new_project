@@ -3,6 +3,10 @@
   min-height: 80vh;
 }
 
+.container {
+  position: relative;
+}
+
 .menu {
   display: flex;
   flex-direction: row;
@@ -28,33 +32,33 @@
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .emptyRow {
-    width: 100%;
+  width: 100%;
 }
 
 .titleRow {
-    width: 100%;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 0px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0px;
 }
 
 .label {
-    font-size: 16px;
-    width: 150px;
-    text-align: end;
+  font-size: 16px;
+  width: 150px;
+  text-align: end;
 
-    &:hover {
-      cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .formSubmit {
@@ -65,4 +69,26 @@
   text-align: center;
   margin-top: 15px;
   color: #002140;
+}
+
+.warnBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  padding: 12px 20px 13px 20px;
+  background-color: #2f54eb;
+
+  position: fixed;
+  bottom: 0;
+  margin-left: -24px;
+}
+
+.warnText {
+  width: 50%;
+  margin-bottom: 0px;
+  color: #ffffff;
+  font-weight: 600;
 }

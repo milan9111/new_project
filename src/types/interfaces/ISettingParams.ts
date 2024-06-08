@@ -14,6 +14,11 @@ interface IExecBin {
   default: string;
 }
 
+interface IWarn {
+  optional: boolean;
+  default: string;
+}
+
 export interface IField {
   fieldType: number;
   upShift?: boolean | null;
@@ -68,12 +73,12 @@ interface IOutput {
 export interface ISettingParamsItem {
   help: string[];
   sizeOpt: ISizeOpt;
-  execBin: IExecBin;
+  execBin: IExecBin | null;
   form: IForm;
   shortDescription: IShortDescription;
   scheduleProcess: IScheduleProcess;
   output: IOutput;
-  warn?: any | null;
+  warn?: IWarn | null;
 }
 
 export interface IDefaultValuesSettingParams {
