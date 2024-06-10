@@ -36,7 +36,6 @@ import Forms from "./Forms";
 
 const FormsContainer: FC = () => {
   const {
-    screensNames,
     screensNamesForInput,
     selectedScreen,
     maxScreenIndex,
@@ -65,7 +64,7 @@ const FormsContainer: FC = () => {
       const screens = await dispatch(getScreens(abortController));
 
       if (screens.length) {
-        dispatch(getScreen(screens[currentScreenIndex], abortController));
+        dispatch(getScreen(screens[currentScreenIndex].value, abortController));
       }
       dispatch(setDefaultOpenKeys([]));
       dispatch(setDefaultSelectedKeys([]));
@@ -109,7 +108,9 @@ const FormsContainer: FC = () => {
     dispatch(setCurrentScreenIndex(newScreenIndex));
 
     const abortController = new AbortController();
-    dispatch(getScreen(screensNames[newScreenIndex], abortController));
+    dispatch(
+      getScreen(screensNamesForInput[newScreenIndex].value, abortController)
+    );
   };
 
   const onNextForm = () => {
@@ -120,17 +121,23 @@ const FormsContainer: FC = () => {
     dispatch(setCurrentScreenIndex(newScreenIndex));
 
     const abortController = new AbortController();
-    dispatch(getScreen(screensNames[newScreenIndex], abortController));
+    dispatch(
+      getScreen(screensNamesForInput[newScreenIndex].value, abortController)
+    );
   };
 
   const handleChangeForm = async (value: number) => {
     dispatch(setNumberOfRowsWithoutRepeats([]));
     reset();
 
-    dispatch(setCurrentScreenIndex(value));
+    screensNamesForInput.forEach((item, index) => {
+      if (item.value === value) {
+        dispatch(setCurrentScreenIndex(index));
+      }
+    });
 
     const abortController = new AbortController();
-    dispatch(getScreen(screensNames[value], abortController));
+    dispatch(getScreen(value, abortController));
   };
 
   useHotKeys({
@@ -147,7 +154,7 @@ const FormsContainer: FC = () => {
         getFieldsByAttributeName(
           attributeName,
           e,
-          screensNames[currentScreenIndex]
+          screensNamesForInput[currentScreenIndex].value
         )
       );
 
@@ -168,7 +175,9 @@ const FormsContainer: FC = () => {
   const onResetForm = () => {
     const abortController = new AbortController();
 
-    dispatch(getScreen(screensNames[currentScreenIndex], abortController));
+    dispatch(
+      getScreen(screensNamesForInput[currentScreenIndex].value, abortController)
+    );
   };
 
   const getRelevantNode = (item: IField) => {

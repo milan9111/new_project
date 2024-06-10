@@ -1,17 +1,22 @@
 import { AxiosError } from "axios";
 import { notification } from "antd";
 import { AppDispatch } from "../store";
-import { IField } from "../../types/interfaces/IScreenData";
+import {
+  IField,
+  IResponseScreen,
+  ISelectScreen,
+} from "../../types/interfaces/IScreenData";
 import { requestToApi } from "../../helpers/requestToApi";
 import {
   setLoadingForm,
-  setScreensNames,
+  setMaxScreenIndex,
+  setScreensNamesForInput,
   setSelectedScreen,
 } from "../reducers/FormsSlice";
 
 export const getScreens =
   (abortController: AbortController) =>
-  async (dispatch: AppDispatch): Promise<string[] | []> => {
+  async (dispatch: AppDispatch): Promise<ISelectScreen[] | []> => {
     dispatch(setLoadingForm(true));
     try {
       const { data, status } = await requestToApi({
@@ -21,9 +26,20 @@ export const getScreens =
       });
 
       if (status === 200) {
-        const { screens }: { screens: string[] } = data;
-        dispatch(setScreensNames(screens));
-        return screens;
+        const { screens }: { screens: IResponseScreen[] } = data;
+
+        if (screens.length) {
+          dispatch(setMaxScreenIndex(screens.length - 1));
+          const screensNamesForInput = screens.map((item) => ({
+            label: item.name,
+            value: item.id,
+          }));
+          dispatch(setScreensNamesForInput(screensNamesForInput));
+
+          return screensNamesForInput;
+        }
+
+        return [];
       }
 
       dispatch(setLoadingForm(false));
@@ -41,12 +57,12 @@ export const getScreens =
   };
 
 export const getScreen =
-  (admit: string, abortController: AbortController) =>
+  (id: number, abortController: AbortController) =>
   async (dispatch: AppDispatch): Promise<number | undefined> => {
     dispatch(setLoadingForm(true));
     try {
       const { data, status } = await requestToApi({
-        url: `/api/screens/v1/${admit}`,
+        url: `/api/screens/v1/${id}`,
         abortController,
         config: {},
       });
@@ -68,7 +84,7 @@ export const getScreen =
   };
 
 export const getFieldsByAttributeName =
-  (name: string | null, value: string, id: string) =>
+  (name: string | null, value: string, id: number) =>
   async (dispatch: AppDispatch): Promise<IField[]> => {
     dispatch(setLoadingForm(true));
     const payload = { name, value };

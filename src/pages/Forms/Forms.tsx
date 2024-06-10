@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Button, ConfigProvider, Select, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
-import { ISelectScreens } from "../../types/interfaces/IScreenData";
+import { ISelectScreen } from "../../types/interfaces/IScreenData";
 import styles from "./forms.module.scss";
 
 interface FormsProps {
@@ -12,9 +12,9 @@ interface FormsProps {
   maxScreenIndex: number;
   onPrevForm: () => void;
   onNextForm: () => void;
-  screensNamesForInput: ISelectScreens[];
+  screensNamesForInput: ISelectScreen[];
   handleChangeForm:
-    | ((value: number, option: ISelectScreens | ISelectScreens[]) => void)
+    | ((value: number, option: ISelectScreen | ISelectScreen[]) => void)
     | undefined;
   loadingForm: boolean;
   handleSubmit: UseFormHandleSubmit<any, undefined>;

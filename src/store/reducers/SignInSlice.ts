@@ -10,7 +10,7 @@ interface ISignInInitState {
 const initialState: ISignInInitState = {
   data: {
     token: "",
-    name: "Jon Snow", // then ""
+    name: "Super User", // then ""
     email: "",
     id: "", 
   },

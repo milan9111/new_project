@@ -31,13 +31,18 @@ export interface IField {
   key: boolean;
 }
 
+export interface IResponseScreen {
+  id: number;
+  name: string;
+}
+
 export interface IScreen {
   name: string;
   fileName: string;
   fields: IField[];
 }
 
-export interface ISelectScreens {
+export interface ISelectScreen {
   label: string;
   value: number;
 }

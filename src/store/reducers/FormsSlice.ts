@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IScreen, ISelectScreens } from "../../types/interfaces/IScreenData";
+import { IScreen, ISelectScreen } from "../../types/interfaces/IScreenData";
 
 export interface IFormsSlice {
-  screensNames: string[];
-  screensNamesForInput: ISelectScreens[];
+  screensNamesForInput: ISelectScreen[];
   loadingForm: boolean;
   currentScreenIndex: number;
   maxScreenIndex: number;
@@ -12,7 +11,6 @@ export interface IFormsSlice {
 }
 
 const initialState: IFormsSlice = {
-  screensNames: [],
   screensNamesForInput: [],
   loadingForm: false,
   currentScreenIndex: 0,
@@ -25,20 +23,9 @@ export const FormsSlice = createSlice({
   name: "forms",
   initialState,
   reducers: {
-    setScreensNames(state: IFormsSlice, action: PayloadAction<string[]>): void {
-      state.screensNames = action.payload;
-
-      if (action.payload.length) {
-        state.maxScreenIndex = action.payload.length - 1;
-        state.screensNamesForInput = action.payload.map((item, index) => ({
-          label: item,
-          value: index,
-        }));
-      }
-    },
     setScreensNamesForInput(
       state: IFormsSlice,
-      action: PayloadAction<ISelectScreens[]>
+      action: PayloadAction<ISelectScreen[]>
     ): void {
       state.screensNamesForInput = action.payload;
     },
@@ -70,7 +57,6 @@ export const FormsSlice = createSlice({
 });
 
 export const {
-  setScreensNames,
   setScreensNamesForInput,
   setLoadingForm,
   setCurrentScreenIndex,
