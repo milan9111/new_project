@@ -31,7 +31,7 @@ export const getScreens =
         if (screens.length) {
           dispatch(setMaxScreenIndex(screens.length - 1));
           const screensNamesForInput = screens.map((item) => ({
-            label: item.name,
+            label: item.name.replace(/[-=]/g, ""),
             value: item.id,
           }));
           dispatch(setScreensNamesForInput(screensNamesForInput));
