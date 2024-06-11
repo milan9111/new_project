@@ -5,6 +5,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { ISelectScreen } from "../../types/interfaces/IScreenData";
 import styles from "./forms.module.scss";
+import ReviewModalContainer from "../../components/ReviewModal/ReviewModalContainer";
 
 interface FormsProps {
   showRows: JSX.Element[];
@@ -20,6 +21,7 @@ interface FormsProps {
   handleSubmit: UseFormHandleSubmit<any, undefined>;
   onResetForm: () => void;
   onSubmit: SubmitHandler<any>;
+  onOpenReviewModal: () => void;
 }
 
 const Forms: FC<FormsProps> = ({
@@ -34,6 +36,7 @@ const Forms: FC<FormsProps> = ({
   handleSubmit,
   onResetForm,
   onSubmit,
+  onOpenReviewModal,
 }) => {
   return (
     <ConfigProvider wave={{ disabled: true }}>
@@ -43,6 +46,11 @@ const Forms: FC<FormsProps> = ({
       >
         <section className={styles.forms}>
           <div className={styles.container}>
+            <div className={styles.menu}>
+              <Button type="primary" onClick={() => onOpenReviewModal()}>
+                Review
+              </Button>
+            </div>
             <div className={styles.changeCurrentFormBox}>
               <Button
                 type="primary"
@@ -91,6 +99,7 @@ const Forms: FC<FormsProps> = ({
               ) : null}
             </form>
           </div>
+          <ReviewModalContainer />
         </section>
       </Spin>
     </ConfigProvider>

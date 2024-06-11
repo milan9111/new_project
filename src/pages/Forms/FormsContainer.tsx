@@ -14,6 +14,7 @@ import {
 } from "../../store/actions/formsActions";
 import {
   setCurrentScreenIndex,
+  setIsReviewModalOpen,
   setLoadingForm,
   setNumberOfRowsWithoutRepeats,
   setScreensNamesForInput,
@@ -191,6 +192,10 @@ const FormsContainer: FC = () => {
     );
   };
 
+  const onOpenReviewModal = () => {
+    dispatch(setIsReviewModalOpen(true));
+  };
+
   const getRelevantNode = (item: IField) => {
     const hasAttributeName = item.attributeName;
 
@@ -267,6 +272,7 @@ const FormsContainer: FC = () => {
         handleSubmit={handleSubmit}
         onResetForm={onResetForm}
         onSubmit={onSubmit}
+        onOpenReviewModal={onOpenReviewModal}
       />
     </LayoutContainer>
   );

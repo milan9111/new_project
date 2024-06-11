@@ -8,6 +8,7 @@ export interface IFormsSlice {
   maxScreenIndex: number;
   selectedScreen: IScreen | null;
   numberOfRowsWithoutRepeats: number[];
+  isReviewModalOpen: boolean;
 }
 
 const initialState: IFormsSlice = {
@@ -17,6 +18,7 @@ const initialState: IFormsSlice = {
   maxScreenIndex: 0,
   selectedScreen: null,
   numberOfRowsWithoutRepeats: [],
+  isReviewModalOpen: false,
 };
 
 export const FormsSlice = createSlice({
@@ -53,6 +55,12 @@ export const FormsSlice = createSlice({
     ): void {
       state.numberOfRowsWithoutRepeats = action.payload;
     },
+    setIsReviewModalOpen(
+      state: IFormsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.isReviewModalOpen = action.payload;
+    }
   },
 });
 
@@ -63,5 +71,6 @@ export const {
   setMaxScreenIndex,
   setSelectedScreen,
   setNumberOfRowsWithoutRepeats,
+  setIsReviewModalOpen,
 } = FormsSlice.actions;
 export default FormsSlice.reducer;
