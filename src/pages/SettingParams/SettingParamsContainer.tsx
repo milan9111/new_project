@@ -131,7 +131,7 @@ const SettingParamsContainer: FC = () => {
   useHotKeys({
     onHelpModal: settingParamsItem?.help?.length ? onOpenHelpModal : () => {},
     onFormsPage: goToFormsPage,
-    onFinish: onFinishSetting,
+    onFinish: settingParamsItem?.screenId ? onFinishSetting : () => {},
   });
 
   console.log(settingParamsItem);

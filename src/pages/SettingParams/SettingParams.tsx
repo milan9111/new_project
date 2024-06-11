@@ -40,7 +40,12 @@ const SettingParams: FC<SettingParamsProps> = ({
           {settingParamsItem ? (
             <div className={styles.container}>
               <div className={styles.menu}>
-                <Button onClick={() => onFinishSetting()}>Finish (F9)</Button>
+                <Button
+                  onClick={() => onFinishSetting()}
+                  disabled={!settingParamsItem.screenId}
+                >
+                  Finish (F9)
+                </Button>
                 <Button onClick={() => goToFormsPage()}>Cancel (ESC)</Button>
                 {settingParamsItem?.help?.length ? (
                   <Button onClick={() => onOpenHelpModal()}>
