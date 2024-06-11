@@ -26,6 +26,7 @@ import CustomSelectInclude from "../../components/SettingParamsCustomComponents/
 import CustomSelectLookup from "../../components/SettingParamsCustomComponents/CustomSelectLookup/CustomSelectLookup";
 import SettingParams from "./SettingParams";
 import styles from "./settingParams.module.scss";
+import { setCurrentScreenIndex } from "../../store/reducers/FormsSlice";
 
 const SettingParamsContainer: FC = () => {
   const { menu, defaultOpenKeys, defaultSelectedKeys } = useAppSelector(
@@ -37,6 +38,7 @@ const SettingParamsContainer: FC = () => {
     selectedPath,
     currentSelectLookups,
   } = useAppSelector((state) => state.settingParams);
+  const { screensNamesForInput } = useAppSelector((state) => state.forms);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
@@ -107,6 +109,18 @@ const SettingParamsContainer: FC = () => {
   const onFinishSetting = () => {
     if (formSubmit.current) {
       formSubmit.current.click();
+
+      if (settingParamsItem?.screenId) {
+
+        if(screensNamesForInput.length) {
+          screensNamesForInput.forEach((item, index) => {
+            if (item.value === settingParamsItem?.screenId) {
+              dispatch(setCurrentScreenIndex(index));
+            }
+          });
+        }
+        console.log(settingParamsItem.screenId);
+      }
     }
   };
 

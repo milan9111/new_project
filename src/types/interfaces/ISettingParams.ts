@@ -77,6 +77,7 @@ export interface ISettingParamsItem {
   form: IForm;
   shortDescription: IShortDescription;
   scheduleProcess: IScheduleProcess;
+  screenId: number | null;
   output: IOutput;
   warn?: IWarn | null;
 }

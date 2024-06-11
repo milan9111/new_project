@@ -63,7 +63,11 @@ const Forms: FC<FormsProps> = ({
                 style={{ width: 120 }}
                 showSearch
                 onChange={handleChangeForm}
-                value={screensNamesForInput.length ? currentScreenIndex : null}
+                value={
+                  screensNamesForInput.length
+                    ? screensNamesForInput[currentScreenIndex].value
+                    : null
+                }
                 options={screensNamesForInput}
                 placeholder={!screensNamesForInput.length && "Loading..."}
                 filterOption={(input, option) =>
