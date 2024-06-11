@@ -61,10 +61,21 @@ const FormsContainer: FC = () => {
 
   useAbortableEffect(
     async (abortController: AbortController) => {
-      const screens = await dispatch(getScreens(abortController));
+      if (!screensNamesForInput.length) {
+        const screens = await dispatch(getScreens(abortController));
 
-      if (screens.length) {
-        dispatch(getScreen(screens[currentScreenIndex].value, abortController));
+        if (screens.length) {
+          dispatch(
+            getScreen(screens[currentScreenIndex].value, abortController)
+          );
+        }
+      } else {
+        dispatch(
+          getScreen(
+            screensNamesForInput[currentScreenIndex].value,
+            abortController
+          )
+        );
       }
       dispatch(setDefaultOpenKeys([]));
       dispatch(setDefaultSelectedKeys([]));

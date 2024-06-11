@@ -9,12 +9,14 @@ import {
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 import { EPageRoute } from "../../types/enums/EPageRoute";
 import { getDataByPath } from "../../store/actions/settingParamsActions";
+import { getScreens } from "../../store/actions/formsActions";
 import {
   setIsHelpModalOpen,
   setSelectedPath,
   setSettingParamsItem,
 } from "../../store/reducers/SettingParamsSlice";
 import { setDefaultSelectedKeys } from "../../store/reducers/MenuSlice";
+import { setCurrentScreenIndex } from "../../store/reducers/FormsSlice";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
 import { getPath } from "../../helpers/getPath";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
@@ -26,7 +28,6 @@ import CustomSelectInclude from "../../components/SettingParamsCustomComponents/
 import CustomSelectLookup from "../../components/SettingParamsCustomComponents/CustomSelectLookup/CustomSelectLookup";
 import SettingParams from "./SettingParams";
 import styles from "./settingParams.module.scss";
-import { setCurrentScreenIndex } from "../../store/reducers/FormsSlice";
 
 const SettingParamsContainer: FC = () => {
   const { menu, defaultOpenKeys, defaultSelectedKeys } = useAppSelector(
@@ -38,7 +39,6 @@ const SettingParamsContainer: FC = () => {
     selectedPath,
     currentSelectLookups,
   } = useAppSelector((state) => state.settingParams);
-  const { screensNamesForInput } = useAppSelector((state) => state.forms);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
@@ -106,20 +106,24 @@ const SettingParamsContainer: FC = () => {
     navigate(EPageRoute.FORMS_PAGE_ROUTE);
   };
 
-  const onFinishSetting = () => {
+  const onFinishSetting = async () => {
     if (formSubmit.current) {
       formSubmit.current.click();
 
       if (settingParamsItem?.screenId) {
-
-        if(screensNamesForInput.length) {
-          screensNamesForInput.forEach((item, index) => {
+        const abortController = new AbortController();
+        const screens = await dispatch(getScreens(abortController));
+        if (screens.length) {
+          screens.forEach((item, index) => {
             if (item.value === settingParamsItem?.screenId) {
               dispatch(setCurrentScreenIndex(index));
             }
           });
         }
-        console.log(settingParamsItem.screenId);
+        navigate(EPageRoute.FORMS_PAGE_ROUTE);
+      } else {
+        dispatch(setCurrentScreenIndex(0));
+        navigate(EPageRoute.FORMS_PAGE_ROUTE);
       }
     }
   };
