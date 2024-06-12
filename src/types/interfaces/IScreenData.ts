@@ -52,7 +52,7 @@ export interface IDefaultValuesScreen {
 }
 
 export interface IFormReviewModal {
-  department: "string";
-  userName: "string";
-  reasonForUse: "string";
+  department: string;
+  userName: string;
+  reasonForUse: string;
 }

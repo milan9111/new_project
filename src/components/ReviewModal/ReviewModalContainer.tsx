@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IFormReviewModal } from "../../types/interfaces/IScreenData";
 import { sendReviewModalData } from "../../api/sendReviewModalData";
@@ -28,25 +28,59 @@ const ReviewModalContainer: FC = () => {
     mode: "onBlur",
   });
 
+  useEffect(() => {
+    if (isReviewModalOpen) {
+      const reviewModalString = localStorage.getItem("reviewModal");
+      if (reviewModalString) {
+        reset({ ...JSON.parse(reviewModalString), reasonForUse: "" });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReviewModalOpen]);
+
   const onSubmit = async (data: IFormReviewModal) => {
     dispatch(setLoadingReviewModal(true));
+
+    const { department, userName } = data;
+    localStorage.setItem(
+      "reviewModal",
+      JSON.stringify({ department, userName })
+    );
+
     await sendReviewModalData(
       screensNamesForInput[currentScreenIndex].value,
       data
     );
+
     dispatch(setLoadingReviewModal(false));
     dispatch(setIsReviewModalOpen(false));
-    reset();
+    reset({
+      department: "",
+      userName: "",
+      reasonForUse: "",
+    });
   };
 
   const handleReviewModalCancel = () => {
     dispatch(setIsReviewModalOpen(false));
-    reset();
+    reset({
+      department: "",
+      userName: "",
+      reasonForUse: "",
+    });
   };
 
   const handleReviewModalSave = () => {
     if (formSubmit.current) {
       formSubmit.current?.click();
+    }
+  };
+
+  const onClearLocalStorage = (value: string) => {
+    const reviewModalString = localStorage.getItem("reviewModal");
+    if (reviewModalString) {
+      const newReviewModal = { ...JSON.parse(reviewModalString), [value]: "" };
+      localStorage.setItem("reviewModal", JSON.stringify(newReviewModal));
     }
   };
 
@@ -60,6 +94,7 @@ const ReviewModalContainer: FC = () => {
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       formSubmit={formSubmit}
+      onClearLocalStorage={onClearLocalStorage}
       loadingReviewModal={loadingReviewModal}
     />
   );

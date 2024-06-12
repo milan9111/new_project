@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Input, Modal } from "antd";
+import { CloseCircleFilled } from "@ant-design/icons";
 import {
   Controller,
   FieldErrors,
@@ -18,6 +19,7 @@ interface ReviewModalProps {
   handleSubmit: UseFormHandleSubmit<any, undefined>;
   onSubmit: SubmitHandler<any>;
   formSubmit: React.MutableRefObject<HTMLButtonElement | null>;
+  onClearLocalStorage: (value: string) => void;
   loadingReviewModal: boolean;
 }
 
@@ -30,6 +32,7 @@ const ReviewModal: FC<ReviewModalProps> = ({
   handleSubmit,
   onSubmit,
   formSubmit,
+  onClearLocalStorage,
   loadingReviewModal,
 }) => {
   return (
@@ -50,6 +53,8 @@ const ReviewModal: FC<ReviewModalProps> = ({
               control={control}
               rules={{
                 required: true,
+                minLength: 1,
+                pattern: /^(?!\s*$).+/,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
@@ -58,11 +63,22 @@ const ReviewModal: FC<ReviewModalProps> = ({
                   onChange={(e) => onChange(e)}
                   value={value}
                   status={errors.department ? "error" : ""}
+                  allowClear={{
+                    clearIcon: (
+                      <CloseCircleFilled
+                        style={{ color: "#ff000080" }}
+                        onClick={() => onClearLocalStorage("department")}
+                      />
+                    ),
+                  }}
                 />
               )}
             />
             {errors.department?.type === "required" && (
               <div className={styles.errorMessage}>This field is required</div>
+            )}
+            {errors.department?.type === "pattern" && (
+              <div className={styles.errorMessage}>This field is empty</div>
             )}
           </div>
           <div className={styles.inputBox}>
@@ -72,6 +88,8 @@ const ReviewModal: FC<ReviewModalProps> = ({
               control={control}
               rules={{
                 required: true,
+                minLength: 1,
+                pattern: /^(?!\s*$).+/,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
@@ -80,11 +98,22 @@ const ReviewModal: FC<ReviewModalProps> = ({
                   onChange={(e) => onChange(e)}
                   value={value}
                   status={errors.userName ? "error" : ""}
+                  allowClear={{
+                    clearIcon: (
+                      <CloseCircleFilled
+                        style={{ color: "#ff000080" }}
+                        onClick={() => onClearLocalStorage("userName")}
+                      />
+                    ),
+                  }}
                 />
               )}
             />
             {errors.userName?.type === "required" && (
               <div className={styles.errorMessage}>This field is required</div>
+            )}
+            {errors.userName?.type === "pattern" && (
+              <div className={styles.errorMessage}>This field is empty</div>
             )}
           </div>
           <div className={styles.inputBox}>
@@ -94,6 +123,8 @@ const ReviewModal: FC<ReviewModalProps> = ({
               control={control}
               rules={{
                 required: true,
+                minLength: 1,
+                pattern: /^(?!\s*$).+/,
               }}
               render={({ field: { onChange, value } }) => (
                 <Input
@@ -107,6 +138,9 @@ const ReviewModal: FC<ReviewModalProps> = ({
             />
             {errors.reasonForUse?.type === "required" && (
               <div className={styles.errorMessage}>This field is required</div>
+            )}
+            {errors.reasonForUse?.type === "pattern" && (
+              <div className={styles.errorMessage}>This field is empty</div>
             )}
           </div>
           <button ref={formSubmit} className={styles.formSubmit}></button>
