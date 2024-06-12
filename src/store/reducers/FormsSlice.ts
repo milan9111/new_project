@@ -9,6 +9,7 @@ export interface IFormsSlice {
   selectedScreen: IScreen | null;
   numberOfRowsWithoutRepeats: number[];
   isReviewModalOpen: boolean;
+  loadingReviewModal: boolean;
 }
 
 const initialState: IFormsSlice = {
@@ -19,6 +20,7 @@ const initialState: IFormsSlice = {
   selectedScreen: null,
   numberOfRowsWithoutRepeats: [],
   isReviewModalOpen: false,
+  loadingReviewModal: false,
 };
 
 export const FormsSlice = createSlice({
@@ -60,6 +62,12 @@ export const FormsSlice = createSlice({
       action: PayloadAction<boolean>
     ): void {
       state.isReviewModalOpen = action.payload;
+    },
+    setLoadingReviewModal(
+      state: IFormsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.loadingReviewModal = action.payload;
     }
   },
 });
@@ -72,5 +80,6 @@ export const {
   setSelectedScreen,
   setNumberOfRowsWithoutRepeats,
   setIsReviewModalOpen,
+  setLoadingReviewModal,
 } = FormsSlice.actions;
 export default FormsSlice.reducer;
