@@ -1,14 +1,9 @@
-interface MenuItem {
-  key: string;
-  label: string;
-  path: string;
-  children: MenuItem[] | null;
-}
+import { IMenuItem } from "../types/interfaces/MenuItem";
 
-export const getPath = (menu: MenuItem[], key: string): string => {
+export const getPath = (menu: IMenuItem[], key: string): string => {
   let path = "";
 
-  const findPath = (menu: MenuItem[]) => {
+  const findPath = (menu: IMenuItem[]) => {
     for (const item of menu) {
       if (item.key === key) {
         path = item.path;

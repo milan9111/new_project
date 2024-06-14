@@ -3,11 +3,11 @@ import { notification } from "antd";
 import { AppDispatch } from "../store";
 import { requestToApi } from "../../helpers/requestToApi";
 import { setLoadingMenu, setMenu } from "../reducers/MenuSlice";
-import { MenuItem } from "../../types/interfaces/MenuItem";
+import { IMenuItem } from "../../types/interfaces/MenuItem";
 
 export const getMenu =
   (abortController: AbortController) =>
-  async (dispatch: AppDispatch): Promise<MenuItem[] | []> => {
+  async (dispatch: AppDispatch): Promise<IMenuItem[] | []> => {
     dispatch(setLoadingMenu(true));
     try {
       const { data, status } = await requestToApi({
@@ -17,7 +17,7 @@ export const getMenu =
       });
 
       if (status === 200) {
-        dispatch(setMenu(data)); // we can use changeMenuLastChild func
+        dispatch(setMenu(data));
         dispatch(setLoadingMenu(false));
         return data;
       }

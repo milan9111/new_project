@@ -1,15 +1,10 @@
-interface MenuItem {
-  key: string;
-  label: string;
-  children: MenuItem[] | null;
-  path: string;
-}
+import { IMenuItem } from "../types/interfaces/MenuItem";
 
 export const searchMenuByLabel = (
-  menu: MenuItem[],
+  menu: IMenuItem[],
   label: string
-): MenuItem[] => {
-  const result: MenuItem[] = [];
+): IMenuItem[] => {
+  const result: IMenuItem[] = [];
   const lowerCaseLabel = label.toLowerCase();
 
   menu.forEach((item) => {

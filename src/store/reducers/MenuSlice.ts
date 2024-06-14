@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { MenuItem } from "../../types/interfaces/MenuItem";
+import { IMenuItem } from "../../types/interfaces/MenuItem";
 import { searchMenuByLabel } from "../../helpers/searchMenuByLabel";
 
 export interface IMenuSlice {
-  menu: MenuItem[];
-  filteredMenu: MenuItem[];
+  menu: IMenuItem[];
+  filteredMenu: IMenuItem[];
+  shownMenu: IMenuItem[];
   loadingMenu: boolean;
   searchValue: string;
   searchLoading: boolean;
@@ -16,6 +17,7 @@ export interface IMenuSlice {
 const initialState: IMenuSlice = {
   menu: [],
   filteredMenu: [],
+  shownMenu: [],
   loadingMenu: false,
   searchValue: "",
   searchLoading: false,
@@ -27,12 +29,26 @@ export const MenuSlice = createSlice({
   name: "menu",
   initialState,
   reducers: {
-    setMenu(state: IMenuSlice, action: PayloadAction<MenuItem[]>): void {
+    setMenu(state: IMenuSlice, action: PayloadAction<IMenuItem[]>): void {
       state.menu = action.payload;
+
+      const menu = [...action.payload];
+
+      const shownMenu = menu.map((item) => {
+        return {
+          ...item,
+          children: item.children ? [] : null,
+        };
+      });
+
+      state.shownMenu = shownMenu;
     },
     setFilteredMenu(state: IMenuSlice): void {
       const menu = [...state.menu];
       state.filteredMenu = searchMenuByLabel(menu as any, state.searchValue);
+    },
+    setShownMenu(state: IMenuSlice, action: PayloadAction<IMenuItem[]>): void {
+      state.shownMenu = action.payload;
     },
     setLoadingMenu(state: IMenuSlice, action: PayloadAction<boolean>): void {
       state.loadingMenu = action.payload;
@@ -47,6 +63,7 @@ export const MenuSlice = createSlice({
       state: IMenuSlice,
       action: PayloadAction<string[]>
     ): void {
+      console.log(action.payload);
       state.defaultOpenKeys = action.payload;
     },
     setDefaultSelectedKeys(
@@ -61,6 +78,7 @@ export const MenuSlice = createSlice({
 export const {
   setMenu,
   setFilteredMenu,
+  setShownMenu,
   setLoadingMenu,
   setSearchValue,
   setSearchLoading,
