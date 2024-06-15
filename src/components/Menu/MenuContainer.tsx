@@ -67,9 +67,6 @@ const MenuContainer: FC = () => {
     dispatch(setDefaultOpenKeys(e));
   };
 
-  console.log(defaultOpenKeys);
-  console.log(defaultSelectedKeys);
-
   return (
     <Menu
       items={searchValue.length ? filteredMenu : shownMenu}

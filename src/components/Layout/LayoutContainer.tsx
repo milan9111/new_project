@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
-  setShownMenu,
 } from "../../store/reducers/MenuSlice";
 
 interface LayoutContainerProps {
@@ -12,19 +11,12 @@ interface LayoutContainerProps {
 }
 
 const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
-  const { menu, loadingMenu } = useAppSelector((state) => state.menu);
+  const { loadingMenu } = useAppSelector((state) => state.menu);
   const dispatch = useAppDispatch();
 
   const onClearMenu = () => {
-    const shownMenu = menu.map((item) => {
-      return {
-        ...item,
-        children: item.children ? [] : null,
-      };
-    });
     dispatch(setDefaultOpenKeys([]));
     dispatch(setDefaultSelectedKeys([]));
-    dispatch(setShownMenu(shownMenu));
   };
 
   return (

@@ -62,10 +62,8 @@ const Menu: FC<MenuProps> = ({
           items={items}
           onSelect={(e) => onSelectMenuItem(e)}
           onOpenChange={(e) => onChangeMenuItem(e)}
-          openKeys={defaultOpenKeys.length ? defaultOpenKeys : undefined}
-          selectedKeys={
-            defaultSelectedKeys.length ? defaultSelectedKeys : undefined
-          }
+          openKeys={defaultOpenKeys}
+          selectedKeys={defaultSelectedKeys}
         />
       )}
     </div>
