@@ -8,16 +8,20 @@ import MenuContainer from "../Menu/MenuContainer";
 import FooterContainer from "../Footer/FooterContainer";
 import styles from "./layout.module.scss";
 
-
 interface LayoutProps {
   children: ReactNode;
   loadingMenu: boolean;
+  onClearMenu: () => void;
 }
 
-const Layout: FC<LayoutProps> = ({ children, loadingMenu }) => {
+const Layout: FC<LayoutProps> = ({ children, loadingMenu, onClearMenu }) => {
   return (
     <AntdLayout className={styles.layout}>
-      <Sider width={350} collapsible={!loadingMenu}>
+      <Sider
+        width={350}
+        collapsible={!loadingMenu}
+        onCollapse={() => onClearMenu()}
+      >
         {loadingMenu && (
           <div className={styles.spinBox}>
             <Spin

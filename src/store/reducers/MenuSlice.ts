@@ -63,7 +63,6 @@ export const MenuSlice = createSlice({
       state: IMenuSlice,
       action: PayloadAction<string[]>
     ): void {
-      console.log(action.payload);
       state.defaultOpenKeys = action.payload;
     },
     setDefaultSelectedKeys(

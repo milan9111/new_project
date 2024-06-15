@@ -14,6 +14,7 @@ import {
 } from "../../store/reducers/MenuSlice";
 import { debouncing } from "../../helpers/debouncing";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
+import useCloneShowMenu from "../../hooks/useCloneShownMenu";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import Menu from "./Menu";
 
@@ -28,6 +29,7 @@ const MenuContainer: FC = () => {
     defaultOpenKeys,
     defaultSelectedKeys,
   } = useAppSelector((state) => state.menu);
+  const letShowMenuRecursion = useCloneShowMenu();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -51,44 +53,22 @@ const MenuContainer: FC = () => {
   const onSelectMenuItem = (e: any) => {
     dispatch(setDefaultSelectedKeys(e.selectedKeys));
     navigate(EPageRoute.SETTING_PARAMS_ROUTE.replace(":key", e.key));
-  };
-
-  const addNewChildren = (
-    clone: IMenuItem[],
-    row: IMenuItem,
-    newChildren: IMenuItem[] | null
-  ) => {
-    const foundRowFromClone = clone.find((item) => item.key === row.key);
-    if (foundRowFromClone) {
-      foundRowFromClone.children = newChildren;
-    }
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   const onChangeMenuItem = (e: string[]) => {
-    console.log(e);
     const cloneShownMenu: IMenuItem[] = JSON.parse(JSON.stringify(shownMenu));
-
-    menu.forEach((row) => {
-      if (e.includes(row.key)) {
-        if (row.children) {
-          const newChildren: IMenuItem[] = row.children.map((child) => {
-            return {
-              ...child,
-              children: child.children ? [] : null,
-            };
-          });
-          addNewChildren(cloneShownMenu, row, newChildren);
-        }
-      } else {
-        addNewChildren(cloneShownMenu, row, []);
-      }
-    });
-
+    letShowMenuRecursion(menu, e, cloneShownMenu);
     dispatch(setShownMenu(cloneShownMenu));
     dispatch(setDefaultOpenKeys(e));
   };
 
-  console.log(shownMenu);
+  console.log(defaultOpenKeys);
+  console.log(defaultSelectedKeys);
 
   return (
     <Menu
