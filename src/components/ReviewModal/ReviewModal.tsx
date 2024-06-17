@@ -35,6 +35,8 @@ const ReviewModal: FC<ReviewModalProps> = ({
   onClearLocalStorage,
   loadingReviewModal,
 }) => {
+  const { TextArea } = Input;
+
   return (
     <Modal
       title="Review"
@@ -127,9 +129,10 @@ const ReviewModal: FC<ReviewModalProps> = ({
                 pattern: /^(?!\s*$).+/,
               }}
               render={({ field: { onChange, value } }) => (
-                <Input
+                <TextArea
                   id="reasonForUse"
                   className={styles.input}
+                  style={{ height: 120, resize: "none" }}
                   onChange={(e) => onChange(e)}
                   value={value}
                   status={errors.reasonForUse ? "error" : ""}

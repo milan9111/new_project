@@ -12,6 +12,8 @@ export interface ISettingParamsSlice {
   isHelpModalOpen: boolean;
   selectedPath: string;
   currentSelectLookups: ICurrentSelectLookups | null;
+  isReviewModalOpen: boolean;
+  loadingReviewModal: boolean;
 }
 
 const initialState: ISettingParamsSlice = {
@@ -20,6 +22,8 @@ const initialState: ISettingParamsSlice = {
   isHelpModalOpen: false,
   selectedPath: "",
   currentSelectLookups: null,
+  isReviewModalOpen: false,
+  loadingReviewModal: false,
 };
 
 export const SettingParamsSlice = createSlice({
@@ -76,6 +80,18 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.currentSelectLookups = action.payload;
     },
+    setIsReviewModalOpen(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.isReviewModalOpen = action.payload;
+    },
+    setLoadingReviewModal(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.loadingReviewModal = action.payload;
+    },
   },
 });
 
@@ -85,5 +101,7 @@ export const {
   setIsHelpModalOpen,
   setSelectedPath,
   setCurrentSelectLookups,
+  setIsReviewModalOpen,
+  setLoadingReviewModal,
 } = SettingParamsSlice.actions;
 export default SettingParamsSlice.reducer;

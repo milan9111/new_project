@@ -6,12 +6,14 @@ import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
 import HelpModalContainer from "../../components/HelpModal/HelpModalContainer";
+import ReviewModalContainer from "../../components/ReviewModal/ReviewModalContainer";
 
 interface SettingParamsProps {
   loadingSettingParamsItem: boolean;
   settingParamsItem: ISettingParamsItem | null;
   onOpenHelpModal: () => void;
   goToFormsPage: () => void;
+  onOpenReviewModal: () => void;
   renderForm: JSX.Element[];
   handleSubmit: UseFormHandleSubmit<any, undefined>;
   onSubmit: SubmitHandler<any>;
@@ -24,6 +26,7 @@ const SettingParams: FC<SettingParamsProps> = ({
   settingParamsItem,
   onOpenHelpModal,
   goToFormsPage,
+  onOpenReviewModal,
   renderForm,
   handleSubmit,
   onSubmit,
@@ -40,18 +43,29 @@ const SettingParams: FC<SettingParamsProps> = ({
           {settingParamsItem ? (
             <div className={styles.container}>
               <div className={styles.menu}>
-                <Button
-                  onClick={() => onFinishSetting()}
-                  disabled={!settingParamsItem.screenId}
-                >
-                  Finish (F9)
-                </Button>
-                <Button onClick={() => goToFormsPage()}>Cancel (ESC)</Button>
-                {settingParamsItem?.help?.length ? (
-                  <Button onClick={() => onOpenHelpModal()}>
-                    Help (Alt+W)
+                <div className={styles.leftButtons}>
+                  <Button
+                    onClick={() => onFinishSetting()}
+                    disabled={!settingParamsItem.screenId}
+                  >
+                    Finish (F9)
                   </Button>
-                ) : null}
+                  <Button onClick={() => goToFormsPage()}>Cancel (ESC)</Button>
+                  {settingParamsItem?.help?.length ? (
+                    <Button onClick={() => onOpenHelpModal()}>
+                      Help (Alt+W)
+                    </Button>
+                  ) : null}
+                </div>
+                <div className={styles.rightButtons}>
+                  <Button
+                    type="primary"
+                    style={{ width: "150px" }}
+                    onClick={() => onOpenReviewModal()}
+                  >
+                    Review
+                  </Button>
+                </div>
               </div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -83,6 +97,7 @@ const SettingParams: FC<SettingParamsProps> = ({
             </div>
           ) : null}
           <HelpModalContainer />
+          <ReviewModalContainer />
         </section>
       </Spin>
     </ConfigProvider>

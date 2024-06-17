@@ -5,17 +5,17 @@ import { sendReviewModalData } from "../../api/sendReviewModalData";
 import {
   setIsReviewModalOpen,
   setLoadingReviewModal,
-} from "../../store/reducers/FormsSlice";
+} from "../../store/reducers/SettingParamsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import ReviewModal from "./ReviewModal";
 
 const ReviewModalContainer: FC = () => {
-  const {
-    isReviewModalOpen,
-    screensNamesForInput,
-    currentScreenIndex,
-    loadingReviewModal,
-  } = useAppSelector((state) => state.forms);
+  const { isReviewModalOpen, loadingReviewModal } = useAppSelector(
+    (state) => state.settingParams
+  );
+  const { screensNamesForInput, currentScreenIndex } = useAppSelector(
+    (state) => state.forms
+  );
   const dispatch = useAppDispatch();
   const formSubmit = useRef<HTMLButtonElement | null>(null);
 

@@ -12,6 +12,7 @@ import { getDataByPath } from "../../store/actions/settingParamsActions";
 import { getScreens } from "../../store/actions/formsActions";
 import {
   setIsHelpModalOpen,
+  setIsReviewModalOpen,
   setSelectedPath,
   setSettingParamsItem,
 } from "../../store/reducers/SettingParamsSlice";
@@ -102,6 +103,10 @@ const SettingParamsContainer: FC = () => {
 
   const goToFormsPage = () => {
     navigate(EPageRoute.FORMS_PAGE_ROUTE);
+  };
+
+  const onOpenReviewModal = () => {
+    dispatch(setIsReviewModalOpen(true));
   };
 
   const onFinishSetting = async () => {
@@ -220,6 +225,7 @@ const SettingParamsContainer: FC = () => {
         settingParamsItem={settingParamsItem}
         onOpenHelpModal={onOpenHelpModal}
         goToFormsPage={goToFormsPage}
+        onOpenReviewModal={onOpenReviewModal}
         renderForm={renderForm}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
