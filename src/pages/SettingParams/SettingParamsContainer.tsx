@@ -55,6 +55,7 @@ const SettingParamsContainer: FC = () => {
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
 
   const handleCleanup = () => {
+    reset({});
     dispatch(setSettingParamsItem(null));
   };
 
@@ -73,9 +74,8 @@ const SettingParamsContainer: FC = () => {
     [key, menu],
     [handleCleanup]
   );
-
   useEffect(() => {
-    if (settingParamsItem) {
+    if (settingParamsItem && !loadingSettingParamsItem) {
       const defaultValuesSettingParams: IDefaultValuesSettingParams = {};
 
       settingParamsItem.form.rows.forEach((item) => {
@@ -94,9 +94,7 @@ const SettingParamsContainer: FC = () => {
       reset(defaultValuesSettingParams);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settingParamsItem]);
-
-  //console.log(currentSelectLookups);
+  }, [settingParamsItem, loadingSettingParamsItem]);
 
   const onOpenHelpModal = () => {
     dispatch(setIsHelpModalOpen(true));
@@ -133,8 +131,6 @@ const SettingParamsContainer: FC = () => {
     onFormsPage: goToFormsPage,
     onFinish: settingParamsItem?.screenId ? onFinishSetting : () => {},
   });
-
-  console.log(settingParamsItem);
 
   const renderRow = (fields: IField[]) => {
     if (fields.length) {
@@ -204,15 +200,18 @@ const SettingParamsContainer: FC = () => {
     }
   };
 
-  const renderForm = settingParamsItem
-    ? settingParamsItem.form.rows.map((item) => {
-        return (
-          <div key={item.row} className={styles.row}>
-            {renderRow(item.fields)}
-          </div>
-        );
-      })
-    : [];
+  const renderForm =
+    settingParamsItem &&
+    !loadingSettingParamsItem &&
+    Object.values(defaultValues as object).length > 0
+      ? settingParamsItem.form.rows.map((item) => {
+          return (
+            <div key={item.row} className={styles.row}>
+              {renderRow(item.fields)}
+            </div>
+          );
+        })
+      : [];
 
   return (
     <LayoutContainer>
