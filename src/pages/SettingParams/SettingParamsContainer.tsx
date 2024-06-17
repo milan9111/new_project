@@ -203,7 +203,7 @@ const SettingParamsContainer: FC = () => {
   const renderForm =
     settingParamsItem &&
     !loadingSettingParamsItem &&
-    Object.values(defaultValues as object).length > 0
+    Object.values(defaultValues as object || {}).length > 0
       ? settingParamsItem.form.rows.map((item) => {
           return (
             <div key={item.row} className={styles.row}>
