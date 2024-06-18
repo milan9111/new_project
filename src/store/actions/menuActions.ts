@@ -2,7 +2,11 @@ import { AxiosError } from "axios";
 import { notification } from "antd";
 import { AppDispatch } from "../store";
 import { requestToApi } from "../../helpers/requestToApi";
-import { setLoadingMenu, setMenu } from "../reducers/MenuSlice";
+import {
+  setLoadingMainSpinner,
+  setLoadingMenu,
+  setMenu,
+} from "../reducers/MenuSlice";
 import { IMenuItem } from "../../types/interfaces/MenuItem";
 
 export const getMenu =
@@ -19,10 +23,12 @@ export const getMenu =
       if (status === 200) {
         dispatch(setMenu(data));
         dispatch(setLoadingMenu(false));
+        dispatch(setLoadingMainSpinner(false));
         return data;
       }
 
       dispatch(setLoadingMenu(false));
+      dispatch(setLoadingMainSpinner(false));
       return [];
     } catch (err) {
       const error = err as AxiosError<Error>;
@@ -31,6 +37,7 @@ export const getMenu =
         description: error.message,
       });
       dispatch(setLoadingMenu(false));
+      dispatch(setLoadingMainSpinner(false));
 
       return [];
     }

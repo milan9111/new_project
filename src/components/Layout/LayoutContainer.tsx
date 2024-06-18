@@ -11,7 +11,9 @@ interface LayoutContainerProps {
 }
 
 const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
-  const { loadingMenu } = useAppSelector((state) => state.menu);
+  const { loadingMenu, loadingMainSpinner } = useAppSelector(
+    (state) => state.menu
+  );
   const dispatch = useAppDispatch();
 
   const onClearMenu = () => {
@@ -20,7 +22,11 @@ const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
   };
 
   return (
-    <Layout loadingMenu={loadingMenu} onClearMenu={onClearMenu}>
+    <Layout
+      loadingMenu={loadingMenu}
+      loadingMainSpinner={loadingMainSpinner}
+      onClearMenu={onClearMenu}
+    >
       {children}
     </Layout>
   );
