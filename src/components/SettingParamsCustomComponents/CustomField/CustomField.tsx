@@ -14,6 +14,10 @@ interface CustomFieldProps {
 const CustomField: FC<CustomFieldProps> = ({ item, control, errors }) => {
   return (
     <div className={styles.inputBox}>
+      <label htmlFor={item.name || ""}>
+        {item.label?.text ? item.label.text : ""}
+        {item.required && <span className={styles.required}>*</span>}
+      </label>
       <Controller
         name={item.name || ""}
         control={control}

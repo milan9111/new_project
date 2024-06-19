@@ -139,6 +139,10 @@ const CustomSelectLookup: FC<CustomSelectLookupProps> = ({
 
   return (
     <div className={styles.selectBox}>
+      <label htmlFor={item.name || ""}>
+        {item.label?.text ? item.label.text : ""}
+        {item.required && <span className={styles.required}>*</span>}
+      </label>
       <Controller
         name={item.name || ""}
         control={control}

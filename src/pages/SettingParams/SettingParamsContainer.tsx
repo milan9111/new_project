@@ -143,20 +143,19 @@ const SettingParamsContainer: FC = () => {
         if (item.fieldType === ESettingParamsFieldType.Text) {
           if (fields.length === 1) {
             return (
-              <p key={index} className={styles.titleRow}>
+              <p
+                key={index}
+                className={
+                  item.column !== 0
+                    ? styles.titleRowCenter
+                    : styles.titleRowStart
+                }
+              >
                 {item.text}
               </p>
             );
           } else {
-            return (
-              <label
-                key={index}
-                className={styles.label}
-                htmlFor={item.name.split("_")[0]}
-              >
-                {item.text}
-              </label>
-            );
+            return null;
           }
         }
         if (item.fieldType === ESettingParamsFieldType.Input) {
@@ -208,8 +207,9 @@ const SettingParamsContainer: FC = () => {
   const renderForm =
     settingParamsItem &&
     !loadingSettingParamsItem &&
-    Object.values(defaultValues as object || {}).length > 0
+    Object.values((defaultValues as object) || {}).length > 0
       ? settingParamsItem.form.rows.map((item) => {
+        console.log(item);
           return (
             <div key={item.row} className={styles.row}>
               {renderRow(item.fields)}
