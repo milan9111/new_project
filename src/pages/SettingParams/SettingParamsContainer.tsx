@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -40,6 +40,7 @@ const SettingParamsContainer: FC = () => {
     selectedPath,
     currentSelectLookups,
   } = useAppSelector((state) => state.settingParams);
+  const [isFormWithInputs, setIsFormWithInputs] = useState<number>(0);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const SettingParamsContainer: FC = () => {
   useEffect(() => {
     if (settingParamsItem && !loadingSettingParamsItem) {
       const defaultValuesSettingParams: IDefaultValuesSettingParams = {};
+      let countFormInputs = 0;
 
       settingParamsItem.form.rows.forEach((item) => {
         item.fields.forEach((el) => {
@@ -86,12 +88,15 @@ const SettingParamsContainer: FC = () => {
               defaultValuesSettingParams[el.name] = getDateForDatepicker(
                 el.default
               );
+              countFormInputs++;
             } else {
               defaultValuesSettingParams[el.name] = el.default;
+              countFormInputs++;
             }
           }
         });
       });
+      setIsFormWithInputs(countFormInputs);
       reset(defaultValuesSettingParams);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,11 +210,11 @@ const SettingParamsContainer: FC = () => {
   };
 
   const renderForm =
-    settingParamsItem &&
     !loadingSettingParamsItem &&
-    Object.values((defaultValues as object) || {}).length > 0
+    settingParamsItem &&
+    (isFormWithInputs === 0 ||
+      Object.values((defaultValues as object) || {}).length > 0)
       ? settingParamsItem.form.rows.map((item) => {
-        console.log(item);
           return (
             <div key={item.row} className={styles.row}>
               {renderRow(item.fields)}

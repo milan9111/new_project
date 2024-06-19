@@ -12,6 +12,7 @@ import {
   setSearchValue,
   setShownMenu,
 } from "../../store/reducers/MenuSlice";
+import { setSettingParamsItem } from "../../store/reducers/SettingParamsSlice";
 import { debouncing } from "../../helpers/debouncing";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
 import useCloneShowMenu from "../../hooks/useCloneShownMenu";
@@ -52,6 +53,7 @@ const MenuContainer: FC = () => {
 
   const onSelectMenuItem = (e: any) => {
     dispatch(setDefaultSelectedKeys(e.selectedKeys));
+    dispatch(setSettingParamsItem(null));
     navigate(EPageRoute.SETTING_PARAMS_ROUTE.replace(":key", e.key));
     window.scrollTo({
       top: 0,

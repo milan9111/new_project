@@ -24,7 +24,10 @@ export const getDataByPath =
         dispatch(setSettingParamsItem(data));
       }
 
-      dispatch(setLoadingSettingParamsItem(false));
+      setTimeout(() => {
+        dispatch(setLoadingSettingParamsItem(false));
+      }, 500);
+
       return status;
     } catch (err) {
       const error = err as AxiosError<Error>;

@@ -40,7 +40,7 @@ const SettingParams: FC<SettingParamsProps> = ({
         spinning={loadingSettingParamsItem}
       >
         <section className={styles.settingParams}>
-          {settingParamsItem ? (
+          {settingParamsItem && !loadingSettingParamsItem ? (
             <div className={styles.container}>
               <div className={styles.menu}>
                 <div className={styles.leftButtons}>

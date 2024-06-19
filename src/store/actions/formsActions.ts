@@ -68,7 +68,9 @@ export const getScreen =
       });
 
       dispatch(setSelectedScreen(data));
-      dispatch(setLoadingForm(false));
+      setTimeout(() => {
+        dispatch(setLoadingForm(false));
+      }, 500);
 
       return status;
     } catch (err) {
