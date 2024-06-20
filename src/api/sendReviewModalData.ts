@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { notification } from "antd";
 import { requestToApi } from "../helpers/requestToApi";
-import { IFormReviewModal } from "../types/interfaces/IScreenData";
+import { IFormReviewModal } from "../types/interfaces/ISettingParams";
 
 export const sendReviewModalData = async (
   key: string,
