@@ -8,7 +8,7 @@ import {
 } from "../../types/interfaces/ISettingParams";
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 import { EPageRoute } from "../../types/enums/EPageRoute";
-import { getDataByPath } from "../../store/actions/settingParamsActions";
+import { getDataByKey } from "../../store/actions/settingParamsActions";
 import { getScreens } from "../../store/actions/formsActions";
 import {
   setIsHelpModalOpen,
@@ -70,7 +70,7 @@ const SettingParamsContainer: FC = () => {
       if (menu.length && key && key.length) {
         const path = getPath(menu as any, key as string);
         dispatch(setSelectedPath(path));
-        dispatch(getDataByPath(path, abortController));
+        dispatch(getDataByKey(key, abortController));
       }
     },
     [key, menu],

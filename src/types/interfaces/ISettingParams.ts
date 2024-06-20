@@ -80,6 +80,7 @@ export interface ISettingParamsItem {
   screenId: number | null;
   output: IOutput;
   warn?: IWarn | null;
+  reviewCount: number | null;
 }
 
 export interface IDefaultValuesSettingParams {

@@ -8,14 +8,14 @@ import {
   setSettingParamsItem,
 } from "../reducers/SettingParamsSlice";
 
-export const getDataByPath =
-  (path: string, abortController: AbortController) =>
+export const getDataByKey =
+  (key: string, abortController: AbortController) =>
   async (dispatch: AppDispatch): Promise<number | undefined> => {
     dispatch(setLoadingSettingParamsItem(true));
     try {
       const { data, status }: { data: ISettingParamsItem; status: number } =
         await requestToApi({
-          url: `/api/menu/params?path=${path}`,
+          url: `/api/menu/${key}`,
           abortController,
           config: {},
         });
