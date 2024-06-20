@@ -102,3 +102,18 @@ export interface IPayload {
   fieldName: string;
   value: string;
 }
+
+export interface IFormReviewModal {
+  department: string;
+  userName: string;
+  reasonForUse: string;
+}
+
+export interface IReview {
+  date: string;
+  department: string;
+  id: number;
+  parentReviewId: number | null;
+  reasonForUse: string;
+  userName: string;
+}

@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { Button, ConfigProvider, Spin } from "antd";
+import { Button, ConfigProvider, Badge, Spin } from "antd";
 import { LoadingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
 import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
 import HelpModalContainer from "../../components/HelpModal/HelpModalContainer";
-import ReviewModalContainer from "../../components/ReviewModal/ReviewModalContainer";
+import ReviewDrawerContainer from "../../components/ReviewDrawer/ReviewDrawerContainer";
 
 interface SettingParamsProps {
   loadingSettingParamsItem: boolean;
   settingParamsItem: ISettingParamsItem | null;
   onOpenHelpModal: () => void;
   goToFormsPage: () => void;
-  onOpenReviewModal: () => void;
+  onShowDrawer: () => void;
   renderForm: JSX.Element[];
   handleSubmit: UseFormHandleSubmit<any, undefined>;
   onSubmit: SubmitHandler<any>;
@@ -26,7 +26,7 @@ const SettingParams: FC<SettingParamsProps> = ({
   settingParamsItem,
   onOpenHelpModal,
   goToFormsPage,
-  onOpenReviewModal,
+  onShowDrawer,
   renderForm,
   handleSubmit,
   onSubmit,
@@ -58,13 +58,23 @@ const SettingParams: FC<SettingParamsProps> = ({
                   ) : null}
                 </div>
                 <div className={styles.rightButtons}>
-                  <Button
-                    type="primary"
-                    style={{ width: "150px" }}
-                    onClick={() => onOpenReviewModal()}
+                  <Badge
+                    count={
+                      settingParamsItem?.reviewCount
+                        ? settingParamsItem.reviewCount
+                        : 0
+                    }
+                    overflowCount={99}
+                    color="#000c17"
                   >
-                    Review
-                  </Button>
+                    <Button
+                      type="primary"
+                      style={{ width: "150px" }}
+                      onClick={() => onShowDrawer()}
+                    >
+                      Reviews
+                    </Button>
+                  </Badge>
                 </div>
               </div>
               <form
@@ -96,8 +106,8 @@ const SettingParams: FC<SettingParamsProps> = ({
               ) : null}
             </div>
           ) : null}
+          <ReviewDrawerContainer />
           <HelpModalContainer />
-          <ReviewModalContainer />
         </section>
       </Spin>
     </ConfigProvider>

@@ -4,12 +4,12 @@ import { requestToApi } from "../helpers/requestToApi";
 import { IFormReviewModal } from "../types/interfaces/IScreenData";
 
 export const sendReviewModalData = async (
-  id: number,
+  key: string,
   payload: IFormReviewModal
 ): Promise<number | undefined> => {
   try {
     const { status } = await requestToApi({
-      url: `/api/screens/${id}/reviews`,
+      url: `/api/menu/${key}/reviews`,
       method: "POST",
       data: payload,
     });

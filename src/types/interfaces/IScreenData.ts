@@ -50,9 +50,3 @@ export interface ISelectScreen {
 export interface IDefaultValuesScreen {
   [key: string]: string | boolean | number | null | undefined | Dayjs;
 }
-
-export interface IFormReviewModal {
-  department: string;
-  userName: string;
-  reasonForUse: string;
-}

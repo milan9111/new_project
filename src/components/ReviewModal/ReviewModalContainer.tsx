@@ -1,6 +1,7 @@
 import { FC, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { IFormReviewModal } from "../../types/interfaces/IScreenData";
+import { IFormReviewModal } from "../../types/interfaces/ISettingParams";
 import { sendReviewModalData } from "../../api/sendReviewModalData";
 import {
   setIsReviewModalOpen,
@@ -13,10 +14,8 @@ const ReviewModalContainer: FC = () => {
   const { isReviewModalOpen, loadingReviewModal } = useAppSelector(
     (state) => state.settingParams
   );
-  const { screensNamesForInput, currentScreenIndex } = useAppSelector(
-    (state) => state.forms
-  );
   const dispatch = useAppDispatch();
+  const { key } = useParams();
   const formSubmit = useRef<HTMLButtonElement | null>(null);
 
   const {
@@ -48,7 +47,7 @@ const ReviewModalContainer: FC = () => {
     );
 
     await sendReviewModalData(
-      screensNamesForInput[currentScreenIndex].value,
+      key as string,
       data
     );
 

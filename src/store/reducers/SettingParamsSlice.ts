@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ICurrentSelectLookups,
+  IReview,
   ISettingParamsItem,
 } from "../../types/interfaces/ISettingParams";
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
@@ -12,8 +13,11 @@ export interface ISettingParamsSlice {
   isHelpModalOpen: boolean;
   selectedPath: string;
   currentSelectLookups: ICurrentSelectLookups | null;
+  isReviewDrawerOpen: boolean;
   isReviewModalOpen: boolean;
   loadingReviewModal: boolean;
+  reviews: IReview[];
+  loadingReviews: boolean;
 }
 
 const initialState: ISettingParamsSlice = {
@@ -22,8 +26,11 @@ const initialState: ISettingParamsSlice = {
   isHelpModalOpen: false,
   selectedPath: "",
   currentSelectLookups: null,
+  isReviewDrawerOpen: false,
   isReviewModalOpen: false,
   loadingReviewModal: false,
+  reviews: [],
+  loadingReviews: false,
 };
 
 export const SettingParamsSlice = createSlice({
@@ -80,6 +87,12 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.currentSelectLookups = action.payload;
     },
+    setIsReviewDrawerOpen(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.isReviewDrawerOpen = action.payload;
+    },
     setIsReviewModalOpen(
       state: ISettingParamsSlice,
       action: PayloadAction<boolean>
@@ -92,6 +105,18 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.loadingReviewModal = action.payload;
     },
+    setReviews(
+      state: ISettingParamsSlice,
+      action: PayloadAction<IReview[]>
+    ): void {
+      state.reviews = action.payload;
+    },
+    setLoadingReviews(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.loadingReviews = action.payload;
+    },
   },
 });
 
@@ -101,7 +126,10 @@ export const {
   setIsHelpModalOpen,
   setSelectedPath,
   setCurrentSelectLookups,
+  setIsReviewDrawerOpen,
   setIsReviewModalOpen,
   setLoadingReviewModal,
+  setReviews,
+  setLoadingReviews,
 } = SettingParamsSlice.actions;
 export default SettingParamsSlice.reducer;
