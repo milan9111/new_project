@@ -1,11 +1,124 @@
 .container {
-    min-height: 50vh;
+  min-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.addButtonBox {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+.reviewsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+.review {
+  padding: 15px 20px;
+  border: 1px solid #c0c0c084;
+  border-radius: 10px;
+  transition: 0.5s;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &:hover {
+    background: #c0c0c03c;
+    .parentReview {
+      background: #ffffff;
+    }
+  }
+}
+
+.reviewNameDateBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reviewName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 0px;
+  span {
+    font-size: 13px;
+    font-weight: 400;
+  }
+}
+
+.reviewDate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 0px;
+  span {
+    font-size: 13px;
+    font-weight: 400;
+  }
+}
+
+.reviewDepartment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c0c0c084;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 0px;
+  span {
+    font-size: 13px;
+    font-weight: 400;
+  }
+}
+
+.reviewText {
+  font-size: 16px;
+  font-weight: 600;
+
+  margin-bottom: 0px;
+}
+
+.reviewButtonBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.parentReview {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 10px 15px;
+  background: #c0c0c03c;
+  transition: 0.5s;
+  border-radius: 10px;
+}
+.parentReviewUserName {
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+.parentReviewText {
+  margin-bottom: 0px;
+}
+
+.empty {
+  font-size: 16px;
+  font-weight: 600;
+}
