@@ -6,6 +6,7 @@ import { sendReviewModalData } from "../../api/sendReviewModalData";
 import {
   setIsReviewModalOpen,
   setLoadingReviewModal,
+  setReviews,
 } from "../../store/reducers/SettingParamsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import ReviewModal from "./ReviewModal";
@@ -46,10 +47,15 @@ const ReviewModalContainer: FC = () => {
       JSON.stringify({ department, userName })
     );
 
-    await sendReviewModalData(
-      key as string,
-      data
-    );
+    const result = await sendReviewModalData(key as string, data);
+
+    if (result) {
+      const { status, review } = result;
+
+      if (status === 200) {
+        dispatch(setReviews(review));
+      }
+    }
 
     dispatch(setLoadingReviewModal(false));
     dispatch(setIsReviewModalOpen(false));

@@ -1,20 +1,20 @@
 import { AxiosError } from "axios";
 import { notification } from "antd";
 import { requestToApi } from "../helpers/requestToApi";
-import { IFormReviewModal } from "../types/interfaces/ISettingParams";
+import { IFormReviewModal, IReview } from "../types/interfaces/ISettingParams";
 
 export const sendReviewModalData = async (
   key: string,
   payload: IFormReviewModal
-): Promise<number | undefined> => {
+): Promise<{ status: number; review: IReview } | undefined> => {
   try {
-    const { status } = await requestToApi({
+    const { status, data } = await requestToApi({
       url: `/api/menu/${key}/reviews`,
       method: "POST",
       data: payload,
     });
 
-    return status;
+    return { status: status, review: data };
   } catch (err) {
     const error = err as AxiosError<Error>;
     notification.error({

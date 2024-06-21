@@ -13,6 +13,7 @@ import { getScreens } from "../../store/actions/formsActions";
 import {
   setIsHelpModalOpen,
   setIsReviewDrawerOpen,
+  setReviews,
   setSelectedPath,
   setSettingParamsItem,
 } from "../../store/reducers/SettingParamsSlice";
@@ -39,6 +40,7 @@ const SettingParamsContainer: FC = () => {
     loadingSettingParamsItem,
     selectedPath,
     currentSelectLookups,
+    reviews,
   } = useAppSelector((state) => state.settingParams);
   const [isFormWithInputs, setIsFormWithInputs] = useState<number>(0);
   const dispatch = useAppDispatch();
@@ -59,6 +61,7 @@ const SettingParamsContainer: FC = () => {
   const handleCleanup = () => {
     reset({});
     dispatch(setSettingParamsItem(null));
+    dispatch(setReviews([]));
   };
 
   useAbortableEffect(
@@ -228,6 +231,7 @@ const SettingParamsContainer: FC = () => {
       <SettingParams
         loadingSettingParamsItem={loadingSettingParamsItem}
         settingParamsItem={settingParamsItem}
+        reviews={reviews}
         onOpenHelpModal={onOpenHelpModal}
         goToFormsPage={goToFormsPage}
         onShowDrawer={onShowDrawer}

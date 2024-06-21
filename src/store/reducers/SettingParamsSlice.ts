@@ -107,9 +107,13 @@ export const SettingParamsSlice = createSlice({
     },
     setReviews(
       state: ISettingParamsSlice,
-      action: PayloadAction<IReview[]>
+      action: PayloadAction<IReview[] | IReview>
     ): void {
-      state.reviews = action.payload;
+      if (Array.isArray(action.payload)) {
+        state.reviews = action.payload;
+      } else {
+        state.reviews = [...state.reviews, action.payload];
+      }
     },
     setLoadingReviews(
       state: ISettingParamsSlice,

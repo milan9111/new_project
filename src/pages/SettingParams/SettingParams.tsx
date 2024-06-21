@@ -3,7 +3,10 @@ import { FC } from "react";
 import { Button, ConfigProvider, Badge, Spin } from "antd";
 import { LoadingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { SubmitHandler, UseFormHandleSubmit } from "react-hook-form";
-import { ISettingParamsItem } from "../../types/interfaces/ISettingParams";
+import {
+  IReview,
+  ISettingParamsItem,
+} from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
 import HelpModalContainer from "../../components/HelpModal/HelpModalContainer";
 import ReviewDrawerContainer from "../../components/ReviewDrawer/ReviewDrawerContainer";
@@ -11,6 +14,7 @@ import ReviewDrawerContainer from "../../components/ReviewDrawer/ReviewDrawerCon
 interface SettingParamsProps {
   loadingSettingParamsItem: boolean;
   settingParamsItem: ISettingParamsItem | null;
+  reviews: IReview[];
   onOpenHelpModal: () => void;
   goToFormsPage: () => void;
   onShowDrawer: () => void;
@@ -24,6 +28,7 @@ interface SettingParamsProps {
 const SettingParams: FC<SettingParamsProps> = ({
   loadingSettingParamsItem,
   settingParamsItem,
+  reviews,
   onOpenHelpModal,
   goToFormsPage,
   onShowDrawer,
@@ -33,6 +38,20 @@ const SettingParams: FC<SettingParamsProps> = ({
   formSubmit,
   onFinishSetting,
 }) => {
+  const getReviewCount = (
+    settingParamsItem: ISettingParamsItem,
+    reviews: IReview[]
+  ): number => {
+    if (reviews.length) {
+      return reviews.length;
+    }
+    if (settingParamsItem?.reviewCount) {
+      return settingParamsItem.reviewCount;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <ConfigProvider wave={{ disabled: true }}>
       <Spin
@@ -59,11 +78,7 @@ const SettingParams: FC<SettingParamsProps> = ({
                 </div>
                 <div className={styles.rightButtons}>
                   <Badge
-                    count={
-                      settingParamsItem?.reviewCount
-                        ? settingParamsItem.reviewCount
-                        : 0
-                    }
+                    count={getReviewCount(settingParamsItem, reviews)}
                     overflowCount={99}
                     color="#000c17"
                   >

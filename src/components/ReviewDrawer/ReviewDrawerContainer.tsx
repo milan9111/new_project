@@ -6,7 +6,6 @@ import { getReviews } from "../../store/actions/settingParamsActions";
 import {
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
-  setReviews,
 } from "../../store/reducers/SettingParamsSlice";
 import { formatDateReview } from "../../helpers/formatDate";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -26,8 +25,6 @@ const ReviewDrawerContainer: FC = () => {
     async (abortController: AbortController) => {
       if (isReviewDrawerOpen) {
         dispatch(getReviews(key as string, abortController));
-      } else {
-        dispatch(setReviews([]));
       }
     },
     [isReviewDrawerOpen],
