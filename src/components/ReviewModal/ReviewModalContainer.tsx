@@ -7,14 +7,14 @@ import {
   setIsReviewModalOpen,
   setLoadingReviewModal,
   setReviews,
+  setSelectedParentReviewID,
 } from "../../store/reducers/SettingParamsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import ReviewModal from "./ReviewModal";
 
 const ReviewModalContainer: FC = () => {
-  const { isReviewModalOpen, loadingReviewModal } = useAppSelector(
-    (state) => state.settingParams
-  );
+  const { isReviewModalOpen, loadingReviewModal, selectedParentReviewID } =
+    useAppSelector((state) => state.settingParams);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const formSubmit = useRef<HTMLButtonElement | null>(null);
@@ -47,7 +47,11 @@ const ReviewModalContainer: FC = () => {
       JSON.stringify({ department, userName })
     );
 
-    const result = await sendReviewModalData(key as string, data);
+    const result = await sendReviewModalData(
+      key as string,
+      data,
+      selectedParentReviewID
+    );
 
     if (result) {
       const { status, review } = result;
@@ -59,6 +63,7 @@ const ReviewModalContainer: FC = () => {
 
     dispatch(setLoadingReviewModal(false));
     dispatch(setIsReviewModalOpen(false));
+    dispatch(setSelectedParentReviewID(0));
     reset({
       department: "",
       userName: "",
@@ -68,6 +73,7 @@ const ReviewModalContainer: FC = () => {
 
   const handleReviewModalCancel = () => {
     dispatch(setIsReviewModalOpen(false));
+    dispatch(setSelectedParentReviewID(0));
     reset({
       department: "",
       userName: "",

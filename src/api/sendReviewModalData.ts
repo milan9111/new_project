@@ -5,13 +5,14 @@ import { IFormReviewModal, IReview } from "../types/interfaces/ISettingParams";
 
 export const sendReviewModalData = async (
   key: string,
-  payload: IFormReviewModal
+  payload: IFormReviewModal,
+  parentReviewId: number
 ): Promise<{ status: number; review: IReview } | undefined> => {
   try {
     const { status, data } = await requestToApi({
       url: `/api/menu/${key}/reviews`,
       method: "POST",
-      data: payload,
+      data: parentReviewId === 0 ? payload : { ...payload, parentReviewId },
     });
 
     return { status: status, review: data };

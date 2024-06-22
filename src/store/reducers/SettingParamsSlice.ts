@@ -15,6 +15,7 @@ export interface ISettingParamsSlice {
   currentSelectLookups: ICurrentSelectLookups | null;
   isReviewDrawerOpen: boolean;
   isReviewModalOpen: boolean;
+  selectedParentReviewID: number;
   loadingReviewModal: boolean;
   reviews: IReview[];
   loadingReviews: boolean;
@@ -28,6 +29,7 @@ const initialState: ISettingParamsSlice = {
   currentSelectLookups: null,
   isReviewDrawerOpen: false,
   isReviewModalOpen: false,
+  selectedParentReviewID: 0,
   loadingReviewModal: false,
   reviews: [],
   loadingReviews: false,
@@ -99,6 +101,12 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.isReviewModalOpen = action.payload;
     },
+    setSelectedParentReviewID(
+      state: ISettingParamsSlice,
+      action: PayloadAction<number>
+    ): void {
+      state.selectedParentReviewID = action.payload;
+    },
     setLoadingReviewModal(
       state: ISettingParamsSlice,
       action: PayloadAction<boolean>
@@ -132,6 +140,7 @@ export const {
   setCurrentSelectLookups,
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
+  setSelectedParentReviewID,
   setLoadingReviewModal,
   setReviews,
   setLoadingReviews,

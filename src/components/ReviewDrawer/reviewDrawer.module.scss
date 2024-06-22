@@ -33,8 +33,10 @@
 .reviewNameDateBox {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .reviewName {
@@ -43,13 +45,18 @@
   align-items: center;
   gap: 10px;
 
-  font-size: 14px;
-  font-weight: 600;
-
-  margin-bottom: 0px;
   span {
+    width: 72px;
+    min-width: 72px;
     font-size: 13px;
     font-weight: 400;
+  }
+
+  p {
+    max-width: 300px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px;
   }
 }
 
@@ -59,13 +66,16 @@
   align-items: center;
   gap: 10px;
 
-  font-size: 14px;
-  font-weight: 600;
-
-  margin-bottom: 0px;
   span {
     font-size: 13px;
     font-weight: 400;
+  }
+
+  p {
+    width: 150px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px;
   }
 }
 
@@ -77,13 +87,16 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #c0c0c084;
 
-  font-size: 14px;
-  font-weight: 600;
-
-  margin-bottom: 0px;
   span {
+    width: 72px;
     font-size: 13px;
     font-weight: 400;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px;
   }
 }
 

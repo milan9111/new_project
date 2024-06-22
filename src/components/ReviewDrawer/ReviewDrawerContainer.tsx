@@ -6,6 +6,7 @@ import { getReviews } from "../../store/actions/settingParamsActions";
 import {
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
+  setSelectedParentReviewID,
 } from "../../store/reducers/SettingParamsSlice";
 import { formatDateReview } from "../../helpers/formatDate";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -41,7 +42,10 @@ const ReviewDrawerContainer: FC = () => {
     dispatch(setIsReviewDrawerOpen(false));
   };
 
-  const onOpenReviewModal = () => {
+  const onOpenReviewModal = (id?: number) => {
+    if (id) {
+      dispatch(setSelectedParentReviewID(id));
+    }
     dispatch(setIsReviewModalOpen(true));
   };
 
@@ -67,22 +71,26 @@ const ReviewDrawerContainer: FC = () => {
         ) : null}
 
         <div className={styles.reviewNameDateBox}>
-          <p className={styles.reviewName}>
+          <div className={styles.reviewName}>
             <span>User name:</span>
-            {item.userName}
-          </p>
-          <p className={styles.reviewDate}>
+            <p>{item.userName}</p>
+          </div>
+          <div className={styles.reviewDate}>
             <span>Date:</span>
-            {formatDateReview(item.date)}
-          </p>
+            <p>{formatDateReview(item.date)}</p>
+          </div>
         </div>
-        <p className={styles.reviewDepartment}>
+        <div className={styles.reviewDepartment}>
           <span>Department:</span>
-          {item.department}
-        </p>
+          <p>{item.department}</p>
+        </div>
         <p className={styles.reviewText}>{item.reasonForUse}</p>
         <div className={styles.reviewButtonBox}>
-          <Button type="primary" icon={<CommentOutlined />}>
+          <Button
+            type="primary"
+            icon={<CommentOutlined />}
+            onClick={() => onOpenReviewModal(item.id)}
+          >
             Reply
           </Button>
         </div>
