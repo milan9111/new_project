@@ -104,9 +104,11 @@ const SettingParams: FC<SettingParamsProps> = ({
                 {renderForm}
                 <button ref={formSubmit} className={styles.formSubmit}></button>
               </form>
-              <p className={styles.execBin}>
-                ExecBin: {settingParamsItem.execBin?.default || ""}
-              </p>
+              {localStorage.getItem("debug_mode") ? (
+                <p className={styles.execBin}>
+                  ExecBin: {settingParamsItem.execBin?.default || ""}
+                </p>
+              ) : null}
               {settingParamsItem.warn ? (
                 <div className={styles.warnBox}>
                   <div className={styles.warnIcon}>

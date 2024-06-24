@@ -117,3 +117,5 @@ export interface IReview {
   reasonForUse: string;
   userName: string;
 }
+
+export type ReviewModalActionType = "New" | "Reply" | "";

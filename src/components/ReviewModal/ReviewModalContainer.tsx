@@ -6,6 +6,7 @@ import { sendReviewModalData } from "../../api/sendReviewModalData";
 import {
   setIsReviewModalOpen,
   setLoadingReviewModal,
+  setReviewModalAction,
   setReviews,
   setSelectedParentReviewID,
 } from "../../store/reducers/SettingParamsSlice";
@@ -13,8 +14,12 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import ReviewModal from "./ReviewModal";
 
 const ReviewModalContainer: FC = () => {
-  const { isReviewModalOpen, loadingReviewModal, selectedParentReviewID } =
-    useAppSelector((state) => state.settingParams);
+  const {
+    isReviewModalOpen,
+    loadingReviewModal,
+    reviewModalAction,
+    selectedParentReviewID,
+  } = useAppSelector((state) => state.settingParams);
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const formSubmit = useRef<HTMLButtonElement | null>(null);
@@ -63,6 +68,7 @@ const ReviewModalContainer: FC = () => {
 
     dispatch(setLoadingReviewModal(false));
     dispatch(setIsReviewModalOpen(false));
+    dispatch(setReviewModalAction(''));
     dispatch(setSelectedParentReviewID(0));
     reset({
       department: "",
@@ -73,6 +79,7 @@ const ReviewModalContainer: FC = () => {
 
   const handleReviewModalCancel = () => {
     dispatch(setIsReviewModalOpen(false));
+    dispatch(setReviewModalAction(''));
     dispatch(setSelectedParentReviewID(0));
     reset({
       department: "",
@@ -98,6 +105,7 @@ const ReviewModalContainer: FC = () => {
   return (
     <ReviewModal
       isReviewModalOpen={isReviewModalOpen}
+      reviewModalAction={reviewModalAction}
       handleReviewModalCancel={handleReviewModalCancel}
       handleReviewModalSave={handleReviewModalSave}
       control={control}

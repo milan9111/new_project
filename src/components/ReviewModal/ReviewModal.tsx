@@ -8,10 +8,12 @@ import {
   SubmitHandler,
   UseFormHandleSubmit,
 } from "react-hook-form";
+import { ReviewModalActionType } from "../../types/interfaces/ISettingParams";
 import styles from "./reviewModal.module.scss";
 
 interface ReviewModalProps {
   isReviewModalOpen: boolean;
+  reviewModalAction: ReviewModalActionType;
   handleReviewModalCancel: () => void;
   handleReviewModalSave: () => void;
   control: any;
@@ -25,6 +27,7 @@ interface ReviewModalProps {
 
 const ReviewModal: FC<ReviewModalProps> = ({
   isReviewModalOpen,
+  reviewModalAction,
   handleReviewModalCancel,
   handleReviewModalSave,
   control,
@@ -39,7 +42,7 @@ const ReviewModal: FC<ReviewModalProps> = ({
 
   return (
     <Modal
-      title="Review"
+      title={reviewModalAction === "New" ? "Review" : "Reply"}
       open={isReviewModalOpen}
       onOk={handleReviewModalSave}
       okText="Save"
@@ -118,8 +121,10 @@ const ReviewModal: FC<ReviewModalProps> = ({
               <div className={styles.errorMessage}>This field is empty</div>
             )}
           </div>
-          <div className={styles.inputBox}>
-            <label htmlFor="reasonForUse">Reason for use</label>
+          <div className={styles.textareaBox}>
+            <label htmlFor="reasonForUse">
+              {reviewModalAction === "New" ? "Reason for use" : "Message"}
+            </label>
             <Controller
               name="reasonForUse"
               control={control}
@@ -131,7 +136,7 @@ const ReviewModal: FC<ReviewModalProps> = ({
               render={({ field: { onChange, value } }) => (
                 <TextArea
                   id="reasonForUse"
-                  className={styles.input}
+                  className={styles.textarea}
                   style={{ height: 120, resize: "none" }}
                   onChange={(e) => onChange(e)}
                   value={value}

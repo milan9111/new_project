@@ -4,6 +4,7 @@ import {
   ICurrentSelectLookups,
   IReview,
   ISettingParamsItem,
+  ReviewModalActionType,
 } from "../../types/interfaces/ISettingParams";
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 
@@ -15,6 +16,7 @@ export interface ISettingParamsSlice {
   currentSelectLookups: ICurrentSelectLookups | null;
   isReviewDrawerOpen: boolean;
   isReviewModalOpen: boolean;
+  reviewModalAction: ReviewModalActionType;
   selectedParentReviewID: number;
   loadingReviewModal: boolean;
   reviews: IReview[];
@@ -29,6 +31,7 @@ const initialState: ISettingParamsSlice = {
   currentSelectLookups: null,
   isReviewDrawerOpen: false,
   isReviewModalOpen: false,
+  reviewModalAction: "",
   selectedParentReviewID: 0,
   loadingReviewModal: false,
   reviews: [],
@@ -101,6 +104,12 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.isReviewModalOpen = action.payload;
     },
+    setReviewModalAction(
+      state: ISettingParamsSlice,
+      action: PayloadAction<ReviewModalActionType>
+    ): void {
+      state.reviewModalAction = action.payload;
+    },
     setSelectedParentReviewID(
       state: ISettingParamsSlice,
       action: PayloadAction<number>
@@ -140,6 +149,7 @@ export const {
   setCurrentSelectLookups,
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
+  setReviewModalAction,
   setSelectedParentReviewID,
   setLoadingReviewModal,
   setReviews,

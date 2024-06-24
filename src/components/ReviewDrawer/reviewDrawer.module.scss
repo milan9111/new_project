@@ -123,7 +123,13 @@
   transition: 0.5s;
   border-radius: 10px;
   border-left: 3px solid #000c17;
+  cursor: pointer;
 }
+
+.foundedParentReview {
+  background: #4096ff54;;
+}
+
 .parentReviewUserName {
   font-weight: 600;
   margin-bottom: 0px;

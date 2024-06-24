@@ -6,6 +6,7 @@ import { getReviews } from "../../store/actions/settingParamsActions";
 import {
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
+  setReviewModalAction,
   setSelectedParentReviewID,
 } from "../../store/reducers/SettingParamsSlice";
 import { formatDateReview } from "../../helpers/formatDate";
@@ -45,6 +46,9 @@ const ReviewDrawerContainer: FC = () => {
   const onOpenReviewModal = (id?: number) => {
     if (id) {
       dispatch(setSelectedParentReviewID(id));
+      dispatch(setReviewModalAction("Reply"));
+    } else {
+      dispatch(setReviewModalAction("New"));
     }
     dispatch(setIsReviewModalOpen(true));
   };
@@ -53,11 +57,31 @@ const ReviewDrawerContainer: FC = () => {
     drawerEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const onScrollToParentReview = (id: string) => {
+    const review = document.getElementById(id);
+    if (review) {
+      review.classList.add(`${styles.foundedParentReview}`);
+      setTimeout(() => {
+        review.classList.remove(`${styles.foundedParentReview}`);
+      }, 1000);
+      review.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
+  };
+
   const showReviews = reviews.map((item) => {
     return (
-      <div key={item.id} className={styles.review}>
+      <div key={item.id} id={`review-${item.id}`} className={styles.review}>
         {item.parentReviewId ? (
-          <div className={styles.parentReview}>
+          <div
+            className={styles.parentReview}
+            onClick={() =>
+              onScrollToParentReview(`review-${item.parentReviewId}`)
+            }
+          >
             <p className={styles.parentReviewUserName}>
               {reviews.find((el) => el.id === item.parentReviewId)?.userName ||
                 ""}
