@@ -87,7 +87,7 @@ export interface IDefaultValuesSettingParams {
   [key: string]: string | boolean | number | null | undefined | Dayjs;
 }
 
-export interface ICurrentSelectLookups {
+export interface ICurrentSelects {
   [key: string]: {
     index: number;
     field: string;

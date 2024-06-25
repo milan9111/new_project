@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  ICurrentSelectLookups,
+  ICurrentSelects,
   IReview,
   ISettingParamsItem,
   ReviewModalActionType,
@@ -13,7 +13,7 @@ export interface ISettingParamsSlice {
   loadingSettingParamsItem: boolean;
   isHelpModalOpen: boolean;
   selectedPath: string;
-  currentSelectLookups: ICurrentSelectLookups | null;
+  currentSelects: ICurrentSelects | null;
   isReviewDrawerOpen: boolean;
   isReviewModalOpen: boolean;
   reviewModalAction: ReviewModalActionType;
@@ -28,7 +28,7 @@ const initialState: ISettingParamsSlice = {
   loadingSettingParamsItem: false,
   isHelpModalOpen: false,
   selectedPath: "",
-  currentSelectLookups: null,
+  currentSelects: null,
   isReviewDrawerOpen: false,
   isReviewModalOpen: false,
   reviewModalAction: "",
@@ -49,12 +49,15 @@ export const SettingParamsSlice = createSlice({
       state.settingParamsItem = action.payload;
 
       if (action.payload) {
-        const tempCurrentSelectLookups: ICurrentSelectLookups = {};
+        const tempCurrentSelects: ICurrentSelects = {};
         let index = 0;
         action.payload.form.rows.forEach((item) => {
           item.fields.forEach((el) => {
-            if (el.fieldType === ESettingParamsFieldType.SelectLookup) {
-              tempCurrentSelectLookups[el.name] = {
+            if (
+              el.fieldType === ESettingParamsFieldType.SelectLookup ||
+              el.fieldType === ESettingParamsFieldType.SelectInclude
+            ) {
+              tempCurrentSelects[el.name] = {
                 index: index++,
                 field: el.name,
                 filters: el.filters,
@@ -65,7 +68,7 @@ export const SettingParamsSlice = createSlice({
             }
           });
         });
-        state.currentSelectLookups = tempCurrentSelectLookups;
+        state.currentSelects = tempCurrentSelects;
       }
     },
     setLoadingSettingParamsItem(
@@ -86,11 +89,11 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.selectedPath = action.payload;
     },
-    setCurrentSelectLookups(
+    setCurrentSelects(
       state: ISettingParamsSlice,
-      action: PayloadAction<ICurrentSelectLookups | null>
+      action: PayloadAction<ICurrentSelects | null>
     ): void {
-      state.currentSelectLookups = action.payload;
+      state.currentSelects = action.payload;
     },
     setIsReviewDrawerOpen(
       state: ISettingParamsSlice,
@@ -146,7 +149,7 @@ export const {
   setLoadingSettingParamsItem,
   setIsHelpModalOpen,
   setSelectedPath,
-  setCurrentSelectLookups,
+  setCurrentSelects,
   setIsReviewDrawerOpen,
   setIsReviewModalOpen,
   setReviewModalAction,

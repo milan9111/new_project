@@ -39,7 +39,7 @@ const SettingParamsContainer: FC = () => {
     settingParamsItem,
     loadingSettingParamsItem,
     selectedPath,
-    currentSelectLookups,
+    currentSelects,
     reviews,
   } = useAppSelector((state) => state.settingParams);
   const [isFormWithInputs, setIsFormWithInputs] = useState<number>(0);
@@ -182,6 +182,9 @@ const SettingParamsContainer: FC = () => {
               key={index}
               item={item}
               control={control}
+              currentSelects={currentSelects}
+              defaultValues={defaultValues}
+              reset={reset}
               errors={errors}
             />
           );
@@ -192,11 +195,11 @@ const SettingParamsContainer: FC = () => {
               key={index}
               item={item}
               options={
-                currentSelectLookups
-                  ? currentSelectLookups[item.name].options
+                currentSelects
+                  ? currentSelects[item.name].options
                   : []
               }
-              currentSelectLookups={currentSelectLookups}
+              currentSelects={currentSelects}
               selectedPath={selectedPath}
               defaultValues={defaultValues}
               reset={reset}
