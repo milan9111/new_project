@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { Button, MenuProps } from "antd";
-import Header from "./Header";
-import { useAppSelector } from "../../hooks/redux";
+import { setShowMobileMenu } from "../../store/reducers/MenuSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import useSignOut from "../../hooks/useSignOut";
+import Header from "./Header";
 
 const HeaderContainer: FC = () => {
   const { currentScreenIndex, screensNamesForInput } = useAppSelector(
@@ -11,6 +12,7 @@ const HeaderContainer: FC = () => {
   const { data } = useAppSelector((state) => state.signIn);
   const { settingParamsItem } = useAppSelector((state) => state.settingParams);
   const signOut = useSignOut();
+  const dispatch = useAppDispatch();
 
   const getTitle = (
     formTitle: string | undefined,
@@ -37,6 +39,10 @@ const HeaderContainer: FC = () => {
     },
   ];
 
+  const onShowMobileMenu = () => {
+    dispatch(setShowMobileMenu(true));
+  };
+
   return (
     <Header
       items={items}
@@ -45,6 +51,7 @@ const HeaderContainer: FC = () => {
         settingParamsItem?.shortDescription.default
       )}
       userName={data.name}
+      onShowMobileMenu={onShowMobileMenu}
     />
   );
 };

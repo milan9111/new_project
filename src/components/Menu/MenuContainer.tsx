@@ -10,6 +10,7 @@ import {
   setFilteredMenu,
   setSearchLoading,
   setSearchValue,
+  setShowMobileMenu,
   setShownMenu,
 } from "../../store/reducers/MenuSlice";
 import { debouncing } from "../../helpers/debouncing";
@@ -53,6 +54,7 @@ const MenuContainer: FC = () => {
   const onSelectMenuItem = (e: any) => {
     dispatch(setDefaultSelectedKeys(e.selectedKeys));
     navigate(EPageRoute.SETTING_PARAMS_ROUTE.replace(":key", e.key));
+    dispatch(setShowMobileMenu(false));
     window.scrollTo({
       top: 0,
       left: 0,

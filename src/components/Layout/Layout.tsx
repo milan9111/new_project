@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import { Layout as AntdLayout, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Layout as AntdLayout, Spin, Drawer } from "antd";
+import { LoadingOutlined, CloseOutlined } from "@ant-design/icons";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import HeaderContainer from "../Header/HeaderContainer";
@@ -14,6 +14,8 @@ interface LayoutProps {
   loadingMenu: boolean;
   loadingMainSpinner: boolean;
   onClearMenu: () => void;
+  onShowMobileMenu: () => void;
+  showMobileMenu: boolean;
 }
 
 const Layout: FC<LayoutProps> = ({
@@ -21,6 +23,8 @@ const Layout: FC<LayoutProps> = ({
   loadingMenu,
   loadingMainSpinner,
   onClearMenu,
+  onShowMobileMenu,
+  showMobileMenu,
 }) => {
   return (
     <Spin
@@ -30,7 +34,25 @@ const Layout: FC<LayoutProps> = ({
       style={{ height: "100vh", maxHeight: "100vh" }}
     >
       <AntdLayout className={styles.layout}>
+        <Drawer
+          rootClassName={styles.mobileMenu}
+          onClose={onShowMobileMenu}
+          open={showMobileMenu}
+          placement="left"
+          closeIcon={<CloseOutlined style={{ color: "#1677ff" }} />}
+          style={{ background: "#001529" }}
+        >
+          {loadingMenu && (
+            <div className={styles.spinBox}>
+              <Spin
+                indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+              />
+            </div>
+          )}
+          <MenuContainer />
+        </Drawer>
         <Sider
+          className={styles.menu}
           width={350}
           collapsible={!loadingMenu}
           onCollapse={() => onClearMenu()}
