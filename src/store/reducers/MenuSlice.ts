@@ -13,6 +13,7 @@ export interface IMenuSlice {
   searchLoading: boolean;
   defaultOpenKeys: string[];
   defaultSelectedKeys: string[];
+  changedMenuFlag: boolean;
   showMobileMenu: boolean;
 }
 
@@ -26,6 +27,7 @@ const initialState: IMenuSlice = {
   searchLoading: false,
   defaultOpenKeys: [],
   defaultSelectedKeys: [],
+  changedMenuFlag: false,
   showMobileMenu: false,
 };
 
@@ -81,6 +83,12 @@ export const MenuSlice = createSlice({
     ): void {
       state.defaultSelectedKeys = action.payload;
     },
+    setChangedMenuFlag(
+      state: IMenuSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.changedMenuFlag = action.payload;
+    },
     setShowMobileMenu(state: IMenuSlice, action: PayloadAction<boolean>): void {
       state.showMobileMenu = action.payload;
     },
@@ -97,6 +105,7 @@ export const {
   setSearchLoading,
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
+  setChangedMenuFlag,
   setShowMobileMenu,
 } = MenuSlice.actions;
 export default MenuSlice.reducer;

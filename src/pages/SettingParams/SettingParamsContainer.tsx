@@ -17,7 +17,10 @@ import {
   setSelectedPath,
   setSettingParamsItem,
 } from "../../store/reducers/SettingParamsSlice";
-import { setDefaultSelectedKeys } from "../../store/reducers/MenuSlice";
+import {
+  setDefaultOpenKeys,
+  setDefaultSelectedKeys,
+} from "../../store/reducers/MenuSlice";
 import { setCurrentScreenIndex } from "../../store/reducers/FormsSlice";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
 import { getPath } from "../../helpers/getPath";
@@ -30,11 +33,10 @@ import CustomSelectInclude from "../../components/SettingParamsCustomComponents/
 import CustomSelectLookup from "../../components/SettingParamsCustomComponents/CustomSelectLookup/CustomSelectLookup";
 import SettingParams from "./SettingParams";
 import styles from "./settingParams.module.scss";
+import { getDefaultOpenKeys } from "../../helpers/getDefaultOpenKeys";
 
 const SettingParamsContainer: FC = () => {
-  const { menu, defaultOpenKeys, defaultSelectedKeys } = useAppSelector(
-    (state) => state.menu
-  );
+  const { menu } = useAppSelector((state) => state.menu);
   const {
     settingParamsItem,
     loadingSettingParamsItem,
@@ -66,12 +68,11 @@ const SettingParamsContainer: FC = () => {
 
   useAbortableEffect(
     async (abortController: AbortController) => {
-      if (defaultOpenKeys.length && defaultSelectedKeys.length) {
-        dispatch(setDefaultSelectedKeys([key as string]));
-      }
+      dispatch(setDefaultSelectedKeys([key as string]));
+      dispatch(setDefaultOpenKeys(getDefaultOpenKeys(menu, key as string)));
 
       if (menu.length && key && key.length) {
-        const path = getPath(menu as any, key as string);
+        const path = getPath(menu, key as string);
         dispatch(setSelectedPath(path));
         dispatch(getDataByKey(key, abortController));
       }
@@ -194,11 +195,7 @@ const SettingParamsContainer: FC = () => {
             <CustomSelectLookup
               key={index}
               item={item}
-              options={
-                currentSelects
-                  ? currentSelects[item.name].options
-                  : []
-              }
+              options={currentSelects ? currentSelects[item.name].options : []}
               currentSelects={currentSelects}
               selectedPath={selectedPath}
               defaultValues={defaultValues}

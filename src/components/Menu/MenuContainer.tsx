@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { EPageRoute } from "../../types/enums/EPageRoute";
 import { IMenuItem } from "../../types/interfaces/MenuItem";
 import { getMenu } from "../../store/actions/menuActions";
 import {
+  setChangedMenuFlag,
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
   setFilteredMenu,
@@ -29,6 +30,7 @@ const MenuContainer: FC = () => {
     filteredMenu,
     defaultOpenKeys,
     defaultSelectedKeys,
+    changedMenuFlag,
   } = useAppSelector((state) => state.menu);
   const letShowMenuRecursion = useCloneShowMenu();
   const dispatch = useAppDispatch();
@@ -41,6 +43,12 @@ const MenuContainer: FC = () => {
     [],
     []
   );
+
+  useEffect(() => {
+    if (menu.length && defaultOpenKeys.length && !changedMenuFlag) {
+      onChangeMenuItem(defaultOpenKeys);
+    }
+  }, [menu, defaultOpenKeys]);
 
   const onSearch = (value: string) => {
     dispatch(setSearchLoading(true));
@@ -63,6 +71,7 @@ const MenuContainer: FC = () => {
   };
 
   const onChangeMenuItem = (e: string[]) => {
+    dispatch(setChangedMenuFlag(true));
     const cloneShownMenu: IMenuItem[] = JSON.parse(JSON.stringify(shownMenu));
     letShowMenuRecursion(menu, e, cloneShownMenu);
     dispatch(setShownMenu(cloneShownMenu));
