@@ -3,6 +3,7 @@ import SignInReducer from "./reducers/SignInSlice";
 import FormsReducer from "./reducers/FormsSlice";
 import MenuReducer from "./reducers/MenuSlice";
 import SettingParamsReducer from "./reducers/SettingParamsSlice";
+import SubMenuReducer from "./reducers/SubMenuSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     forms: FormsReducer,
     menu: MenuReducer,
     settingParams: SettingParamsReducer,
+    subMenu: SubMenuReducer,
   },
 });
 

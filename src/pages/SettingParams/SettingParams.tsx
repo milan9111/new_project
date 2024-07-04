@@ -65,7 +65,7 @@ const SettingParams: FC<SettingParamsProps> = ({
                 <div className={styles.leftButtons}>
                   <Button
                     onClick={() => onFinishSetting()}
-                    disabled={!settingParamsItem.screenId}
+                    disabled={!settingParamsItem.hasSubMenu}
                   >
                     Finish (F9)
                   </Button>

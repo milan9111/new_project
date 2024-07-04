@@ -3,6 +3,7 @@ import { EPageRoute } from "../types/enums/EPageRoute";
 import SignInContainer from "../pages/SignIn/SignInContainer";
 import FormsContainer from "../pages/Forms/FormsContainer";
 import SettingParamsContainer from "../pages/SettingParams/SettingParamsContainer";
+import SubMenuContainer from "../pages/SubMenu/SubMenuContainer";
 import NotFoundContainer from "../pages/NotFound/NotFoundContainer";
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -26,6 +27,14 @@ const Navigator = () => (
         element={
           <ProtectedRoute>
             <SettingParamsContainer />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={EPageRoute.SUB_MENU_ROUTE}
+        element={
+          <ProtectedRoute>
+            <SubMenuContainer />
           </ProtectedRoute>
         }
       />

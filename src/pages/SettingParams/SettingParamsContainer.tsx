@@ -9,7 +9,6 @@ import {
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
 import { EPageRoute } from "../../types/enums/EPageRoute";
 import { getDataByKey } from "../../store/actions/settingParamsActions";
-import { getScreens } from "../../store/actions/formsActions";
 import {
   setIsHelpModalOpen,
   setIsReviewDrawerOpen,
@@ -21,7 +20,6 @@ import {
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
 } from "../../store/reducers/MenuSlice";
-import { setCurrentScreenIndex } from "../../store/reducers/FormsSlice";
 import LayoutContainer from "../../components/Layout/LayoutContainer";
 import { getPath } from "../../helpers/getPath";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
@@ -80,6 +78,7 @@ const SettingParamsContainer: FC = () => {
     [key, menu],
     [handleCleanup]
   );
+  
   useEffect(() => {
     if (settingParamsItem && !loadingSettingParamsItem) {
       const defaultValuesSettingParams: IDefaultValuesSettingParams = {};
@@ -122,21 +121,7 @@ const SettingParamsContainer: FC = () => {
     if (formSubmit.current) {
       formSubmit.current.click();
 
-      if (settingParamsItem?.screenId) {
-        const abortController = new AbortController();
-        const screens = await dispatch(getScreens(abortController));
-        if (screens.length) {
-          screens.forEach((item, index) => {
-            if (item.value === settingParamsItem?.screenId) {
-              dispatch(setCurrentScreenIndex(index));
-            }
-          });
-        }
-        navigate(EPageRoute.FORMS_PAGE_ROUTE);
-      } else {
-        dispatch(setCurrentScreenIndex(0));
-        navigate(EPageRoute.FORMS_PAGE_ROUTE);
-      }
+      navigate(EPageRoute.SUB_MENU_ROUTE.replace(":key", key as string));
     }
   };
 

@@ -1,25 +1,36 @@
 import { FC, ReactNode } from "react";
-import Layout from "./Layout";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useParams } from "react-router-dom";
 import {
+  setChangedMenuFlag,
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
+  setLoadingMenu,
   setShowMobileMenu,
 } from "../../store/reducers/MenuSlice";
+import { getDefaultOpenKeys } from "../../helpers/getDefaultOpenKeys";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import Layout from "./Layout";
 
 interface LayoutContainerProps {
   children: ReactNode;
 }
 
 const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
-  const { loadingMenu, loadingMainSpinner, showMobileMenu } = useAppSelector(
-    (state) => state.menu
-  );
+  const { menu, loadingMenu, loadingMainSpinner, showMobileMenu } =
+    useAppSelector((state) => state.menu);
   const dispatch = useAppDispatch();
+  const { key } = useParams();
 
-  const onClearMenu = () => {
-    dispatch(setDefaultOpenKeys([]));
-    dispatch(setDefaultSelectedKeys([]));
+  const onRestoreMenu = (collapsed: boolean) => {
+    if (!collapsed && key && key.length && menu.length) {
+      dispatch(setLoadingMenu(true));
+      dispatch(setChangedMenuFlag(false));
+      dispatch(setDefaultSelectedKeys([key as string]));
+      dispatch(setDefaultOpenKeys(getDefaultOpenKeys(menu, key as string)));
+      setTimeout(() => {
+        dispatch(setLoadingMenu(false));
+      }, 750);
+    }
   };
 
   const onShowMobileMenu = () => {
@@ -30,8 +41,8 @@ const LayoutContainer: FC<LayoutContainerProps> = ({ children }) => {
     <Layout
       loadingMenu={loadingMenu}
       loadingMainSpinner={loadingMainSpinner}
-      onClearMenu={onClearMenu}
-      onShowMobileMenu={onShowMobileMenu} 
+      onRestoreMenu={onRestoreMenu}
+      onShowMobileMenu={onShowMobileMenu}
       showMobileMenu={showMobileMenu}
     >
       {children}

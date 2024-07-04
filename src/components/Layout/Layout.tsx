@@ -13,7 +13,7 @@ interface LayoutProps {
   children: ReactNode;
   loadingMenu: boolean;
   loadingMainSpinner: boolean;
-  onClearMenu: () => void;
+  onRestoreMenu: (collapsed: boolean) => void;
   onShowMobileMenu: () => void;
   showMobileMenu: boolean;
 }
@@ -22,7 +22,7 @@ const Layout: FC<LayoutProps> = ({
   children,
   loadingMenu,
   loadingMainSpinner,
-  onClearMenu,
+  onRestoreMenu,
   onShowMobileMenu,
   showMobileMenu,
 }) => {
@@ -55,7 +55,7 @@ const Layout: FC<LayoutProps> = ({
           className={styles.menu}
           width={350}
           collapsible={!loadingMenu}
-          onCollapse={() => onClearMenu()}
+          onCollapse={(collapsed) => onRestoreMenu(collapsed)}
         >
           {loadingMenu && (
             <div className={styles.spinBox}>

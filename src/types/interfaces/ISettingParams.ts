@@ -81,6 +81,7 @@ export interface ISettingParamsItem {
   output: IOutput;
   warn?: IWarn | null;
   reviewCount: number | null;
+  hasSubMenu: boolean;
 }
 
 export interface IDefaultValuesSettingParams {

@@ -11,18 +11,23 @@ const HeaderContainer: FC = () => {
   );
   const { data } = useAppSelector((state) => state.signIn);
   const { settingParamsItem } = useAppSelector((state) => state.settingParams);
+  const { subMenu } = useAppSelector((state) => state.subMenu);
   const signOut = useSignOut();
   const dispatch = useAppDispatch();
 
   const getTitle = (
     formTitle: string | undefined,
-    settingParamsTitle: string | undefined
+    settingParamsTitle: string | undefined,
+    subMenuTitle: string | undefined
   ): string => {
     if (formTitle) {
       return formTitle;
     }
-    if (settingParamsTitle) {
+    if (settingParamsTitle && !subMenuTitle) {
       return `${settingParamsTitle} - Parameters`;
+    }
+    if (settingParamsTitle && subMenuTitle) {
+      return `${settingParamsTitle} - ${subMenuTitle}`;
     }
 
     return "";
@@ -48,7 +53,8 @@ const HeaderContainer: FC = () => {
       items={items}
       title={getTitle(
         screensNamesForInput[currentScreenIndex]?.label,
-        settingParamsItem?.shortDescription.default
+        settingParamsItem?.shortDescription.default,
+        subMenu?.windowTitle
       )}
       userName={data.name}
       onShowMobileMenu={onShowMobileMenu}
