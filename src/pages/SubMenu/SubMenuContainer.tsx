@@ -16,7 +16,7 @@ import { getDataByKey } from "../../store/actions/settingParamsActions";
 
 const SubMenuContainer: FC = () => {
   const { menu } = useAppSelector((state) => state.menu);
-  const { subMenu, loadingSubMenu } = useAppSelector((state) => state.subMenu);
+  const { subMenu } = useAppSelector((state) => state.subMenu);
   const dispatch = useAppDispatch();
   const { key } = useParams();
 
