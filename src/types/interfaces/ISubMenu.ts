@@ -5,7 +5,7 @@ interface ISizeOpt {
   height: number;
 }
 
-interface IField {
+export interface IField {
   row: number;
   colspan: number;
   column: number;
@@ -23,11 +23,11 @@ interface IField {
   noEntry: boolean;
   optional: boolean;
   value: string | null;
-  screenName: string | null;
 }
 
 interface IRow {
   row: number;
+  screenName: string | null;
   fields: IField[];
 }
 

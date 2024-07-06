@@ -1,0 +1,52 @@
+.settingParams {
+  width: 100%;
+  min-height: 80vh;
+}
+
+.container {
+  position: relative;
+}
+
+.formBox {
+  margin: 0 auto;
+  padding: 15px 20px;
+  border: 1px solid #c0c0c084;
+  border-radius: 10px;
+  transition: 0.5s;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &:hover {
+    background: #c0c0c03c;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.emptyRow {
+  width: 100%;
+}
+
+.titleRowCenter {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.titleRowStart {
+  width: 100%;
+  text-align: start;
+  font-size: 13px;
+  margin-left: 102px;
+  margin-bottom: 0px;
+}

@@ -23,11 +23,11 @@ const HeaderContainer: FC = () => {
     if (formTitle) {
       return formTitle;
     }
-    if (settingParamsTitle && !subMenuTitle) {
+    if (settingParamsTitle) {
       return `${settingParamsTitle} - Parameters`;
     }
-    if (settingParamsTitle && subMenuTitle) {
-      return `${settingParamsTitle} - ${subMenuTitle}`;
+    if (subMenuTitle) {
+      return `${subMenuTitle}`;
     }
 
     return "";
