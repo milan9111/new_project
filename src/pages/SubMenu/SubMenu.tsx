@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ConfigProvider, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import styles from "./subMenu.module.scss";
 import { ISubMenuItem } from "../../types/interfaces/ISubMenu";
 
@@ -30,6 +30,22 @@ const SubMenu: FC<SubMenuProps> = ({ loadingSubMenu, subMenu, renderForm }) => {
               >
                 {renderForm}
               </div>
+              {subMenu.form.rows[subMenu.form.rows.length - 1].fields[1]
+                .comments ? (
+                <div className={styles.warnBox}>
+                  <div className={styles.warnIcon}>
+                    <InfoCircleOutlined
+                      style={{ fontSize: 24, color: "#ffffff" }}
+                    />
+                  </div>
+                  <p className={styles.warnText}>
+                    {
+                      subMenu.form.rows[subMenu.form.rows.length - 1].fields[1]
+                        .comments
+                    }
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : null}
         </section>

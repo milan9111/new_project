@@ -50,3 +50,33 @@
   margin-left: 102px;
   margin-bottom: 0px;
 }
+
+.buttonLabel {
+  margin-bottom: 0px;
+}
+
+.selectionInput {
+  width: 75px;
+}
+
+.warnBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  padding: 12px 20px 13px 20px;
+  background-color: #2f54eb;
+
+  position: fixed;
+  bottom: 0;
+  margin-left: -24px;
+}
+
+.warnText {
+  width: 50%;
+  margin-bottom: 0px;
+  color: #ffffff;
+  font-weight: 600;
+}
