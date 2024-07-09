@@ -8,9 +8,15 @@ interface SubMenuProps {
   loadingSubMenu: boolean;
   subMenu: ISubMenuItem | null;
   renderForm: JSX.Element[];
+  lastInputFocus: boolean;
 }
 
-const SubMenu: FC<SubMenuProps> = ({ loadingSubMenu, subMenu, renderForm }) => {
+const SubMenu: FC<SubMenuProps> = ({
+  loadingSubMenu,
+  subMenu,
+  renderForm,
+  lastInputFocus,
+}) => {
   return (
     <ConfigProvider wave={{ disabled: true }}>
       <Spin
@@ -32,7 +38,10 @@ const SubMenu: FC<SubMenuProps> = ({ loadingSubMenu, subMenu, renderForm }) => {
               </div>
               {subMenu.form.rows[subMenu.form.rows.length - 1].fields[1]
                 .comments ? (
-                <div className={styles.warnBox}>
+                <div
+                  className={styles.warnBox}
+                  style={lastInputFocus ? { opacity: 1 } : { opacity: 0 }}
+                >
                   <div className={styles.warnIcon}>
                     <InfoCircleOutlined
                       style={{ fontSize: 24, color: "#ffffff" }}

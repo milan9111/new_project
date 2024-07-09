@@ -3,11 +3,10 @@ import { notification } from "antd";
 import { AppDispatch } from "../store";
 import { setLoadingSubMenu, setSubMenu } from "../reducers/SubMenuSlice";
 import { requestToApi } from "../../helpers/requestToApi";
-import { ISubMenuItem } from "../../types/interfaces/ISubMenu";
 
 export const getSubMenu =
   (abortController: AbortController, key: string) =>
-  async (dispatch: AppDispatch): Promise<ISubMenuItem | undefined> => {
+  async (dispatch: AppDispatch): Promise<number | undefined> => {
     dispatch(setLoadingSubMenu(true));
     try {
       const { data, status } = await requestToApi({
@@ -19,7 +18,7 @@ export const getSubMenu =
       if (status === 200) {
         dispatch(setSubMenu(data));
         dispatch(setLoadingSubMenu(false));
-        return data;
+        return status;
       }
 
       dispatch(setLoadingSubMenu(false));

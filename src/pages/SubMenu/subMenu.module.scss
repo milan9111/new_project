@@ -65,9 +65,10 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
-
+  
   padding: 12px 20px 13px 20px;
   background-color: #2f54eb;
+  transition: 0.5s;
 
   position: fixed;
   bottom: 0;

@@ -5,11 +5,13 @@ import { ISubMenuItem } from "../../types/interfaces/ISubMenu";
 export interface ISubMenuSlice {
   subMenu: ISubMenuItem | null;
   loadingSubMenu: boolean;
+  lastInputFocus: boolean;
 }
 
 const initialState: ISubMenuSlice = {
   subMenu: null,
   loadingSubMenu: false,
+  lastInputFocus: false,
 };
 
 export const SubMenuSlice = createSlice({
@@ -28,8 +30,15 @@ export const SubMenuSlice = createSlice({
     ): void {
       state.loadingSubMenu = action.payload;
     },
+    setLastInputFocus(
+      state: ISubMenuSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.lastInputFocus = action.payload;
+    },
   },
 });
 
-export const { setSubMenu, setLoadingSubMenu } = SubMenuSlice.actions;
+export const { setSubMenu, setLoadingSubMenu, setLastInputFocus } =
+  SubMenuSlice.actions;
 export default SubMenuSlice.reducer;

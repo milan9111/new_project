@@ -1,6 +1,6 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Input, notification } from "antd";
+import { Button, Input, InputRef, notification } from "antd";
 import { IField } from "../../types/interfaces/ISubMenu";
 import { ESubMenuFieldType } from "../../types/enums/ESubMenuFieldType";
 import { EPageRoute } from "../../types/enums/EPageRoute";
@@ -9,7 +9,10 @@ import {
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
 } from "../../store/reducers/MenuSlice";
-import { setSubMenu } from "../../store/reducers/SubMenuSlice";
+import {
+  setLastInputFocus,
+  setSubMenu,
+} from "../../store/reducers/SubMenuSlice";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getDefaultOpenKeys } from "../../helpers/getDefaultOpenKeys";
@@ -19,10 +22,13 @@ import styles from "./subMenu.module.scss";
 
 const SubMenuContainer: FC = () => {
   const { menu } = useAppSelector((state) => state.menu);
-  const { subMenu, loadingSubMenu } = useAppSelector((state) => state.subMenu);
+  const { subMenu, loadingSubMenu, lastInputFocus } = useAppSelector(
+    (state) => state.subMenu
+  );
   const dispatch = useAppDispatch();
   const { key } = useParams();
   const navigate = useNavigate();
+  const lastInputRef = useRef<InputRef | null>(null);
 
   const handleCleanup = () => {
     dispatch(setSubMenu(null));
@@ -30,7 +36,11 @@ const SubMenuContainer: FC = () => {
 
   useAbortableEffect(
     async (abortController: AbortController) => {
-      dispatch(getSubMenu(abortController, key as string));
+      const status = await dispatch(getSubMenu(abortController, key as string));
+
+      if (status === 200 && lastInputRef.current) {
+        lastInputRef.current.focus();
+      }
     },
     [],
     [handleCleanup]
@@ -89,6 +99,7 @@ const SubMenuContainer: FC = () => {
               key={index}
               type="primary"
               onClick={() => onClickButton(screenName)}
+              tabIndex={Number(subMenu?.tabstops.indexOf(item.name)) + 1}
             >
               {item.text}
             </Button>
@@ -97,7 +108,12 @@ const SubMenuContainer: FC = () => {
         if (item.rowItemType === ESubMenuFieldType.Filed) {
           return (
             <div key={index} className={styles.selectionInput}>
-              <Input />
+              <Input
+                ref={lastInputRef}
+                onFocus={() => dispatch(setLastInputFocus(true))}
+                onBlur={() => dispatch(setLastInputFocus(false))}
+                tabIndex={1}
+              />
             </div>
           );
         }
@@ -127,6 +143,7 @@ const SubMenuContainer: FC = () => {
         loadingSubMenu={loadingSubMenu}
         subMenu={subMenu}
         renderForm={renderForm}
+        lastInputFocus={lastInputFocus}
       />
     </LayoutContainer>
   );

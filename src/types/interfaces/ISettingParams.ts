@@ -82,6 +82,7 @@ export interface ISettingParamsItem {
   warn?: IWarn | null;
   reviewCount: number | null;
   hasSubMenu: boolean;
+  isReport: boolean;
 }
 
 export interface IDefaultValuesSettingParams {
