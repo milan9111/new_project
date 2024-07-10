@@ -11,6 +11,7 @@ import { EPageRoute } from "../../types/enums/EPageRoute";
 import { getDataByKey } from "../../store/actions/settingParamsActions";
 import {
   setIsHelpModalOpen,
+  setIsReportModalOpen,
   setIsReviewDrawerOpen,
   setReviews,
   setSelectedPath,
@@ -78,7 +79,7 @@ const SettingParamsContainer: FC = () => {
     [key, menu],
     [handleCleanup]
   );
-  
+
   useEffect(() => {
     if (settingParamsItem && !loadingSettingParamsItem) {
       const defaultValuesSettingParams: IDefaultValuesSettingParams = {};
@@ -118,10 +119,16 @@ const SettingParamsContainer: FC = () => {
   };
 
   const onFinishSetting = async () => {
-    if (formSubmit.current) {
-      formSubmit.current.click();
+    if (settingParamsItem?.hasSubMenu) {
+      if (formSubmit.current) {
+        formSubmit.current.click();
 
-      navigate(EPageRoute.SUB_MENU_ROUTE.replace(":key", key as string));
+        navigate(EPageRoute.SUB_MENU_ROUTE.replace(":key", key as string));
+      }
+    }
+
+    if (settingParamsItem?.isReport) {
+      dispatch(setIsReportModalOpen(true));
     }
   };
 

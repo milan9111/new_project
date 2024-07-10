@@ -8,6 +8,7 @@ import {
   ISettingParamsItem,
 } from "../../types/interfaces/ISettingParams";
 import styles from "./settingParams.module.scss";
+import ReportModalContainer from "../../components/ReportModal/ReportModalContainer";
 import HelpModalContainer from "../../components/HelpModal/HelpModalContainer";
 import ReviewDrawerContainer from "../../components/ReviewDrawer/ReviewDrawerContainer";
 
@@ -65,7 +66,10 @@ const SettingParams: FC<SettingParamsProps> = ({
                 <div className={styles.leftButtons}>
                   <Button
                     onClick={() => onFinishSetting()}
-                    disabled={!settingParamsItem.hasSubMenu}
+                    disabled={
+                      !settingParamsItem.hasSubMenu &&
+                      !settingParamsItem.isReport
+                    }
                   >
                     Finish (F9)
                   </Button>
@@ -124,6 +128,7 @@ const SettingParams: FC<SettingParamsProps> = ({
             </div>
           ) : null}
           <ReviewDrawerContainer />
+          <ReportModalContainer />
           <HelpModalContainer />
         </section>
       </Spin>

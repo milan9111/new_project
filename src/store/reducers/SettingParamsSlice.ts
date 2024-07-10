@@ -7,6 +7,7 @@ import {
   ReviewModalActionType,
 } from "../../types/interfaces/ISettingParams";
 import { ESettingParamsFieldType } from "../../types/enums/ESettingParamsFieldType";
+import { IReportModalItem } from "../../types/interfaces/IReportModalItem";
 
 export interface ISettingParamsSlice {
   settingParamsItem: ISettingParamsItem | null;
@@ -21,6 +22,9 @@ export interface ISettingParamsSlice {
   loadingReviewModal: boolean;
   reviews: IReview[];
   loadingReviews: boolean;
+  isReportModalOpen: boolean;
+  reportModalItem: IReportModalItem | null;
+  loadingReportModal: boolean;
 }
 
 const initialState: ISettingParamsSlice = {
@@ -36,6 +40,9 @@ const initialState: ISettingParamsSlice = {
   loadingReviewModal: false,
   reviews: [],
   loadingReviews: false,
+  isReportModalOpen: false,
+  reportModalItem: null,
+  loadingReportModal: false,
 };
 
 export const SettingParamsSlice = createSlice({
@@ -141,6 +148,24 @@ export const SettingParamsSlice = createSlice({
     ): void {
       state.loadingReviews = action.payload;
     },
+    setIsReportModalOpen(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.isReportModalOpen = action.payload;
+    },
+    setReportModalItem(
+      state: ISettingParamsSlice,
+      action: PayloadAction<IReportModalItem | null>
+    ): void {
+      state.reportModalItem = action.payload;
+    },
+    setLoadingReportModal(
+      state: ISettingParamsSlice,
+      action: PayloadAction<boolean>
+    ): void {
+      state.loadingReportModal = action.payload;
+    },
   },
 });
 
@@ -157,5 +182,8 @@ export const {
   setLoadingReviewModal,
   setReviews,
   setLoadingReviews,
+  setIsReportModalOpen,
+  setReportModalItem,
+  setLoadingReportModal,
 } = SettingParamsSlice.actions;
 export default SettingParamsSlice.reducer;
