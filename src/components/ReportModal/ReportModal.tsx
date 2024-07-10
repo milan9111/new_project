@@ -6,15 +6,17 @@ interface ReportModalProps {
   isReportModalOpen: boolean;
   handleReportModalCancel: () => void;
   loadingReportModal: boolean;
+  renderForm: JSX.Element[];
 }
 
 const ReportModal: FC<ReportModalProps> = ({
   isReportModalOpen,
   handleReportModalCancel,
   loadingReportModal,
+  renderForm,
 }) => {
   return (
-     <Modal
+    <Modal
       open={isReportModalOpen}
       onOk={handleReportModalCancel}
       okText="Run"
@@ -22,8 +24,9 @@ const ReportModal: FC<ReportModalProps> = ({
       cancelButtonProps={{ style: { display: "none" } }}
       loading={loadingReportModal}
     >
-        <div className={styles.rowsBox}>Report modal</div>
-     
+      <div className={styles.container}>
+        <div className={styles.formBox}>{renderForm}</div>
+      </div>
     </Modal>
   );
 };

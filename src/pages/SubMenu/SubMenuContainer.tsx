@@ -105,7 +105,7 @@ const SubMenuContainer: FC = () => {
             </Button>
           );
         }
-        if (item.rowItemType === ESubMenuFieldType.Filed) {
+        if (item.rowItemType === ESubMenuFieldType.Field) {
           return (
             <div key={index} className={styles.selectionInput}>
               <Input
@@ -124,7 +124,6 @@ const SubMenuContainer: FC = () => {
     }
   };
 
-  console.log(subMenu);
 
   const renderForm =
     !loadingSubMenu && subMenu

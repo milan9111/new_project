@@ -6,7 +6,7 @@ interface ISizeOpt {
     height: number;
   }
   
-  interface IField {
+  export interface IField {
     row: number;
     colspan: number;
     column: number;

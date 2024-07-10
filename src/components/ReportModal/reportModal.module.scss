@@ -1,0 +1,45 @@
+.container {
+  padding: 30px 0px 20px 0px;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.emptyRow {
+  width: 100%;
+}
+
+.titleRowCenter {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.titleRowStart {
+  width: 100%;
+  text-align: start;
+  font-size: 13px;
+  margin-left: 102px;
+  margin-bottom: 0px;
+}
+
+.label {
+  margin-bottom: 0px;
+}
+
+.selectionInput {
+  width: 75px;
+}

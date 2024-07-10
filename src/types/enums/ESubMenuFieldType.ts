@@ -1,5 +1,5 @@
 export enum ESubMenuFieldType {
-    Label,
-    Filed,
-    Button
+  Label,
+  Field,
+  Button,
 }

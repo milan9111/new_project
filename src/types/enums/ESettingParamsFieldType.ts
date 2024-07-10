@@ -1,6 +1,6 @@
 export enum ESettingParamsFieldType {
-    Text,
-    Input,
-    SelectInclude,
-    SelectLookup
+  Text,
+  Input,
+  SelectInclude,
+  SelectLookup,
 }
