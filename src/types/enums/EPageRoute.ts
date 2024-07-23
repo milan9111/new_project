@@ -4,4 +4,5 @@ export enum EPageRoute {
   SIGN_IN_PAGE_ROUTE = "/sign-in",
   SETTING_PARAMS_ROUTE = "/setting-params/:key",
   SUB_MENU_ROUTE = "/setting-params/:key/sub-menu",
+  TEMPLATES_ROUTE = '/templates',
 }

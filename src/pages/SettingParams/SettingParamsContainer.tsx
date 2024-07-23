@@ -21,7 +21,6 @@ import {
   setDefaultOpenKeys,
   setDefaultSelectedKeys,
 } from "../../store/reducers/MenuSlice";
-import LayoutContainer from "../../components/Layout/LayoutContainer";
 import { getPath } from "../../helpers/getPath";
 import { getDateForDatepicker } from "../../helpers/getDateForDatepicker";
 import useAbortableEffect from "../../hooks/useAbortableEffect";
@@ -219,21 +218,19 @@ const SettingParamsContainer: FC = () => {
       : [];
 
   return (
-    <LayoutContainer>
-      <SettingParams
-        loadingSettingParamsItem={loadingSettingParamsItem}
-        settingParamsItem={settingParamsItem}
-        reviews={reviews}
-        onOpenHelpModal={onOpenHelpModal}
-        goToFormsPage={goToFormsPage}
-        onShowDrawer={onShowDrawer}
-        renderForm={renderForm}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        formSubmit={formSubmit}
-        onFinishSetting={onFinishSetting}
-      />
-    </LayoutContainer>
+    <SettingParams
+      loadingSettingParamsItem={loadingSettingParamsItem}
+      settingParamsItem={settingParamsItem}
+      reviews={reviews}
+      onOpenHelpModal={onOpenHelpModal}
+      goToFormsPage={goToFormsPage}
+      onShowDrawer={onShowDrawer}
+      renderForm={renderForm}
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
+      formSubmit={formSubmit}
+      onFinishSetting={onFinishSetting}
+    />
   );
 };
 

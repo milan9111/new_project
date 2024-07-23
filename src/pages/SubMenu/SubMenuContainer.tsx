@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Input, InputRef, notification } from "antd";
@@ -16,7 +17,6 @@ import {
 import useAbortableEffect from "../../hooks/useAbortableEffect";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getDefaultOpenKeys } from "../../helpers/getDefaultOpenKeys";
-import LayoutContainer from "../../components/Layout/LayoutContainer";
 import SubMenu from "./SubMenu";
 import styles from "./subMenu.module.scss";
 
@@ -124,7 +124,6 @@ const SubMenuContainer: FC = () => {
     }
   };
 
-
   const renderForm =
     !loadingSubMenu && subMenu
       ? subMenu.form.rows.map((item) => {
@@ -137,14 +136,12 @@ const SubMenuContainer: FC = () => {
       : [];
 
   return (
-    <LayoutContainer>
-      <SubMenu
-        loadingSubMenu={loadingSubMenu}
-        subMenu={subMenu}
-        renderForm={renderForm}
-        lastInputFocus={lastInputFocus}
-      />
-    </LayoutContainer>
+    <SubMenu
+      loadingSubMenu={loadingSubMenu}
+      subMenu={subMenu}
+      renderForm={renderForm}
+      lastInputFocus={lastInputFocus}
+    />
   );
 };
 

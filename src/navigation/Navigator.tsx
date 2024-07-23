@@ -1,9 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { EPageRoute } from "../types/enums/EPageRoute";
 import SignInContainer from "../pages/SignIn/SignInContainer";
-import FormsContainer from "../pages/Forms/FormsContainer";
-import SettingParamsContainer from "../pages/SettingParams/SettingParamsContainer";
-import SubMenuContainer from "../pages/SubMenu/SubMenuContainer";
+import FormsPage from "../pages/Forms/FormsPage";
+import SettingParamsPage from "../pages/SettingParams/SettingParamsPage";
+import SubMenuPage from "../pages/SubMenu/SubMenuPage";
+import TemplatesPage from "../pages/Templates/TemplatesPage";
 import NotFoundContainer from "../pages/NotFound/NotFoundContainer";
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -18,7 +19,7 @@ const Navigator = () => (
         path={EPageRoute.FORMS_PAGE_ROUTE}
         element={
           <ProtectedRoute>
-            <FormsContainer />
+            <FormsPage />
           </ProtectedRoute>
         }
       />
@@ -26,7 +27,7 @@ const Navigator = () => (
         path={EPageRoute.SETTING_PARAMS_ROUTE}
         element={
           <ProtectedRoute>
-            <SettingParamsContainer />
+            <SettingParamsPage />
           </ProtectedRoute>
         }
       />
@@ -34,7 +35,15 @@ const Navigator = () => (
         path={EPageRoute.SUB_MENU_ROUTE}
         element={
           <ProtectedRoute>
-            <SubMenuContainer />
+            <SubMenuPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={EPageRoute.TEMPLATES_ROUTE}
+        element={
+          <ProtectedRoute>
+            <TemplatesPage />
           </ProtectedRoute>
         }
       />
