@@ -67,7 +67,7 @@ const Templates: FC<TemplatesProps> = () => {
       />
       <Editor
         apiKey={import.meta.env.VITE_TINYEMC_API_KEY || undefined}
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(_evt, editor) => (editorRef.current = editor)}
         //value={editorContent}
         init={{
           height: "50vh",
