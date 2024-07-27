@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState, useRef } from "react";
-import { Select } from "antd";
+import { Select, Button } from "antd";
 import { Editor } from "@tinymce/tinymce-react";
 import Handlebars from "handlebars";
 
@@ -9,8 +9,9 @@ interface TemplatesProps {}
 const Templates: FC<TemplatesProps> = () => {
   const editorRef = useRef<any>(null);
   const [editorContent, setEditorContent] = useState<string>("");
+  const [currentContext, setCurrentContext] = useState<any>(null);
 
-  const onChangeSelect = (value: string) => {
+  const onChangeVariable = (value: string) => {
     insertVariableAtCursor(value);
   };
 
@@ -26,26 +27,56 @@ const Templates: FC<TemplatesProps> = () => {
     }
   };
 
+  const persons = [
+    {
+      id: 1,
+      firstName: "Tyrion",
+      lastName: "Lannister",
+      street: "Street 1",
+      city: "Red Keep",
+    },
+    {
+      id: 2,
+      firstName: "Jon",
+      lastName: "Snow",
+      street: "Street 2",
+      city: "Winterfell",
+    },
+    {
+      id: 3,
+      firstName: "Daenerys",
+      lastName: "Targaryen",
+      street: "Street 3",
+      city: "Dragonstone",
+    },
+  ];
+
   const handleRenderClick = () => {
     const template = Handlebars.compile(editorContent);
-    const context = {
-      firstName: "John",
-      lastName: "Doe",
-      street: "123 Main St",
-      city: "Springfield",
-    };
-    const result = template(context);
-    alert(result); // rendered template
+    if (currentContext) {
+      const result = template(currentContext);
+      alert(result); // rendered template
+    } else {
+      alert("Choose a person!");
+    }
+  };
+
+  const onChangePerson = (value: number) => {
+    const foundPerson = persons.find((item) => item.id === value);
+
+    if (foundPerson) {
+      setCurrentContext(foundPerson);
+    }
   };
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       <Select
         style={{ width: 200 }}
         showSearch
         placeholder="Select variable"
         optionFilterProp="label"
-        onChange={onChangeSelect}
+        onChange={onChangeVariable}
         options={[
           {
             value: "firstName",
@@ -108,7 +139,30 @@ const Templates: FC<TemplatesProps> = () => {
         }}
         onEditorChange={handleEditorChange}
       />
-      <button onClick={handleRenderClick}>Render Template</button>
+      <Select
+        style={{ width: 200 }}
+        showSearch
+        placeholder="Select person"
+        optionFilterProp="label"
+        onChange={onChangePerson}
+        options={[
+          {
+            value: 1,
+            label: "Tyrion Lannister",
+          },
+          {
+            value: 2,
+            label: "Jon Snow",
+          },
+          {
+            value: 3,
+            label: "Daenerys Targaryen",
+          },
+        ]}
+      />
+      <Button type="primary" onClick={handleRenderClick} style={{ width: 300 }}>
+        Render Template
+      </Button>
       <p>{`Enter an example text: Hello {{firstName}} {{lastName}}. Your address is {{street}}, {{city}}`}</p>
     </div>
   );
